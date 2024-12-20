@@ -2,6 +2,7 @@ package com.jaf.movietheater.mappers;
 
 import org.mapstruct.*;
 
+import com.jaf.movietheater.dtos.auth.RegisterRequestDTO;
 import com.jaf.movietheater.dtos.user.UserCreateUpdateDTO;
 import com.jaf.movietheater.dtos.user.UserMasterDTO;
 import com.jaf.movietheater.entities.User;
@@ -10,6 +11,8 @@ import com.jaf.movietheater.entities.User;
 public interface UserMapper {
 
     User toEntity(UserCreateUpdateDTO DTO);
+
+    User toEntity(RegisterRequestDTO registerDTO);
 
     User toEntity(UserCreateUpdateDTO DTO, @MappingTarget User user);
 

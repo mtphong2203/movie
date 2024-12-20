@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.jaf.movietheater.dtos.user.UserCreateUpdateDTO;
@@ -28,12 +29,14 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository,
-            UserMapper userMapper) {
+            UserMapper userMapper, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.userMapper = userMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -122,6 +125,7 @@ public class UserServiceImpl implements UserService {
         }
 
         User newUser = userMapper.toEntity(userDTO);
+        newUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         // Check if user has role
         if (userDTO.getRoleId() != null) {
             // Get role
@@ -140,7 +144,9 @@ public class UserServiceImpl implements UserService {
 
         UserMasterDTO userMaster = userMapper.toMasterDTO(newUser);
         // Set role to user master
-        userMaster.setRole(newUser.getRoles().stream().map(role -> role.getName()).collect(Collectors.toSet()));
+        if (newUser.getRoles() != null) {
+            userMaster.setRole(newUser.getRoles().stream().map(role -> role.getName()).collect(Collectors.toSet()));
+        }
 
         return userMaster;
     }
@@ -159,6 +165,7 @@ public class UserServiceImpl implements UserService {
 
         user = userMapper.toEntity(userDTO, user);
         user.setUpdatedAt(ZonedDateTime.now());
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 
         // Check if user has role
         if (userDTO.getRoleId() != null) {
@@ -178,7 +185,9 @@ public class UserServiceImpl implements UserService {
 
         UserMasterDTO userMaster = userMapper.toMasterDTO(user);
         // Set role to user master
-        userMaster.setRole(user.getRoles().stream().map(role -> role.getName()).collect(Collectors.toSet()));
+        if (user.getRoles() != null) {
+            userMaster.setRole(user.getRoles().stream().map(role -> role.getName()).collect(Collectors.toSet()));
+        }
 
         return userMaster;
     }
