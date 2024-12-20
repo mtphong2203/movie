@@ -1,7 +1,10 @@
 package com.jaf.movietheater.entities;
 
+import java.util.Set;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -12,6 +15,18 @@ public class Role extends MasterEntity {
 
     @Column(columnDefinition = "NVARCHAR(500)")
     private String description;
+
+    @ManyToMany(mappedBy = "roles")
+    private Set<User> users;
+
+    // getter and setter
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
 
     public String getName() {
         return name;

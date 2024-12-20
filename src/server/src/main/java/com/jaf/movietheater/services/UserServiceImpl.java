@@ -1,8 +1,10 @@
 package com.jaf.movietheater.services;
 
 import java.time.ZonedDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,10 +26,13 @@ import jakarta.transaction.Transactional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
     private final UserMapper userMapper;
 
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, UserMapper userMapper) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository,
+            UserMapper userMapper) {
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
         this.userMapper = userMapper;
     }
 
@@ -37,6 +42,8 @@ public class UserServiceImpl implements UserService {
 
         var userMasters = users.stream().map(user -> {
             UserMasterDTO userMaster = userMapper.toMasterDTO(user);
+            // Set role to user master
+            userMaster.setRole(user.getRoles().stream().map(role -> role.getName()).collect(Collectors.toSet()));
             return userMaster;
         }).toList();
 
@@ -51,6 +58,8 @@ public class UserServiceImpl implements UserService {
             throw new ResourceNotFoundException("User is not found");
         }
         UserMasterDTO userMaster = userMapper.toMasterDTO(user);
+        // Set role to user master
+        userMaster.setRole(user.getRoles().stream().map(role -> role.getName()).collect(Collectors.toSet()));
         return userMaster;
     }
 
@@ -69,6 +78,8 @@ public class UserServiceImpl implements UserService {
 
         List<UserMasterDTO> userMasters = users.stream().map(user -> {
             var userMaster = userMapper.toMasterDTO(user);
+            // Set role to user master
+            userMaster.setRole(user.getRoles().stream().map(role -> role.getName()).collect(Collectors.toSet()));
             return userMaster;
         }).toList();
 
@@ -90,6 +101,8 @@ public class UserServiceImpl implements UserService {
 
         Page<UserMasterDTO> userMasters = users.map(user -> {
             var userMaster = userMapper.toMasterDTO(user);
+            // Set role to user master
+            userMaster.setRole(user.getRoles().stream().map(role -> role.getName()).collect(Collectors.toSet()));
             return userMaster;
         });
 
@@ -109,7 +122,16 @@ public class UserServiceImpl implements UserService {
         }
 
         User newUser = userMapper.toEntity(userDTO);
-
+        // Check if user has role
+        if (userDTO.getRoleId() != null) {
+            // Get role
+            var role = roleRepository.findById(userDTO.getRoleId());
+            if (role != null) {
+                // Set to user
+                newUser.setRoles(Collections.singleton(role.get()));
+            }
+        }
+        // Check password match
         if (!userDTO.getPassword().equals(userDTO.getConfirmPassword())) {
             throw new IllegalArgumentException("Password is not match");
         }
@@ -117,6 +139,8 @@ public class UserServiceImpl implements UserService {
         newUser = userRepository.save(newUser);
 
         UserMasterDTO userMaster = userMapper.toMasterDTO(newUser);
+        // Set role to user master
+        userMaster.setRole(newUser.getRoles().stream().map(role -> role.getName()).collect(Collectors.toSet()));
 
         return userMaster;
     }
@@ -136,6 +160,16 @@ public class UserServiceImpl implements UserService {
         user = userMapper.toEntity(userDTO, user);
         user.setUpdatedAt(ZonedDateTime.now());
 
+        // Check if user has role
+        if (userDTO.getRoleId() != null) {
+            // Get role
+            var role = roleRepository.findById(userDTO.getRoleId());
+            if (role != null) {
+                // Set to user
+                user.setRoles(Collections.singleton(role.get()));
+            }
+        }
+        // Check password match
         if (!userDTO.getPassword().equals(userDTO.getConfirmPassword())) {
             throw new IllegalArgumentException("Password is not match");
         }
@@ -143,6 +177,8 @@ public class UserServiceImpl implements UserService {
         user = userRepository.save(user);
 
         UserMasterDTO userMaster = userMapper.toMasterDTO(user);
+        // Set role to user master
+        userMaster.setRole(user.getRoles().stream().map(role -> role.getName()).collect(Collectors.toSet()));
 
         return userMaster;
     }

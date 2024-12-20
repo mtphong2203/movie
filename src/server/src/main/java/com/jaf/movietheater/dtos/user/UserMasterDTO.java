@@ -1,6 +1,7 @@
 package com.jaf.movietheater.dtos.user;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 import com.jaf.movietheater.dtos.MasterDTO;
 import com.jaf.movietheater.entities.Gender;
@@ -24,6 +25,18 @@ public class UserMasterDTO extends MasterDTO {
     private String phoneNumber;
 
     private String address;
+
+    // show role on user
+    private Set<String> role;
+
+    // getter and setter
+    public Set<String> getRole() {
+        return role;
+    }
+
+    public void setRole(Set<String> role) {
+        this.role = role;
+    }
 
     public String getFirstName() {
         return firstName;
