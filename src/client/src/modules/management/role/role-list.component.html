@@ -1,0 +1,57 @@
+<div class="role-list">
+  <div class="card p-3">
+    <div class="card-header rounded-md bg-gray-500 text-white text-center">
+      <h1 class="text-3xl font-medium p-1">Role Management</h1>
+    </div>
+    <div class="card-body my-4">
+      <div class="body-search mb-4">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div class="form-group relative flex justify-between items-center">
+            <input
+              type="text"
+              formControlName="keyword"
+              class="w-full rounded-md border-2 border-slate-500 p-[6px]"
+              placeholder="Search ..."
+            />
+            <button
+              type="submit"
+              title="Search"
+              class="absolute top-[5%] right-3"
+            >
+              <fa-icon [icon]="faSearch" class="text-[24px]"></fa-icon>
+            </button>
+          </div>
+        </form>
+      </div>
+      <div class="body-data">
+        <p class="text-center text-xl text-green-500 my-2">{{ response }}</p>
+        <app-table
+          [data]="data"
+          [columns]="columns"
+          (edit)="onEdit($event)"
+          (delete)="onDelete($event)"
+        ></app-table>
+      </div>
+    </div>
+    <div class="card-footer flex justify-end">
+      <button
+        type="button"
+        class="flex gap-1 p-2 rounded-lg text-white bg-blue-500"
+        (click)="onCreate()"
+      >
+        <fa-icon [icon]="faPlus"></fa-icon>
+        <span>Add</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="role-detail">
+    <ng-container *ngIf="isShow">
+      <app-role-details
+        [isEdit]="isEdit"
+        [dataEdit]="dataEdit"
+        (cancel)="onCancelDetail()"
+      ></app-role-details>
+    </ng-container>
+  </div>
+</div>
