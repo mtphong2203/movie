@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
-import { ManagerLayoutComponent } from './layouts/manager-layout/manager-layout.component';
+import { ManagementLayoutComponent } from './layouts/management-layout/management-layout.component';
+import { CustomerLayoutComponent } from './layouts/customer-layout/customer-layout.component';
 
 export const routes: Routes = [
     {
@@ -10,7 +11,12 @@ export const routes: Routes = [
     },
     {
         path: 'manager',
-        component: ManagerLayoutComponent,
+        component: ManagementLayoutComponent,
         loadChildren: () => import('./management/management.module').then(m => m.ManagementModule)
+    },
+    {
+        path: '',
+        component: CustomerLayoutComponent,
+        loadChildren: () => import('./customer/customer.module').then(m => m.CustomerModule)
     }
 ];
