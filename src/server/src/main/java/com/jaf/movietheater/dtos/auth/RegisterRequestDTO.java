@@ -102,7 +102,6 @@ public class RegisterRequestDTO {
 
     private LocalDate dateOfBirth;
 
-    @NotNull(message = "Gender is required")
     private Gender gender;
 
     @NotNull(message = "Email is required")
