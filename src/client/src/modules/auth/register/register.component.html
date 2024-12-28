@@ -1,18 +1,14 @@
-<div
-  class="form w-[550px] h-[600px] border border-slate-400 bg-gray-600 rounded-lg px-4 py-1"
->
+<div class="form w-[550px] h-[550px] bg-white rounded-lg px-6 py-1">
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class="title flex justify-center my-3 items-center gap-2">
+    <div class="title flex justify-center my-6 items-center gap-2">
       <h2 class="text-3xl">Register</h2>
-      <fa-icon [icon]="faRegister"></fa-icon>
     </div>
-
     <div class="row flex justify-between gap-4">
       <div class="form-group mb-2 w-[50%]">
         <label class="text-lg" for="firstName">FirstName</label>
         <input
           type="text"
-          class="w-full rounded-md p-1 text-black"
+          class="w-full border border-slate-400 rounded-md p-1 text-black"
           formControlName="firstName"
           id="firsName"
           placeholder="Enter first name"
@@ -22,7 +18,7 @@
         <label class="text-lg" for="lastName">LastName</label>
         <input
           type="text"
-          class="w-full rounded-md p-1 text-black"
+          class="w-full border border-slate-400 rounded-md p-1 text-black"
           formControlName="lastName"
           id="lastName"
           placeholder="Enter last name"
@@ -34,7 +30,7 @@
         <label class="text-lg" for="username">Username</label>
         <input
           type="text"
-          class="w-full rounded-md p-1 text-black"
+          class="w-full border border-slate-400 rounded-md p-1 text-black"
           formControlName="username"
           id="username"
           placeholder="Enter user name"
@@ -44,63 +40,19 @@
         <label class="text-lg" for="phoneNumber">PhoneNumber</label>
         <input
           type="text"
-          class="w-full rounded-md p-1 text-black"
+          class="w-full border border-slate-400 rounded-md p-1 text-black"
           formControlName="phoneNumber"
           id="phoneNumber"
           placeholder="Enter phone number"
         />
       </div>
     </div>
-    <div class="row flex items-center gap-4">
-      <div class="form-group my-1 flex gap-1">
-        <input
-          type="radio"
-          class="scale-150"
-          formControlName="gender"
-          value="MAN"
-          id="man"
-        />
-        <label class="text-lg" for="man">Man</label>
-      </div>
-      <div class="form-group my-1 flex gap-1">
-        <input
-          type="radio"
-          class="scale-150"
-          formControlName="gender"
-          value="WOMAN"
-          id="woman"
-        />
-        <label class="text-lg" for="woman">Woman</label>
-      </div>
-    </div>
-    <div class="row flex justify-between gap-4">
-      <div class="form-group w-[50%] mb-2">
-        <label class="text-lg block" for="date">Date of Birth</label>
-        <input
-          type="date"
-          class="w-full rounded-md p-[3px] text-black"
-          formControlName="dateOfBirth"
-          id="date"
-        />
-      </div>
-      <div class="form-group w-[50%] mb-2">
-        <label class="text-lg" for="address">Address</label>
-        <input
-          type="text"
-          class="w-full rounded-md p-1 text-black"
-          formControlName="address"
-          id="address"
-          placeholder="Enter address"
-        />
-      </div>
-    </div>
-
     <div class="row">
       <div class="form-group mb-2">
         <label class="text-lg" for="email">Email</label>
         <input
           type="email"
-          class="w-full rounded-md p-1 text-black"
+          class="w-full border border-slate-400 rounded-md p-1 text-black"
           formControlName="email"
           id="email"
           placeholder="Enter email"
@@ -112,7 +64,7 @@
         <label class="text-lg" for="password">Password</label>
         <input
           type="password"
-          class="w-full rounded-md p-1 text-black"
+          class="w-full border border-slate-400 rounded-md p-1 text-black"
           formControlName="password"
           id="password"
           placeholder="Enter password"
@@ -122,7 +74,7 @@
         <label class="text-lg" for="confirmPassword">Confirm Password</label>
         <input
           type="password"
-          class="w-full rounded-md p-1 text-black"
+          class="w-full border border-slate-400 rounded-md p-1 text-black"
           formControlName="confirmPassword"
           id="confirmPassword"
           placeholder="Confirm password"
@@ -138,15 +90,15 @@
         >Forgot password?
       </a>
     </div>
-    <div class="navigate mt-3">
+    <div class="navigate mt-6">
       <button
         type="submit"
-        class="w-full p-[6px] rounded-md text-lg hover:font-bold bg-blue-500 hover:bg-blue-700"
+        class="w-full border border-slate-400 text-white p-[6px] rounded-md text-lg bg-blue-500 hover:bg-blue-700"
       >
         Register
       </button>
     </div>
-    <div class="create-account mt-4 text-center">
+    <div class="create-account mt-6 text-center">
       <a
         [routerLink]="['/auth/login']"
         class="block cursor-pointer text-lg hover:font-bold"

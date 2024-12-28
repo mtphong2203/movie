@@ -1,0 +1,32 @@
+<div class="login">
+  <h1 class="text-center text-2xl my-4">Login</h1>
+  <form>
+    <div class="form-group mb-2">
+      <label for="username" class="mb-1 block">Username</label>
+      <input
+        type="text"
+        id="username"
+        placeholder="Enter user name"
+        class="rounded-md w-full p-1"
+      />
+    </div>
+    <div class="form-group mb-2">
+      <label for="password" class="mb-1 block">Password</label>
+      <input
+        type="text"
+        id="password"
+        placeholder="Enter password"
+        class="rounded-md w-full p-1"
+      />
+    </div>
+
+    <div class="form-group mb-2">
+      <button type="submit" class="p-1 rounded-md w-full text-white">
+        Login
+      </button>
+      <a [routerLink]="['/auth/register']"
+        >You don't have an account? Register now
+      </a>
+    </div>
+  </form>
+</div>
