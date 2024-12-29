@@ -11,6 +11,7 @@ import { TableComponent } from "../../../core/components/table/table.component";
 import { Column } from '../../../models/common/column.model';
 import { RoleMasterDto } from '../../../models/role/role-master-dto.model';
 import { ResponseData } from '../../../models/response.model';
+import { MasterListComponent } from '../master-list/master-list.component';
 
 @Component({
   selector: 'app-role-list',
@@ -19,9 +20,7 @@ import { ResponseData } from '../../../models/response.model';
   templateUrl: './role-list.component.html',
   styleUrl: './role-list.component.css'
 })
-export class RoleListComponent implements OnInit {
-
-  public form!: FormGroup;
+export class RoleListComponent extends MasterListComponent<RoleMasterDto> implements OnInit {
 
   public columns: Column[] = [
     { name: 'name', title: 'Name' },
@@ -29,18 +28,7 @@ export class RoleListComponent implements OnInit {
     { name: 'active', title: 'Active' },
   ]
 
-  public faSearch: IconDefinition = faSearch;
-  public faPlus: IconDefinition = faPlus;
-
-  public response: string = '';
-
-  public isShow: boolean = false;
-  public isEdit: boolean = false;
-
-  public data: RoleMasterDto[] = [];
-  public dataEdit: RoleMasterDto | undefined;
-
-  constructor(@Inject(ROLE_SERVICE) private roleService: IRoleService) { }
+  constructor(@Inject(ROLE_SERVICE) private roleService: IRoleService) { super() }
 
   ngOnInit(): void {
     this.createForm();
@@ -56,10 +44,13 @@ export class RoleListComponent implements OnInit {
   private search(): void {
     const param: any = {
       keyword: this.form.value.keyword,
+      page: this.currentPage,
+      size: this.currentPageSize
     }
     this.roleService.search(param).subscribe((result: ResponseData<RoleMasterDto>) => {
       if (result) {
         this.data = result.data;
+        this.pageInfo = result.page;
       }
     });
   }
@@ -71,27 +62,15 @@ export class RoleListComponent implements OnInit {
     this.search();
   }
 
-  public onEdit(id: string): void {
-    this.isShow = true;
-    this.isEdit = true;
-    this.dataEdit = this.data.find((item) => item.id === id);
-  }
 
   public onDelete(id: string): void {
     const confirmDelete = confirm("Are you sure want to delete this");
     if (confirmDelete) {
-      this.roleService.delete(id).pipe(
-        catchError(() => {
-          this.response = 'Role has been set to user , can not delete!';
-          return of(null);
-        })
-      ).subscribe((result) => {
+      this.roleService.delete(id).subscribe((result) => {
         if (result) {
-          this.response = 'Deleted Successfully!';
           this.search();
         }
       });
-
     }
   }
 
@@ -100,8 +79,25 @@ export class RoleListComponent implements OnInit {
     this.isEdit = false;
   }
 
+  public onEdit(id: string): void {
+    this.isShow = true;
+    this.isEdit = true;
+    this.dataEdit = this.data.find((item) => item.id === id);
+  }
+
+
   public onCancelDetail(): void {
     this.isShow = false;
+    this.search();
+  }
+
+  public onChangeSize(size: any) {
+    this.currentPageSize = size.target.value;
+    this.search();
+  }
+
+  public onChangeNumber(number: number): void {
+    this.currentPage = number;
     this.search();
   }
 

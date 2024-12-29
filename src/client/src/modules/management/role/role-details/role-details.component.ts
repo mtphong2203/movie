@@ -5,6 +5,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { faCancel, faSave, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RoleMasterDto } from '../../../../models/role/role-master-dto.model';
+import { MasterDetailsComponent } from '../../master-details/master-details.component';
 
 @Component({
   selector: 'app-role-details',
@@ -13,18 +14,13 @@ import { RoleMasterDto } from '../../../../models/role/role-master-dto.model';
   templateUrl: './role-details.component.html',
   styleUrl: './role-details.component.css'
 })
-export class RoleDetailsComponent implements OnChanges {
+export class RoleDetailsComponent extends MasterDetailsComponent<RoleMasterDto> implements OnChanges {
 
-  @Input('isEdit') isEdit: boolean = false;
-  @Input('dataEdit') dataEdit: RoleMasterDto | undefined;
 
-  @Output() cancel: EventEmitter<void> = new EventEmitter<void>();
 
-  public form!: FormGroup;
-  public faCancel: IconDefinition = faCancel;
-  public faSave: IconDefinition = faSave;
-
-  constructor(@Inject(ROLE_SERVICE) private roleService: IRoleService) { }
+  constructor(@Inject(ROLE_SERVICE) private roleService: IRoleService) {
+    super();
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.createForm();
