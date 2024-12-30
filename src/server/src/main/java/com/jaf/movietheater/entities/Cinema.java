@@ -16,7 +16,6 @@ public class Cinema extends MasterEntity {
     @Column(name = "logo_url", nullable = true)
     private String logoUrl;
 
-
     @OneToMany(mappedBy = "cinema", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Promotion> promotions;
 

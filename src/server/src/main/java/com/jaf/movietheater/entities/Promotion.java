@@ -24,6 +24,11 @@ public class Promotion extends MasterEntity{
     
     @Column(name = "img_url", nullable = false)
     private String imgUrl;
+
+    @ManyToOne
+    @JoinColumn(name = "cinema_id", nullable = false)
+    private Cinema cinema;
+    
     // Getters and Setters
 
     public String getTitle() {
