@@ -4,5 +4,5 @@
 **/node_modules/*
 src/client/public/assets/images
 **/*.env
-src/server/src/main/resources/deployment/example.env
+!**/example.env
 src/server/load-env.ps1
