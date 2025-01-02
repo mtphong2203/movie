@@ -1,7 +1,14 @@
 package com.jaf.movietheater.entities;
 
-import jakarta.persistence.*;
+import java.util.List;
 
+import jakarta.persistence.*;
+import lombok.*;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "cinemas")
 public class Cinema extends MasterEntity {
