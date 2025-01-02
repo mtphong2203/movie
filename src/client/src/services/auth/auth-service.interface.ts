@@ -6,4 +6,10 @@ export interface IAuthService {
 
     login(param: string): Observable<any>;
 
+    isAuthenticated():boolean;
+
+    isManager(): boolean;
+
+    getAccessToken():string;
+
 }

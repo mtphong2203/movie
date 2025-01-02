@@ -1,14 +1,16 @@
 package com.jaf.movietheater.dtos.auth;
 
+import com.jaf.movietheater.dtos.user.UserDTO;
+
+import lombok.*;
+
+@Getter
+@Setter
+@NoArgsConstructor
 public class LoginResponseDTO {
 
     private String accessToken;
 
-    public String getAccessToken() {
-        return accessToken;
-    }
+    private UserDTO userDTO;
 
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
-    }
 }

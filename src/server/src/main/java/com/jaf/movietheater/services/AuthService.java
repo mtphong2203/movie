@@ -1,12 +1,14 @@
 package com.jaf.movietheater.services;
 
-import java.util.UUID;
-
 import com.jaf.movietheater.dtos.auth.RegisterRequestDTO;
+import com.jaf.movietheater.dtos.user.UserDTO;
+import com.jaf.movietheater.dtos.user.UserMasterDTO;
 
 public interface AuthService {
 
     boolean existsByUsername(String username);
 
-    UUID register(RegisterRequestDTO registerDTO);
+    UserMasterDTO register(RegisterRequestDTO registerDTO);
+
+    UserDTO getUserInformation(String username);
 }

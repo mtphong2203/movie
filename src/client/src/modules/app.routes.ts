@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { ManagementLayoutComponent } from './layouts/management-layout/management-layout.component';
 import { CustomerLayoutComponent } from './layouts/customer-layout/customer-layout.component';
+import { canActivateTeam } from '../guards/auth.guard';
 
 export const routes: Routes = [
     {
@@ -12,6 +13,7 @@ export const routes: Routes = [
     {
         path: 'manager',
         component: ManagementLayoutComponent,
+        canActivate: [canActivateTeam],
         loadChildren: () => import('./management/management.module').then(m => m.ManagementModule)
     },
     {

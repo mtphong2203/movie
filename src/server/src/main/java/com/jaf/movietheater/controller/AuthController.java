@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import com.jaf.movietheater.dtos.auth.LoginRequestDTO;
 import com.jaf.movietheater.dtos.auth.LoginResponseDTO;
 import com.jaf.movietheater.dtos.auth.RegisterRequestDTO;
+import com.jaf.movietheater.dtos.user.UserDTO;
+import com.jaf.movietheater.entities.User;
 import com.jaf.movietheater.services.AuthService;
 import com.jaf.movietheater.services.TokenService;
 
@@ -46,8 +48,12 @@ public class AuthController {
 
         String accessToken = tokenService.generateAccessToken(authentication);
 
+        UserDTO userDTO = authService.getUserInformation(loginRequestDTO.getUsername());
+
         LoginResponseDTO loginResponseDTO = new LoginResponseDTO();
+
         loginResponseDTO.setAccessToken(accessToken);
+        loginResponseDTO.setUserDTO(userDTO);
 
         return ResponseEntity.ok(loginResponseDTO);
     }

@@ -1,7 +1,6 @@
 package com.jaf.movietheater.services;
 
 import java.util.Set;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -14,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jaf.movietheater.dtos.auth.RegisterRequestDTO;
+import com.jaf.movietheater.dtos.user.UserDTO;
+import com.jaf.movietheater.dtos.user.UserMasterDTO;
 import com.jaf.movietheater.entities.User;
 import com.jaf.movietheater.mappers.UserMapper;
 import com.jaf.movietheater.repository.UserRepository;
@@ -51,7 +52,7 @@ public class AuthServiceImpl implements UserDetailsService, AuthService {
     }
 
     @Override
-    public UUID register(RegisterRequestDTO registerDTO) {
+    public UserMasterDTO register(RegisterRequestDTO registerDTO) {
         User user = userRepository.findByUsername(registerDTO.getUsername());
 
         if (user != null) {
@@ -67,13 +68,21 @@ public class AuthServiceImpl implements UserDetailsService, AuthService {
 
         user = userRepository.save(user);
 
-        return user.getId();
+        return userMapper.toMasterDTO(user);
 
     }
 
     @Override
     public boolean existsByUsername(String username) {
         return userRepository.existsByUsername(username);
+    }
+
+    @Override
+    public UserDTO getUserInformation(String username) {
+        User user = userRepository.findByUsername(username);
+        UserDTO userDTO = userMapper.toDTO(user);
+        userDTO.setRole(user.getRoles().stream().map(role -> role.getName()).collect(Collectors.toList()));
+        return userDTO;
     }
 
 }
