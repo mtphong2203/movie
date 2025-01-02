@@ -16,39 +16,7 @@ public class Cinema extends MasterEntity {
     @Column(name = "logo_url", nullable = true)
     private String logoUrl;
 
-    @OneToMany(mappedBy = "cinema", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Promotion> promotions;
+    @OneToMany(mappedBy = "cinema")
+    private List<Room> rooms;
 
-    // Getters and Setters
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-    
-    public List<Promotion> getPromotions() {
-        return promotions;
-    }
-
-    public void setPromotions(List<Promotion> promotions) {
-        this.promotions = promotions;
-    }
-    
-    public String getLogoUrl() {
-        return logoUrl;
-    }
-
-    public void setLogoUrl(String logoUrl) {
-        this.logoUrl = logoUrl;
-    }
 }

@@ -1,6 +1,7 @@
 package com.jaf.movietheater.entities;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.Column;
@@ -8,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
@@ -50,6 +52,7 @@ public class User extends MasterEntity {
     private String password;
 
     // relationship
+
     @ManyToMany()
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
