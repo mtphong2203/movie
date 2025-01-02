@@ -1,7 +1,14 @@
 package com.jaf.movietheater.entities;
 
-import jakarta.persistence.*;
+import java.util.List;
 
+import jakarta.persistence.*;
+import lombok.*;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "cinemas")
 public class Cinema extends MasterEntity {
@@ -15,28 +22,7 @@ public class Cinema extends MasterEntity {
     @Column(name = "logo_url", nullable = true)
     private String logoUrl;
 
-    // Getters and Setters
-    public String getName() {
-        return name;
-    }
+    @OneToMany(mappedBy = "cinema")
+    private List<Room> rooms;
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public String getLogoUrl() {
-        return logoUrl;
-    }
-
-    public void setLogoUrl(String logoUrl) {
-        this.logoUrl = logoUrl;
-    }
 }
