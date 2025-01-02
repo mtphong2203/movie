@@ -31,6 +31,7 @@ public class User extends MasterEntity {
 
     private LocalDate dateOfBirth;
 
+    @Column(nullable = false)
     private Gender gender;
 
     @Column(nullable = false, unique = true, columnDefinition = "NVARCHAR(50)")

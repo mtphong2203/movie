@@ -1,8 +1,7 @@
-import { Component, EventEmitter, Inject, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, Inject, OnChanges, SimpleChanges } from '@angular/core';
 import { ROLE_SERVICE } from '../../../../constants/injection.constant';
 import { IRoleService } from '../../../../services/role/role-service.interface';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { faCancel, faSave, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RoleMasterDto } from '../../../../models/role/role-master-dto.model';
 import { MasterDetailsComponent } from '../../master-details/master-details.component';

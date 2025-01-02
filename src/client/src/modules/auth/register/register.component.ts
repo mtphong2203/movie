@@ -18,6 +18,8 @@ export class RegisterComponent implements OnInit {
 
   public form!: FormGroup;
 
+  public faRegister: IconDefinition = faRegistered;
+
   constructor(@Inject(AUTH_SERVICE) private authService: IAuthService, private router: Router) { }
 
   ngOnInit(): void {
@@ -29,8 +31,11 @@ export class RegisterComponent implements OnInit {
       firstName: new FormControl('', Validators.maxLength(50)),
       lastName: new FormControl('', Validators.maxLength(50)),
       username: new FormControl('', Validators.required),
+      gender: new FormControl(null, Validators.required),
       phoneNumber: new FormControl('', [Validators.required, Validators.maxLength(50)]),
       email: new FormControl('', [Validators.required, Validators.maxLength(25)]),
+      address: new FormControl('', [Validators.maxLength(70)]),
+      dateOfBirth: new FormControl(null),
       password: new FormControl('', Validators.required),
       confirmPassword: new FormControl('', Validators.required),
     });

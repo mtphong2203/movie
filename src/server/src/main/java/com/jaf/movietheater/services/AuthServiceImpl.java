@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.jaf.movietheater.dtos.auth.RegisterRequestDTO;
 import com.jaf.movietheater.dtos.user.UserDTO;
@@ -18,6 +17,8 @@ import com.jaf.movietheater.dtos.user.UserMasterDTO;
 import com.jaf.movietheater.entities.User;
 import com.jaf.movietheater.mappers.UserMapper;
 import com.jaf.movietheater.repository.UserRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
