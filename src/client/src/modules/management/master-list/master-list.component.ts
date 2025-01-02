@@ -25,7 +25,7 @@ export class MasterListComponent<T> {
   public dataEdit: T | undefined;
   public pageInfo: PageInfo | undefined;
   public currentPage: number = 0;
-  public currentPageSize: number = 1;
+  public currentPageSize: number = 5;
 
   public pageLimit: number = 2;
 

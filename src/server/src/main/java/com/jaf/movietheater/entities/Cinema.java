@@ -1,7 +1,6 @@
 package com.jaf.movietheater.entities;
 
 import jakarta.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "cinemas")
@@ -15,10 +14,6 @@ public class Cinema extends MasterEntity {
 
     @Column(name = "logo_url", nullable = true)
     private String logoUrl;
-
-
-    @OneToMany(mappedBy = "cinema", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Promotion> promotions;
 
     // Getters and Setters
     public String getName() {
@@ -36,15 +31,7 @@ public class Cinema extends MasterEntity {
     public void setLocation(String location) {
         this.location = location;
     }
-    
-    public List<Promotion> getPromotions() {
-        return promotions;
-    }
 
-    public void setPromotions(List<Promotion> promotions) {
-        this.promotions = promotions;
-    }
-    
     public String getLogoUrl() {
         return logoUrl;
     }

@@ -1,34 +1,37 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { ROLE_SERVICE } from '../../../constants/injection.constant';
-import { IRoleService } from '../../../services/role/role-service.interface';
-import { CommonModule } from '@angular/common';
-import { faPlus, faSearch, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { RoleDetailsComponent } from "./role-details/role-details.component";
-import { catchError, of } from 'rxjs';
-import { TableComponent } from "../../../core/components/table/table.component";
-import { Column } from '../../../models/common/column.model';
-import { RoleMasterDto } from '../../../models/role/role-master-dto.model';
-import { ResponseData } from '../../../models/response.model';
+import { Component, Inject } from '@angular/core';
 import { MasterListComponent } from '../master-list/master-list.component';
+import { UserMasterDto } from '../../../models/user/user-master-dto.model';
+import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
+import { USER_SERVICE } from '../../../constants/injection.constant';
+import { Column } from '../../../models/common/column.model';
+import { ResponseData } from '../../../models/response.model';
+import { IUserService } from '../../../services/user/user-service.interface';
+import { TableComponent } from "../../../core/components/table/table.component";
+import { AccountDetailsComponent } from "./account-details/account-details.component";
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-role-list',
+  selector: 'app-account-list',
   standalone: true,
-  imports: [ReactiveFormsModule, FontAwesomeModule, CommonModule, RoleDetailsComponent, TableComponent],
-  templateUrl: './role-list.component.html',
-  styleUrl: './role-list.component.css'
+  imports: [TableComponent, AccountDetailsComponent, ReactiveFormsModule, FontAwesomeModule, CommonModule],
+  templateUrl: './account-list.component.html',
+  styleUrl: './account-list.component.css'
 })
-export class RoleListComponent extends MasterListComponent<RoleMasterDto> implements OnInit {
-
+export class AccountListComponent extends MasterListComponent<UserMasterDto> {
   public columns: Column[] = [
-    { name: 'name', title: 'Name' },
-    { name: 'description', title: 'Description' },
+    { name: 'firstName', title: 'FirstName' },
+    { name: 'lastName', title: 'LastName' },
+    { name: 'username', title: 'Username' },
+    { name: 'email', title: 'Email' },
+    { name: 'gender', title: 'Gender' },
+    { name: 'phoneNumber', title: 'Phone' },
+    { name: 'address', title: 'Address' },
+    { name: 'dateOfBirth', title: 'Birth' },
     { name: 'active', title: 'Active' },
   ]
 
-  constructor(@Inject(ROLE_SERVICE) private roleService: IRoleService) { super() }
+  constructor(@Inject(USER_SERVICE) private userService: IUserService) { super() }
 
   ngOnInit(): void {
     this.createForm();
@@ -47,7 +50,7 @@ export class RoleListComponent extends MasterListComponent<RoleMasterDto> implem
       page: this.currentPage,
       size: this.currentPageSize
     }
-    this.roleService.search(param).subscribe((result: ResponseData<RoleMasterDto>) => {
+    this.userService.search(param).subscribe((result: ResponseData<UserMasterDto>) => {
       if (result) {
         this.data = result.data;
         this.pageInfo = result.page;
@@ -67,7 +70,7 @@ export class RoleListComponent extends MasterListComponent<RoleMasterDto> implem
   public onDelete(id: string): void {
     const confirmDelete = confirm("Are you sure want to delete this");
     if (confirmDelete) {
-      this.roleService.delete(id).subscribe((result) => {
+      this.userService.delete(id).subscribe((result: boolean) => {
         if (result) {
           this.search();
         }

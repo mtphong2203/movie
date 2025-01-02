@@ -16,8 +16,6 @@ import { MasterDetailsComponent } from '../../master-details/master-details.comp
 })
 export class RoleDetailsComponent extends MasterDetailsComponent<RoleMasterDto> implements OnChanges {
 
-
-
   constructor(@Inject(ROLE_SERVICE) private roleService: IRoleService) {
     super();
   }
@@ -59,7 +57,6 @@ export class RoleDetailsComponent extends MasterDetailsComponent<RoleMasterDto> 
         }
       });
     }
-
   }
 
   public onCancel(): void {

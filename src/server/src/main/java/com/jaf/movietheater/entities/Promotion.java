@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "promotions")
-public class Promotion extends MasterEntity{
+public class Promotion extends MasterEntity {
 
     @Column(name = "title", nullable = false, length = 100)
     private String title;
@@ -21,7 +21,7 @@ public class Promotion extends MasterEntity{
 
     @Column(name = "end_time", nullable = false)
     private LocalDateTime endTime;
-    
+
     @Column(name = "img_url", nullable = false)
     private String imgUrl;
     // Getters and Setters
@@ -73,5 +73,5 @@ public class Promotion extends MasterEntity{
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
     }
-    
+
 }
