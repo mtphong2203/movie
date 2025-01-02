@@ -4,6 +4,7 @@ import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -30,6 +31,6 @@ public class Room extends MasterEntity{
     private Set<Seat> seats;
 
     @ManyToOne
-    @Column(name = "cinema_id")
+    @JoinColumn(name = "cinema_id")
     private Cinema cinema;
 }
