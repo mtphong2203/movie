@@ -72,18 +72,30 @@
   </li>
 </ng-template>
 <ng-template #authenticated>
-  <li class="profile-item">
-    <a
-      [routerLink]="['/profile']"
-      class="profile-link block p-4 hover:bg-blue-700"
-      >{{ userInformation.displayName }}
-    </a>
-  </li>
-  <li class="profile-item">
-    <a
-      (click)="logout()"
-      class="profile-link cursor-pointer block p-4 hover:bg-blue-700"
-      >Logout
-    </a>
-  </li>
+  <div
+    class="contain relative p-4"
+    (mouseenter)="onShow()"
+    (mouseleave)="onHide()"
+  >
+    <fa-icon [icon]="faUser" class="text-2xl cursor-pointer"></fa-icon>
+    <ul
+      *ngIf="isShow"
+      class="profile w-[110px] absolute shadow-md text-black top-full left-0 translate-x-[-55%]"
+    >
+      <li class="profile-item border-b-2 border-slate-800">
+        <a
+          [routerLink]="['/profile']"
+          class="profile-link block p-4 hover:bg-blue-400 hover:text-white"
+          >{{ userInformation.displayName }}
+        </a>
+      </li>
+      <li class="profile-item">
+        <a
+          (click)="logout()"
+          class="profile-link cursor-pointer block p-4 hover:bg-blue-400 hover:text-white"
+          >Logout
+        </a>
+      </li>
+    </ul>
+  </div>
 </ng-template>
