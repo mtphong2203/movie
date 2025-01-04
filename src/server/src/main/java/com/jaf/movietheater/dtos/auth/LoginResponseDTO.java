@@ -11,6 +11,8 @@ public class LoginResponseDTO {
 
     private String accessToken;
 
+    private Integer expireTime;
+
     private UserDTO userDTO;
 
 }

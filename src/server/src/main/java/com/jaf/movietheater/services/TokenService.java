@@ -6,4 +6,6 @@ public interface TokenService {
     String generateAccessToken(Authentication authentication);
 
     Authentication getAuthentication(String accessToken);
+
+    Integer getExpireTime();
 }

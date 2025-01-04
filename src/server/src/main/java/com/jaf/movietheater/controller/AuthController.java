@@ -54,6 +54,7 @@ public class AuthController {
 
         loginResponseDTO.setAccessToken(accessToken);
         loginResponseDTO.setUserDTO(userDTO);
+        loginResponseDTO.setExpireTime(tokenService.getExpireTime());
 
         return ResponseEntity.ok(loginResponseDTO);
     }
