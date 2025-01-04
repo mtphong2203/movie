@@ -35,7 +35,7 @@ public class MovieCreateUpdateDTO extends MasterCreateUpdateDTO{
     private int duration;
 
     @NotNull(message="fromdate is required")
-    private LocalDate fromDate;
+    private LocalDate fromDate;˝
 
     @NotNull(message="ToDate is required")
     private LocalDate toDate;
@@ -44,7 +44,6 @@ public class MovieCreateUpdateDTO extends MasterCreateUpdateDTO{
     @Length(min=2, max=100, message="Company must be between 2 and 100 characters")
     private String movieCompany;
 
-    @NotBlank(message="Small Image cannot be blank")
     @Length(min=2, max=255, message="Small Image must be between 2 and 255 characters")
     private String thumbnailUrl;
 

@@ -13,7 +13,7 @@ export const routes: Routes = [
     {
         path: 'manager',
         component: ManagementLayoutComponent,
-        canActivate: [canActivateTeam],
+        // canActivate: [canActivateTeam],
         loadChildren: () => import('./management/management.module').then(m => m.ManagementModule)
     },
     {
