@@ -1,4 +1,6 @@
 import { HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpRequest } from "@angular/common/http";
+import { inject } from "@angular/core";
+import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 
 export const authInterceptor: HttpInterceptorFn = (
@@ -6,8 +8,15 @@ export const authInterceptor: HttpInterceptorFn = (
     next: HttpHandlerFn
 ): Observable<HttpEvent<any>> => {
 
-    const accessToken = localStorage.getItem('accessToken');
+    const router = inject(Router);
+    const now = Math.floor(new Date().getTime() / 1000);
+    const expireTime = Number(localStorage.getItem('expireTime'));
 
+    if (now > expireTime) {
+        router.navigate(['/auth/login']);
+    }
+
+    const accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
         const cloned = req.clone({
             setHeaders: {
@@ -18,4 +27,5 @@ export const authInterceptor: HttpInterceptorFn = (
     } else {
         return next(req);
     }
+
 }

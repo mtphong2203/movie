@@ -30,6 +30,7 @@ export class AuthService implements IAuthService {
         }
 
     }
+
     getUserInformation(): any {
         return this.userInformation$;
     }
@@ -65,9 +66,12 @@ export class AuthService implements IAuthService {
             tap((res: any) => {
                 const token = res.accessToken;
                 const userDTO = JSON.stringify(res.userDTO);
+                const now = Math.floor(new Date().getTime() / 1000);
+                const expireTime = res.expireTime + now;
                 if (token != null) {
                     localStorage.setItem('accessToken', token);
                     localStorage.setItem('userDTO', userDTO);
+                    localStorage.setItem('expireTime', expireTime);
                 }
                 this.authenticated.next(true);
                 this.userInformation.next(res.userDTO);

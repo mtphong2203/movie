@@ -73,11 +73,11 @@
 </ng-template>
 <ng-template #authenticated>
   <div
-    class="contain relative p-4"
+    class="contain relative py-3 px-4"
     (mouseenter)="onShow()"
     (mouseleave)="onHide()"
   >
-    <fa-icon [icon]="faUser" class="text-2xl cursor-pointer"></fa-icon>
+    <fa-icon [icon]="faUser" class="text-xl cursor-pointer"></fa-icon>
     <ul
       *ngIf="isShow"
       class="profile w-[110px] absolute shadow-md text-black top-full left-0 translate-x-[-55%]"

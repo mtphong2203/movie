@@ -21,12 +21,18 @@ export class PermissionService implements IPermissionService {
     }
 
     canActivate(): boolean {
-        if (this.authService.isAuthenticated()) {
-            if (this.authService.isManager()) {
+        this.authService.isAuthenticated().subscribe(res => {
+            if (res) {
                 return true;
             }
+            return false;
+        });
+
+        if (this.authService.isManager()) {
+            return true;
         }
-        this.router.navigate(['/about']);
+
+        this.router.navigate(['/']);
         return false;
     }
 }
