@@ -55,7 +55,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public List<RoleMasterDTO> searchByName(String keyword) {
-        Specification<Role> spec = (root, _, cb) -> {
+        Specification<Role> spec = (root, query, cb) -> {
             if (keyword == null) {
                 return null;
             }
@@ -75,7 +75,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Page<RoleMasterDTO> searchPaginated(String keyword, Pageable pageable) {
-        Specification<Role> spec = (root, _, cb) -> {
+        Specification<Role> spec = (root, query, cb) -> {
             if (keyword == null) {
                 return null;
             }
