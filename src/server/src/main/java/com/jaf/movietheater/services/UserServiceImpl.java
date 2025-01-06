@@ -2,7 +2,9 @@ package com.jaf.movietheater.services;
 
 import java.time.ZonedDateTime;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.jaf.movietheater.dtos.user.UserCreateUpdateDTO;
 import com.jaf.movietheater.dtos.user.UserMasterDTO;
+import com.jaf.movietheater.entities.Role;
 import com.jaf.movietheater.entities.User;
 import com.jaf.movietheater.exceptions.ResourceNotFoundException;
 import com.jaf.movietheater.mappers.UserMapper;
@@ -135,6 +138,16 @@ public class UserServiceImpl implements UserService {
                 newUser.setRoles(Collections.singleton(role.get()));
             }
         }
+
+        if (userDTO.getRoleName() != null) {
+            Role roleByName = roleRepository.findByName(userDTO.getRoleName());
+
+            if (roleByName != null) {
+                // Set to user
+                newUser.setRoles(Collections.singleton(roleByName));
+            }
+        }
+
         // Check password match
         if (!userDTO.getPassword().equals(userDTO.getConfirmPassword())) {
             throw new IllegalArgumentException("Password is not match");
@@ -163,6 +176,11 @@ public class UserServiceImpl implements UserService {
             throw new ResourceNotFoundException("User is not exist!");
         }
 
+        // Check password match
+        if (!userDTO.getPassword().equals(userDTO.getConfirmPassword())) {
+            throw new IllegalArgumentException("Password is not match");
+        }
+
         user = userMapper.toEntity(userDTO, user);
         user.setUpdatedAt(ZonedDateTime.now());
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
@@ -171,14 +189,20 @@ public class UserServiceImpl implements UserService {
         if (userDTO.getRoleId() != null) {
             // Get role
             var role = roleRepository.findById(userDTO.getRoleId());
-            if (role != null) {
+            if (role.isPresent()) {
                 // Set to user
                 user.setRoles(Collections.singleton(role.get()));
             }
         }
-        // Check password match
-        if (!userDTO.getPassword().equals(userDTO.getConfirmPassword())) {
-            throw new IllegalArgumentException("Password is not match");
+
+        if (userDTO.getRoleName() != null) {
+            user.getRoles().clear();
+
+            Role roleByName = roleRepository.findByName(userDTO.getRoleName());
+
+            if (roleByName != null) {
+                user.getRoles().add(roleByName);
+            }
         }
 
         user = userRepository.save(user);
