@@ -1,6 +1,6 @@
 package com.jaf.movietheater.dtos.movie;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import com.jaf.movietheater.dtos.BaseDTO;
 
@@ -8,7 +8,7 @@ public class MovieDTO extends BaseDTO{
 
     private String name;
 
-    private Date fromDate;
+    private LocalDate fromDate;
 
     private String movieCompany;
 
@@ -25,11 +25,11 @@ public class MovieDTO extends BaseDTO{
         this.name = name;
     }
 
-    public Date getFromDate() {
+    public LocalDate getFromDate() {
         return fromDate;
     }
 
-    public void setFromDate(Date fromDate) {
+    public void setFromDate(LocalDate fromDate) {
         this.fromDate = fromDate;
     }
 
@@ -61,7 +61,7 @@ public class MovieDTO extends BaseDTO{
     public MovieDTO() {
     }
 
-    public MovieDTO(String name, Date fromDate, String movieCompany, int duration, String version) {
+    public MovieDTO(String name, LocalDate fromDate, String movieCompany, int duration, String version) {
         this.name = name;
         this.fromDate = fromDate;
         this.movieCompany = movieCompany;

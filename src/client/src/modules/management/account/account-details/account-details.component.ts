@@ -68,7 +68,6 @@ export class AccountDetailsComponent extends MasterDetailsComponent<UserMasterDt
       }, 5000);
     }
     const data = this.form.value;
-    debugger;
     if (this.isEdit && this.dataEdit != null) {
       this.userService.updateInformation(this.dataEdit.id, data).subscribe((result: UserMasterDto) => {
         if (result) {
@@ -76,7 +75,6 @@ export class AccountDetailsComponent extends MasterDetailsComponent<UserMasterDt
         }
       });
     } else {
-      console.log(this.form.value);
       this.userService.create(data).subscribe((result: UserMasterDto) => {
         if (result) {
           this.cancel.emit();

@@ -1,0 +1,111 @@
+# specific branch build
+trigger:
+  branches:
+    include:
+    - main
+    - releases/*
+    exclude:
+    - releases/old*
+  paths:
+    exclude:
+    - README.md
+    - docs/*
+    - design/*
+    - src/client/README.md
+    - src/server/README.md
+
+pool: ViettelHostAgent
+
+variables:
+- group: MOVIE_FE_ENV
+- group: DOCKER_ENV
+- name: IMAGE_TAG
+  value: $(Build.BuildId)
+
+stages:
+  - stage: Build
+    displayName: Build & Push Docker Image for Front-End
+    jobs:
+      - job: Build
+        displayName: Build Front-End Angular App
+        steps:
+          - task: NodeTool@0
+            inputs:
+              versionSpec: '23.x'
+            displayName: Install Node.js
+
+          - script: |
+              npm ci
+              npm run build
+            displayName: Install Dependencies and Build Angular App
+            workingDirectory: ./src/client
+
+          - task: DockerCompose@1
+            displayName: Build Docker Image
+            inputs:
+              containerregistrytype: Container Registry
+              dockerRegistryEndpoint: "DockerHub"
+              dockerComposeFile: "./src/deployment/docker-compose.fe.yml"
+              action: "Build services"
+              projectName: '$(DOCKER_FE_IMAGE_NAME)'
+              additionalImageTags: $(IMAGE_TAG)
+
+          - task: DockerCompose@1
+            displayName: "Push Docker image"
+            inputs:
+              containerregistrytype: "Container Registry"
+              dockerRegistryEndpoint: "DockerHub"
+              dockerComposeFile: "./src/deployment/docker-compose.fe.yml"
+              action: "Push services"
+              projectName: '$(DOCKER_FE_IMAGE_NAME)'
+              additionalImageTags: $(IMAGE_TAG)
+
+  - stage: Deploy
+    displayName: Deploy Front-End to VPS Server
+    dependsOn: Build
+    condition: succeeded()
+    jobs:
+      - deployment: Deploy
+        displayName: Deployment Front-End
+        environment: 'Production'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: SSH@0
+                  displayName: Login to VPS server
+                  inputs:
+                    sshEndpoint: SSH Viettel IDC
+                    runOptions: inline
+                    inline: |
+                      # Install docker engine if not exist
+                      if ! [ -x "$(command -v docker)" ]; then
+                        curl -fsSL https://get.docker.com -o get-docker.sh
+                        sudo sh get-docker.sh
+                      fi
+
+                      # Login to vps server
+                      export DOCKER_USERNAME='$(DOCKER_USERNAME)'
+                      export DOCKER_FE_IMAGE_NAME='$(DOCKER_FE_IMAGE_NAME)'
+                      export IMAGE_TAG='$(IMAGE_TAG)'
+
+                      # Remove docker config file if exist
+                      if [ -f ~/.docker/config.json ]; then
+                        rm ~/.docker/config.json
+                      fi
+
+                      # cat ~/congdinh.txt | docker login --username $DOCKER_USERNAME --password-stdin
+
+                      # Pull image from docker hub
+                      docker pull $DOCKER_USERNAME/$DOCKER_FE_IMAGE_NAME:$IMAGE_TAG
+
+                      # Stop and remove old container if exist
+                      if [ "$(docker ps -aq -f name=$DOCKER_FE_IMAGE_NAME)" ]; then
+                        docker stop $DOCKER_FE_IMAGE_NAME
+                        docker rm $DOCKER_FE_IMAGE_NAME
+                      fi
+
+                      # Run new container
+                      docker run -d --name $DOCKER_FE_IMAGE_NAME \
+                        -e ANG_APP_URL='$(ANG_APP_URL)' \
+                        -p 4200:80 $DOCKER_USERNAME/$DOCKER_FE_IMAGE_NAME:$IMAGE_TAG

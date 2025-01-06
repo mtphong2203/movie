@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserMasterDTO> searchByName(String keyword) {
-        Specification<User> spec = (root, _, cb) -> {
+        Specification<User> spec = (root, query, cb) -> {
             if (keyword == null) {
                 return null;
             }
@@ -95,7 +95,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<UserMasterDTO> searchPaginated(String keyword, Pageable pageable) {
-        Specification<User> spec = (root, _, cb) -> {
+        Specification<User> spec = (root, query, cb) -> {
             if (keyword == null) {
                 return null;
             }
