@@ -1,68 +1,121 @@
-<div class="form w-[550px] h-[550px] bg-white rounded-lg px-6 py-1">
+<div class="form w-[500px] h-[500px] bg-white rounded-md px-6 py-1">
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class="title flex justify-center my-6 items-center gap-2">
+    <div class="title flex justify-center my-4 items-center gap-2">
       <h2 class="text-3xl">Register</h2>
     </div>
-    <div class="row flex justify-between gap-4">
-      <div class="form-group mb-2 w-[50%]">
-        <label class="text-lg" for="firstName">FirstName</label>
-        <input type="text" class="w-full border border-slate-400 rounded-md p-1 text-black" formControlName="firstName"
-          id="firsName" placeholder="Enter first name" />
+    <div class="row flex justify-between gap-3 mb-2">
+      <div class="form-group w-[50%]">
+        <label for="firstName">FirstName</label>
+        <input
+          type="text"
+          class="w-full border border-slate-400 rounded-md p-1 text-black"
+          formControlName="firstName"
+          id="firsName"
+          placeholder="Enter first name"
+        />
       </div>
-      <div class="form-group mb-2 w-[50%]">
-        <label class="text-lg" for="lastName">LastName</label>
-        <input type="text" class="w-full border border-slate-400 rounded-md p-1 text-black" formControlName="lastName"
-          id="lastName" placeholder="Enter last name" />
-      </div>
-    </div>
-    <div class="row flex justify-between gap-4">
-      <div class="form-group mb-2 w-[50%]">
-        <label class="text-lg" for="username">Username</label>
-        <input type="text" class="w-full border border-slate-400 rounded-md p-1 text-black" formControlName="username"
-          id="username" placeholder="Enter user name" />
-      </div>
-      <div class="form-group mb-2 w-[50%]">
-        <label class="text-lg" for="phoneNumber">PhoneNumber</label>
-        <input type="text" class="w-full border border-slate-400 rounded-md p-1 text-black"
-          formControlName="phoneNumber" id="phoneNumber" placeholder="Enter phone number" />
+      <div class="form-group w-[50%]">
+        <label for="lastName">LastName</label>
+        <input
+          type="text"
+          class="w-full border border-slate-400 rounded-md p-1 text-black"
+          formControlName="lastName"
+          id="lastName"
+          placeholder="Enter last name"
+        />
       </div>
     </div>
-    <div class="row">
-      <div class="form-group mb-2">
-        <label class="text-lg" for="email">Email</label>
-        <input type="email" class="w-full border border-slate-400 rounded-md p-1 text-black" formControlName="email"
-          id="email" placeholder="Enter email" />
+    <div class="row flex justify-between gap-3 mb-2">
+      <div class="form-group w-[50%]">
+        <label for="username">Username</label>
+        <input
+          type="text"
+          class="w-full border border-slate-400 rounded-md p-1 text-black"
+          formControlName="username"
+          id="username"
+          placeholder="Enter user name"
+        />
+      </div>
+      <div class="form-group w-[50%]">
+        <label for="phoneNumber">Phone</label>
+        <input
+          type="text"
+          class="w-full border border-slate-400 rounded-md p-1 text-black"
+          formControlName="phoneNumber"
+          id="phoneNumber"
+          placeholder="Enter phone number"
+        />
       </div>
     </div>
-    <div class="row flex justify-between gap-4">
+    <div class="row mb-2">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          class="w-full border border-slate-400 rounded-md p-1 text-black"
+          formControlName="email"
+          id="email"
+          placeholder="Enter email"
+        />
+      </div>
+    </div>
+    <div class="row flex gap-2 mb-1">
+      <div class="form-group flex items-center gap-2">
+        <input
+          type="radio"
+          class="scale-125"
+          formControlName="gender"
+          id="man"
+          value="MAN"
+        />
+        <label for="man" class="block mb-[2px]">Man</label>
+      </div>
+      <div class="form-group flex items-center gap-2">
+        <input
+          type="radio"
+          class="scale-125"
+          formControlName="gender"
+          id="woman"
+          value="WOMAN"
+        />
+        <label for="woman" class="block mb-[2px]">Woman</label>
+      </div>
+    </div>
+    <div class="row flex justify-between gap-3">
       <div class="form-group mb-2 w-[50%]">
-        <label class="text-lg" for="password">Password</label>
-        <input type="password" class="w-full border border-slate-400 rounded-md p-1 text-black"
-          formControlName="password" id="password" placeholder="Enter password" />
+        <label for="password">Password</label>
+        <input
+          type="password"
+          class="w-full border border-slate-400 rounded-md p-1 text-black"
+          formControlName="password"
+          id="password"
+          placeholder="Enter password"
+        />
       </div>
       <div class="form-group mb-2 w-[50%]">
-        <label class="text-lg" for="confirmPassword">Confirm Password</label>
-        <input type="password" class="w-full border border-slate-400 rounded-md p-1 text-black"
-          formControlName="confirmPassword" id="confirmPassword" placeholder="Confirm password" />
+        <label for="confirmPassword">Confirm Password</label>
+        <input
+          type="password"
+          class="w-full border border-slate-400 rounded-md p-1 text-black"
+          formControlName="confirmPassword"
+          id="confirmPassword"
+          placeholder="Confirm password"
+        />
       </div>
     </div>
-    <div class="form-group my-2 flex items-center justify-between">
-      <div class="aside flex items-center gap-2">
-        <input type="checkbox" class="scale-125" name="save" id="save" />
-        <label class="text-lg" for="save" class="text-lg">Save Password</label>
-      </div>
-      <a [routerLink]="['/auth/register']" class="text-lg hover:font-medium">Forgot password?
-      </a>
-    </div>
-    <div class="navigate mt-6">
-      <button type="submit"
-        class="w-full border border-slate-400 text-white p-[6px] rounded-md text-lg bg-blue-500 hover:bg-blue-700">
-        Register
+    <div class="navigate mt-4">
+      <button
+        type="submit"
+        class="w-full border border-slate-400 text-white p-[5px] rounded-full bg-blue-500 hover:bg-blue-700"
+      >
+        Sign Up
       </button>
     </div>
-    <div class="create-account mt-6 text-center">
-      <a [routerLink]="['/auth/login']" class="block cursor-pointer text-lg hover:font-bold">Already have an
-        account?Login now
+    <div class="create-account mt-4 text-center">
+      <a
+        [routerLink]="['/auth/login']"
+        class="block cursor-pointer text-lg hover:opacity-50"
+        >Already have an account?Sign in
       </a>
     </div>
   </form>
