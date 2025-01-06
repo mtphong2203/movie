@@ -8,8 +8,10 @@ import org.springframework.data.domain.Pageable;
 
 import com.jaf.movietheater.dtos.user.UserCreateUpdateDTO;
 import com.jaf.movietheater.dtos.user.UserMasterDTO;
+import com.jaf.movietheater.dtos.user.UserUpdateDTO;
 
 public interface UserService {
+
     List<UserMasterDTO> getAll();
 
     UserMasterDTO getById(UUID id);
@@ -21,6 +23,8 @@ public interface UserService {
     UserMasterDTO create(UserCreateUpdateDTO userDTO);
 
     UserMasterDTO update(UUID id, UserCreateUpdateDTO userDTO);
+
+    UserMasterDTO update(UUID id, UserUpdateDTO userDTO);
 
     boolean delete(UUID id);
 }

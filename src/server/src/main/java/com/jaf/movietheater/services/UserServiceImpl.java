@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.jaf.movietheater.dtos.user.UserCreateUpdateDTO;
 import com.jaf.movietheater.dtos.user.UserMasterDTO;
+import com.jaf.movietheater.dtos.user.UserUpdateDTO;
 import com.jaf.movietheater.entities.Role;
 import com.jaf.movietheater.entities.User;
 import com.jaf.movietheater.exceptions.ResourceNotFoundException;
@@ -227,6 +228,52 @@ public class UserServiceImpl implements UserService {
         userRepository.delete(user);
 
         return !userRepository.existsById(id);
+    }
+
+    @Override
+    public UserMasterDTO update(UUID id, UserUpdateDTO userDTO) {
+        if (userDTO == null) {
+            throw new IllegalArgumentException("User create is required");
+        }
+
+        User user = userRepository.findById(id).orElse(null);
+
+        if (user == null) {
+            throw new ResourceNotFoundException("User is not exist!");
+        }
+
+        user = userMapper.toEntity(userDTO, user);
+        user.setUpdatedAt(ZonedDateTime.now());
+
+        // Check if user has role
+        if (userDTO.getRoleId() != null) {
+            // Get role
+            var role = roleRepository.findById(userDTO.getRoleId());
+            if (role.isPresent()) {
+                // Set to user
+                user.setRoles(Collections.singleton(role.get()));
+            }
+        }
+
+        if (userDTO.getRoleName() != null) {
+            user.getRoles().clear();
+
+            Role roleByName = roleRepository.findByName(userDTO.getRoleName());
+
+            if (roleByName != null) {
+                user.getRoles().add(roleByName);
+            }
+        }
+
+        user = userRepository.save(user);
+
+        UserMasterDTO userMaster = userMapper.toMasterDTO(user);
+        // Set role to user master
+        if (user.getRoles() != null) {
+            userMaster.setRole(user.getRoles().stream().map(role -> role.getName()).collect(Collectors.toSet()));
+        }
+
+        return userMaster;
     }
 
 }
