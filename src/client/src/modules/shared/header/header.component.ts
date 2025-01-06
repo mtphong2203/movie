@@ -20,7 +20,6 @@ export class HeaderComponent {
   public userInformation: any;
 
   public faUser: IconDefinition = faUser;
-  public isShow: boolean = false;
 
   constructor(@Inject(AUTH_SERVICE) private authService: IAuthService) {
     this.authService.isAuthenticated().subscribe((res) => {
@@ -33,18 +32,6 @@ export class HeaderComponent {
 
   public logout(): void {
     this.authService.logout();
-  }
-
-  public onShow(): void {
-    setTimeout(() => {
-      this.isShow = true;
-    }, 200);
-  }
-
-  public onHide(): void {
-    setTimeout(() => {
-      this.isShow = false;
-    }, 200);
   }
 
 }

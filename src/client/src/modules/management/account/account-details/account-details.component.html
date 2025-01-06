@@ -37,6 +37,9 @@
           id="username"
           placeholder="Enter user name"
         />
+        <span class="text-red-500" *ngIf="this.form.get('username')?.invalid">{{
+          response
+        }}</span>
       </div>
       <div class="form-group mb-2 w-[50%]">
         <label class="text-lg" for="phoneNumber">PhoneNumber</label>
@@ -47,6 +50,11 @@
           id="phoneNumber"
           placeholder="Enter phone number"
         />
+        <span
+          class="text-red-500"
+          *ngIf="this.form.get('phoneNumber')?.invalid"
+          >{{ response }}</span
+        >
       </div>
     </div>
     <div class="row flex justify-between gap-4">
@@ -102,6 +110,9 @@
           id="email"
           placeholder="Enter email"
         />
+        <span class="text-red-500" *ngIf="this.form.get('email')?.invalid">{{
+          response
+        }}</span>
       </div>
       <div class="form-group w-[50%] mb-2">
         <label class="text-lg" for="address">Address</label>
@@ -114,37 +125,63 @@
         />
       </div>
     </div>
-    <div class="row flex justify-between gap-4">
-      <div class="form-group mb-2 w-[50%]">
-        <label class="text-lg" for="password">Password</label>
-        <input
-          type="password"
-          class="w-full border border-slate-400 rounded-md p-1 text-black"
-          formControlName="password"
-          id="password"
-          placeholder="Enter password"
-        />
+    <ng-container *ngIf="!isEdit">
+      <div class="row flex justify-between gap-4">
+        <div class="form-group mb-2 w-[50%]">
+          <label class="text-lg" for="password">Password</label>
+          <input
+            type="password"
+            class="w-full border border-slate-400 rounded-md p-1 text-black"
+            formControlName="password"
+            id="password"
+            placeholder="Enter password"
+          />
+          <span
+            class="text-red-500"
+            *ngIf="this.form.get('password')?.invalid"
+            >{{ response }}</span
+          >
+        </div>
+        <div class="form-group mb-2 w-[50%]">
+          <label class="text-lg" for="confirmPassword">Confirm Password</label>
+          <input
+            type="password"
+            class="w-full border border-slate-400 rounded-md p-1 text-black"
+            formControlName="confirmPassword"
+            id="confirmPassword"
+            placeholder="Confirm password"
+          />
+          <span
+            class="text-red-500"
+            *ngIf="this.form.get('confirmPassword')?.invalid"
+            >{{ response }}</span
+          >
+        </div>
       </div>
-      <div class="form-group mb-2 w-[50%]">
-        <label class="text-lg" for="confirmPassword">Confirm Password</label>
-        <input
-          type="password"
-          class="w-full border border-slate-400 rounded-md p-1 text-black"
-          formControlName="confirmPassword"
-          id="confirmPassword"
-          placeholder="Confirm password"
-        />
-      </div>
-    </div>
-    <div class="row border-b-2 p-2">
-      <div class="form-group w-[50%] flex gap-2">
-        <label for="active" class="block font-medium">Active</label>
+    </ng-container>
+
+    <div class="row flex justify-between gap-4 border-b-2 pb-4">
+      <div class="form-group w-[50%] flex items-center gap-2">
+        <label for="active" class="text-lg mb-1">Active</label>
         <input
           type="checkbox"
           formControlName="active"
           id="active"
-          class="scale-125"
+          class="scale-150"
         />
+      </div>
+      <div class="form-group w-[50%]">
+        <label for="role" class="text-lg">Role</label>
+        <select
+          formControlName="roleName"
+          id="role"
+          class="w-full border p-1 border-slate-400 rounded-md"
+        >
+          <option value="" disabled>Select role</option>
+          <option *ngFor="let item of roles" [value]="item.name">
+            {{ item.name }}
+          </option>
+        </select>
       </div>
     </div>
     <div class="card-footer flex justify-end gap-3 p-2">

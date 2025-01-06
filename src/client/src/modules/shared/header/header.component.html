@@ -48,54 +48,47 @@
     </ul>
   </nav>
   <!-- Profile Menu -->
-  <ul class="profile-menu flex justify-between items-center">
+  <div class="profile-menu">
     <ng-container *ngIf="!isAuthenticated; else authenticated">
       <ng-container *ngTemplateOutlet="notAuthenticated"></ng-container>
     </ng-container>
-  </ul>
+  </div>
 </header>
 
 <ng-template #notAuthenticated>
-  <li class="profile-item">
-    <a
-      [routerLink]="['/auth/login']"
-      class="profile-link block p-4 hover:bg-blue-700"
-      >Login</a
-    >
-  </li>
-  <li class="profile-item">
-    <a
-      [routerLink]="['/auth/register']"
-      class="profile-link block p-4 hover:bg-blue-700"
-      >Register</a
-    >
-  </li>
+  <ul class="flex justify-between items-center">
+    <li class="profile-item">
+      <a
+        [routerLink]="['/auth/login']"
+        class="profile-link block p-4 hover:bg-blue-700"
+        >Login</a
+      >
+    </li>
+    <li class="profile-item">
+      <a
+        [routerLink]="['/auth/register']"
+        class="profile-link block p-4 hover:bg-blue-700"
+        >Register</a
+      >
+    </li>
+  </ul>
 </ng-template>
 <ng-template #authenticated>
-  <div
-    class="contain relative py-3 px-4"
-    (mouseenter)="onShow()"
-    (mouseleave)="onHide()"
-  >
-    <fa-icon [icon]="faUser" class="text-xl cursor-pointer"></fa-icon>
-    <ul
-      *ngIf="isShow"
-      class="profile w-[110px] absolute shadow-md text-black top-full left-0 translate-x-[-55%]"
-    >
-      <li class="profile-item border-b-2 border-slate-800">
-        <a
-          [routerLink]="['/profile']"
-          class="profile-link block p-4 hover:bg-blue-400 hover:text-white"
-          >{{ userInformation.displayName }}
-        </a>
-      </li>
-      <li class="profile-item">
-        <a
-          (click)="logout()"
-          class="profile-link cursor-pointer block p-4 hover:bg-blue-400 hover:text-white"
-          >Logout
-        </a>
-      </li>
-    </ul>
-  </div>
+  <ul class="flex justify-between items-center">
+    <li class="profile-item">
+      <a
+        [routerLink]="['/profile']"
+        class="profile-link flex items-center gap-2 p-4 hover:bg-blue-700"
+        ><fa-icon [icon]="faUser" class="cursor-pointer"></fa-icon>
+        {{ userInformation.displayName }}
+      </a>
+    </li>
+    <li class="profile-item">
+      <a
+        (click)="logout()"
+        class="profile-link cursor-pointer block p-4 hover:bg-blue-700"
+        >Logout
+      </a>
+    </li>
+  </ul>
 </ng-template>
