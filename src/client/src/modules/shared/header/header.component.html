@@ -74,20 +74,22 @@
   </ul>
 </ng-template>
 <ng-template #authenticated>
-  <ul class="flex justify-between items-center">
+  <ul class="flex justify-between items-center gap-2">
     <li class="profile-item">
       <a
         [routerLink]="['/profile']"
         class="profile-link flex items-center gap-2 p-4 hover:bg-blue-700"
-        ><fa-icon [icon]="faUser" class="cursor-pointer"></fa-icon>
-        {{ userInformation.displayName }}
+        ><fa-icon [icon]="faUser" class="cursor-pointer"></fa-icon> Welcome,
+        {{ userInformation.username }}
       </a>
     </li>
     <li class="profile-item">
       <a
         (click)="logout()"
         class="profile-link cursor-pointer block p-4 hover:bg-blue-700"
-        >Logout
+      >
+        <fa-icon [icon]="faLogout"></fa-icon>
+        Logout
       </a>
     </li>
   </ul>
