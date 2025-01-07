@@ -3,13 +3,14 @@ package com.jaf.movietheater.dtos.user;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.jaf.movietheater.dtos.BaseDTO;
 import com.jaf.movietheater.entities.Gender;
 
 import lombok.*;
 
 @Getter
 @Setter
-public class UserDTO {
+public class UserDTO extends BaseDTO {
 
     private String firstName;
 
