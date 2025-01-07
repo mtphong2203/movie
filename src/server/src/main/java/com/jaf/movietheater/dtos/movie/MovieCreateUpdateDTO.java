@@ -35,7 +35,7 @@ public class MovieCreateUpdateDTO extends MasterCreateUpdateDTO{
     private int duration;
 
     @NotNull(message="fromdate is required")
-    private LocalDate fromDate;
+    private LocalDate fromDate;˝
 
     @NotNull(message="ToDate is required")
     private LocalDate toDate;
