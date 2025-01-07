@@ -7,16 +7,32 @@ import { IPermissionService } from "./permission-service.interface";
 @Injectable({
     providedIn: 'root'
 })
-export class PermissionService implements IPermissionService{
-    constructor(@Inject(AUTH_SERVICE) private authService: IAuthService, private router: Router){}
+export class PermissionService implements IPermissionService {
+    constructor(@Inject(AUTH_SERVICE) private authService: IAuthService, private router: Router) { }
 
-    canActivate():boolean{
-        if(this.authService.isAuthenticated()){
-            if(this.authService.isManager()){
+    isUnauthenticated(): boolean {
+        this.authService.isAuthenticated().subscribe(res => {
+            if (res) {
+                return false;
+            }
+            return true;
+        });
+        return true;
+    }
+
+    canActivate(): boolean {
+        this.authService.isAuthenticated().subscribe(res => {
+            if (res) {
                 return true;
             }
+            return false;
+        });
+
+        if (this.authService.isManager()) {
+            return true;
         }
-        this.router.navigate(['/about']);
+
+        this.router.navigate(['/']);
         return false;
     }
 }

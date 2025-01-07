@@ -1,0 +1,262 @@
+<div class="contain flex">
+  <div class="sidebar h-screen w-[20%] border-r-2">
+    <div
+      class="user-info flex flex-col justify-center items-center gap-2 p-4 border-b"
+    >
+      <img src="" alt="" class="w-32 h-32 rounded-full bg-gray-400" />
+      <p class="text-lg font-semibold">{{ userInformation?.username }}</p>
+    </div>
+    <ul class="account-list">
+      <li
+        class="account-item cursor-pointer p-2 px-4 border-b hover:bg-orange-500 hover:text-white"
+        (click)="selectTab('userInfo')"
+      >
+        Account Information
+      </li>
+      <li
+        class="account-item cursor-pointer p-2 px-4 border-b hover:bg-orange-500 hover:text-white"
+        (click)="selectTab('historyScore')"
+      >
+        History Score
+      </li>
+      <li
+        class="account-item cursor-pointer p-2 px-4 border-b hover:bg-orange-500 hover:text-white"
+        (click)="selectTab('bookedTicket')"
+      >
+        Booked Ticket
+      </li>
+      <li
+        class="account-item cursor-pointer p-2 px-4 border-b hover:bg-orange-500 hover:text-white"
+        (click)="selectTab('cancelledTicket')"
+      >
+        Cancelled Ticket
+      </li>
+    </ul>
+  </div>
+
+  <div class="content relative w-[80%]">
+    <div [ngSwitch]="selectedTab">
+      <div class="content-item" *ngSwitchCase="'userInfo'">
+        <h1 class="text-center text-xl py-3 border-b-2">Account Information</h1>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="px-6">
+          <div class="row py-6 border-b flex justify-between gap-4">
+            <div
+              class="form-group flex justify-between items-center gap-4 w-[50%]"
+            >
+              <label for="firstName" class="whitespace-nowrap"
+                >FirstName: <span class="text-red-400">*</span>
+              </label>
+              <input
+                type="text"
+                class="w-full border border-slate-400 rounded-md p-[6px] shadow-lg text-black"
+                formControlName="firstName"
+                id="firsName"
+                placeholder="Enter first name"
+              />
+            </div>
+            <div
+              class="form-group flex justify-between items-center gap-4 w-[50%]"
+            >
+              <label for="lastName" class="whitespace-nowrap"
+                >LastName: <span class="text-red-400">*</span>
+              </label>
+              <input
+                type="text"
+                class="w-full border border-slate-400 rounded-md p-[6px] shadow-lg text-black"
+                formControlName="lastName"
+                id="lastName"
+                placeholder="Enter last name"
+              />
+            </div>
+          </div>
+          <div class="row py-6 border-b flex justify-between gap-4">
+            <div
+              class="form-group flex justify-between items-center gap-4 w-[50%]"
+            >
+              <label for="username" class="whitespace-nowrap"
+                >Username: <span class="text-red-400">*</span>
+              </label>
+              <input
+                type="text"
+                class="w-full border border-slate-400 rounded-md p-[6px] shadow-lg text-black"
+                formControlName="username"
+                id="username"
+                placeholder="Enter username"
+              />
+            </div>
+            <div
+              class="form-group flex justify-between items-center gap-10 w-[50%]"
+            >
+              <label for="phoneNumber" class="whitespace-nowrap"
+                >Phone: <span class="text-red-400">*</span>
+              </label>
+              <input
+                type="text"
+                class="w-full border border-slate-400 rounded-md p-[6px] shadow-lg text-black"
+                formControlName="phoneNumber"
+                id="phoneNumber"
+                placeholder="Enter phone number"
+              />
+            </div>
+          </div>
+          <div class="row py-6 border-b flex justify-between gap-4">
+            <div
+              class="form-group flex justify-between items-center gap-5 w-[50%]"
+            >
+              <label for="dateOfBirth" class="whitespace-nowrap"
+                >BirthDate: <span class="text-red-400">*</span>
+              </label>
+              <input
+                type="date"
+                class="w-full border border-slate-400 rounded-md p-[5px] shadow-lg text-black"
+                formControlName="dateOfBirth"
+                id="dateOfBirth"
+              />
+            </div>
+            <div class="form-group w-[50%] flex items-center gap-10">
+              <label for="gender" class="whitespace-nowrap"
+                >Gender: <span class="text-red-400">*</span>
+              </label>
+              <div class="form-item flex items-center gap-2">
+                <label class="text-lg block mb-1" for="man">Man</label>
+                <input
+                  type="radio"
+                  class="scale-150"
+                  formControlName="gender"
+                  id="man"
+                  value="MAN"
+                />
+              </div>
+              <div class="form-item flex items-center gap-2">
+                <label class="text-lg block mb-1" for="woman">Woman</label>
+                <input
+                  type="radio"
+                  class="scale-150"
+                  formControlName="gender"
+                  id="woman"
+                  value="WOMAN"
+                />
+              </div>
+              <div class="form-item flex items-center gap-2">
+                <label class="text-lg block mb-1" for="other">Other</label>
+                <input
+                  type="radio"
+                  class="scale-150"
+                  formControlName="gender"
+                  id="other"
+                  value="OTHER"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row py-6 border-b flex justify-between gap-4">
+            <div
+              class="form-group flex justify-between items-center gap-12 w-[50%]"
+            >
+              <label for="email" class="whitespace-nowrap"
+                >Email: <span class="text-red-400">*</span>
+              </label>
+              <input
+                type="email"
+                class="w-full border border-slate-400 rounded-md p-[6px] shadow-lg text-black"
+                formControlName="email"
+                id="email"
+                placeholder="Enter email"
+              />
+            </div>
+            <div
+              class="form-group flex justify-between items-center gap-8 w-[50%]"
+            >
+              <label for="address" class="whitespace-nowrap"
+                >Address: <span class="text-red-400">*</span>
+              </label>
+              <input
+                type="text"
+                class="w-full border border-slate-400 rounded-md p-[6px] shadow-lg text-black"
+                formControlName="address"
+                id="address"
+                placeholder="Enter address"
+              />
+            </div>
+          </div>
+          <div class="row py-6 border-b flex justify-between gap-4">
+            <div class="form-group w-[50%]">
+              <div class="content flex justify-between items-center gap-5">
+                <label for="password" class="whitespace-nowrap"
+                  >Password: <span class="text-red-400">*</span>
+                </label>
+                <input
+                  type="password"
+                  class="w-full border border-slate-400 rounded-md p-[6px] shadow-lg text-black"
+                  formControlName="password"
+                  id="password"
+                  placeholder="Enter password"
+                />
+              </div>
+              <span
+                *ngIf="this.form.get('confirmPassword')?.invalid"
+                class="text-red-500 block ml-24 p-1 mt-2"
+                >{{ response }}
+              </span>
+            </div>
+
+            <div class="form-group w-[50%]">
+              <div class="content flex justify-between items-center gap-8">
+                <label for="confirmPassword" class="whitespace-nowrap"
+                  >Confirm: <span class="text-red-400">*</span>
+                </label>
+                <input
+                  type="password"
+                  class="w-full border border-slate-400 rounded-md p-[6px] shadow-lg text-black"
+                  formControlName="confirmPassword"
+                  id="confirmPassword"
+                  placeholder="Enter confirm password"
+                />
+              </div>
+              <span
+                *ngIf="this.form.get('confirmPassword')?.invalid"
+                class="text-red-500 block ml-24 p-1 mt-2"
+                >{{ response }}
+              </span>
+            </div>
+          </div>
+          <div class="row mt-4">
+            <button
+              type="submit"
+              class="py-1 px-3 text-lg rounded-md bg-orange-400 text-white hover:bg-orange-600"
+            >
+              Save
+            </button>
+          </div>
+        </form>
+
+        <ng-container *ngIf="showModal">
+          <div
+            class="dialog-modal w-[320px] h-[180px] absolute top-[30%] left-[30%] border z-auto bg-slate-50 border-slate-500 text-center rounded-md shadow-md"
+          >
+            <h2 class="text-3xl my-2">Thông báo</h2>
+            <p class="text-green-400 text-lg my-4">
+              Thông tin đã được cập nhật
+            </p>
+            <button
+              type="button"
+              (click)="close()"
+              class="p-2 mt-2 rounded-md bg-orange-500 text-white"
+            >
+              Đóng
+            </button>
+          </div>
+        </ng-container>
+      </div>
+      <div class="content-item" *ngSwitchCase="'historyScore'">
+        <h1>History Score</h1>
+      </div>
+      <div class="content-item" *ngSwitchCase="'bookedTicket'">
+        <h1>Booked Ticket</h1>
+      </div>
+      <div class="content-item" *ngSwitchCase="'cancelledTicket'">
+        <h1>Cancel Ticket</h1>
+      </div>
+    </div>
+  </div>
+</div>

@@ -9,10 +9,11 @@ export class UserMasterDto extends MasterDto {
     public address: string;
     public phoneNumber: string;
     public dateOfBirth: Date;
+    public role: string;
 
     constructor(id: string, active: boolean, createdAt: Date, updatedAt: Date, deletedAt: Date,
         firstName: string, lastName: string, username: string, email: string, gender: string, address: string, phoneNumber: string, dateOfBirth: Date
-    ) {
+        , role: string) {
         super(id, createdAt, updatedAt, deletedAt, active);
         this.firstName = firstName;
         this.lastName = lastName;
@@ -22,5 +23,6 @@ export class UserMasterDto extends MasterDto {
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.dateOfBirth = dateOfBirth;
+        this.role = role;
     }
 }

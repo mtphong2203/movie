@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { FontAwesomeModule, IconDefinition } from '@fortawesome/angular-fontawesome';
-import { faUser, faCompass } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faCompass, faLock, faLockOpen, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { AUTH_SERVICE } from '../../../constants/injection.constant';
 import { IAuthService } from '../../../services/auth/auth-service.interface';
 import { LoginResponse } from '../../../models/auth/login-response.model';
@@ -19,7 +19,8 @@ export class LoginComponent implements OnInit {
   public form!: FormGroup;
 
   public faUser: IconDefinition = faUser;
-  public faCompass: IconDefinition = faCompass;
+  public faPassword: IconDefinition = faLock;
+  public faRight: IconDefinition = faArrowRight;
 
   constructor(@Inject(AUTH_SERVICE) private authService: IAuthService, private router: Router) { }
 

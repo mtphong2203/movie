@@ -1,22 +1,31 @@
 import { Component, Inject, SimpleChanges } from '@angular/core';
 import { MasterDetailsComponent } from '../../master-details/master-details.component';
 import { UserMasterDto } from '../../../../models/user/user-master-dto.model';
-import { USER_SERVICE } from '../../../../constants/injection.constant';
+import { ROLE_SERVICE, USER_SERVICE } from '../../../../constants/injection.constant';
 import { IUserService } from '../../../../services/user/user-service.interface';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { IRoleService } from '../../../../services/role/role-service.interface';
+import { RoleMasterDto } from '../../../../models/role/role-master-dto.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-account-details',
   standalone: true,
-  imports: [ReactiveFormsModule, FontAwesomeModule],
+  imports: [ReactiveFormsModule, FontAwesomeModule, CommonModule],
   templateUrl: './account-details.component.html',
   styleUrl: './account-details.component.css'
 })
 export class AccountDetailsComponent extends MasterDetailsComponent<UserMasterDto> {
 
-  constructor(@Inject(USER_SERVICE) private userService: IUserService) {
+  public roles: RoleMasterDto[] = [];
+  public response: string = '';
+
+  constructor(@Inject(USER_SERVICE) private userService: IUserService, @Inject(ROLE_SERVICE) private roleService: IRoleService) {
     super();
+    this.roleService.getAll().subscribe((result) => {
+      this.roles = result;
+    })
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -36,23 +45,31 @@ export class AccountDetailsComponent extends MasterDetailsComponent<UserMasterDt
       dateOfBirth: new FormControl(null),
       password: new FormControl('', [Validators.maxLength(50), Validators.required]),
       confirmPassword: new FormControl('', [Validators.maxLength(50), Validators.required]),
+      roleName: new FormControl(''),
       active: new FormControl(false),
     });
   }
 
   private patchValue(): void {
     if (this.isEdit && this.dataEdit != null) {
-      this.form.patchValue(this.dataEdit);
+      this.form.patchValue({
+        ...this.dataEdit,
+        roleName: Array.isArray(this.dataEdit.role) ? this.dataEdit.role[0] : this.dataEdit.role || ''
+      });
+
     }
   }
 
   public onSubmit(): void {
     if (this.form.invalid) {
-      return;
+      this.response = 'This attribute is required';
+      setTimeout(() => {
+        this.response = '';
+      }, 5000);
     }
     const data = this.form.value;
     if (this.isEdit && this.dataEdit != null) {
-      this.userService.update(this.dataEdit.id, data).subscribe((result: UserMasterDto) => {
+      this.userService.updateInformation(this.dataEdit.id, data).subscribe((result: UserMasterDto) => {
         if (result) {
           this.cancel.emit();
         }

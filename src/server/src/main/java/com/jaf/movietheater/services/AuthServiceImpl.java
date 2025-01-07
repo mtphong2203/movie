@@ -82,6 +82,7 @@ public class AuthServiceImpl implements UserDetailsService, AuthService {
     public UserDTO getUserInformation(String username) {
         User user = userRepository.findByUsername(username);
         UserDTO userDTO = userMapper.toDTO(user);
+        userDTO.setId(user.getId());
         userDTO.setRole(user.getRoles().stream().map(role -> role.getName()).collect(Collectors.toList()));
         return userDTO;
     }

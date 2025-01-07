@@ -84,4 +84,9 @@ public class TokenServiceImpl implements TokenService {
         return parseAccessToken(jwtToken);
     }
 
+    @Override
+    public Integer getExpireTime() {
+        return this.expireTime;
+    }
+
 }

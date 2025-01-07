@@ -12,14 +12,17 @@ import com.jaf.movietheater.dtos.auth.LoginRequestDTO;
 import com.jaf.movietheater.dtos.auth.LoginResponseDTO;
 import com.jaf.movietheater.dtos.auth.RegisterRequestDTO;
 import com.jaf.movietheater.dtos.user.UserDTO;
-import com.jaf.movietheater.entities.User;
 import com.jaf.movietheater.services.AuthService;
 import com.jaf.movietheater.services.TokenService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/auth")
+@Tag(name = "Auth APIs", description = "Authentication")
 public class AuthController {
 
     private final AuthService authService;
@@ -34,6 +37,8 @@ public class AuthController {
     }
 
     @PostMapping("/login")
+    @Operation(summary = "Login with username and password")
+    @ApiResponse(responseCode = "200")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequestDTO loginRequestDTO,
             BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -54,11 +59,14 @@ public class AuthController {
 
         loginResponseDTO.setAccessToken(accessToken);
         loginResponseDTO.setUserDTO(userDTO);
+        loginResponseDTO.setExpireTime(tokenService.getExpireTime());
 
         return ResponseEntity.ok(loginResponseDTO);
     }
 
     @PostMapping("/register")
+    @Operation(summary = "Sign up an account")
+    @ApiResponse(responseCode = "200")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequestDTO registerRequestDTO,
             BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {

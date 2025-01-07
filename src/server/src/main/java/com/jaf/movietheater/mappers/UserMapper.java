@@ -6,6 +6,7 @@ import com.jaf.movietheater.dtos.auth.RegisterRequestDTO;
 import com.jaf.movietheater.dtos.user.UserCreateUpdateDTO;
 import com.jaf.movietheater.dtos.user.UserDTO;
 import com.jaf.movietheater.dtos.user.UserMasterDTO;
+import com.jaf.movietheater.dtos.user.UserUpdateDTO;
 import com.jaf.movietheater.entities.User;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE)
@@ -16,6 +17,8 @@ public interface UserMapper {
     User toEntity(RegisterRequestDTO registerDTO);
 
     User toEntity(UserCreateUpdateDTO DTO, @MappingTarget User user);
+
+    User toEntity(UserUpdateDTO DTO, @MappingTarget User user);
 
     UserDTO toDTO(User user);
 
