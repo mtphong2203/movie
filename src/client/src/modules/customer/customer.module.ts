@@ -7,7 +7,6 @@ import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 import { USER_SERVICE } from '../../constants/injection.constant';
 import { UserService } from '../../services/user/user-service.service';
-import { MatDialogModule } from '@angular/material/dialog';
 
 const routes: Routes = [
   {
@@ -43,7 +42,6 @@ const routes: Routes = [
   ],
   imports: [
     CommonModule,
-    MatDialogModule,
     RouterModule.forChild(routes),
   ]
 })

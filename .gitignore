@@ -2,7 +2,6 @@
 **/.vscode/*
 **/.idea/*
 **/node_modules/*
-src/client/public/assets/images
 **/*.env
 !**/example.env
 src/server/load-env.ps1
