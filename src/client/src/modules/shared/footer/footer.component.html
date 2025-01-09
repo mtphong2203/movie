@@ -1,3 +1,68 @@
-<footer class="bg-blue-500 text-center">
-    <p class="p-4 text-white">&copy; 2024 Movie Threater</p>
+<footer class="bg-slate-100">
+  <div class="footer__contain w-[85%] m-auto py-2 flex justify-between">
+    <div class="contact">
+      <h2 class="font-lg mb-1">Cinema Center</h2>
+      <ul class="flex flex-col gap-2">
+        <li>
+          <a
+            [routerLink]="['/ticket']"
+            class="text-gray-500 hover:text-gray-700 mb-1"
+            >Ticket</a
+          >
+        </li>
+        <li>
+          <a
+            [routerLink]="['/schedule']"
+            class="text-gray-500 hover:text-gray-700 mb-1"
+            >Schedule
+          </a>
+        </li>
+        <li>
+          <a
+            [routerLink]="['/about']"
+            class="text-gray-500 hover:text-gray-700 mb-1"
+          >
+            about
+          </a>
+        </li>
+        <li>
+          <a
+            [routerLink]="['/contact']"
+            class="text-gray-500 hover:text-gray-700 mb-1"
+            >Contact</a
+          >
+        </li>
+      </ul>
+    </div>
+    <div class="detail">
+      <h2 class="font-lg mb-1">Điều khoản sử dụng</h2>
+      <p class="text-gray-500 hover:text-gray-700 mb-1">Điều khoản chung</p>
+      <p class="text-gray-500 hover:text-gray-700 mb-1">
+        Điều khoản giao dịch.
+      </p>
+      <p class="text-gray-500 hover:text-gray-700 mb-1">
+        Chính sách thanh toán
+      </p>
+      <p class="text-gray-500 hover:text-gray-700 mb-1">Chính sách bảo mật</p>
+    </div>
+    <div class="contact">
+      <h3 class="font-lg mb-1">Kết nối với chúng tôi</h3>
+      <div class="logo flex gap-4 mt-2">
+        <fa-icon [icon]="faFacebook" class="text-blue-500 text-4xl"></fa-icon>
+        <fa-icon [icon]="faYoutube" class="text-red-500 text-4xl"></fa-icon>
+        <fa-icon [icon]="faTwitter" class="text-cyan-500 text-4xl"></fa-icon>
+      </div>
+    </div>
+
+    <div class="subcribe w-[25%]">
+      <h3 class="font-lg mb-1">Chăm sóc khách hàng</h3>
+      <p class="text-gray-500 hover:text-gray-700 mb-1">Hotline: 1900 6017</p>
+      <p class="text-gray-500 hover:text-gray-700 mb-1">
+        Giờ làm việc: 8:00 - 22:00
+      </p>
+      <p class="text-gray-500 hover:text-gray-700 mb-1">
+        Email hỗ trợ: hoidap&#64;cgv.vn
+      </p>
+    </div>
+  </div>
 </footer>
