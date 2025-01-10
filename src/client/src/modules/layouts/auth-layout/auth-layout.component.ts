@@ -10,6 +10,6 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AuthLayoutComponent {
 
-  public bgAuthenticate: string = './assets/images/bg-authenticate1.jpg';
+  public bgAuthenticate: string = './assets/images/bg-authenticate4.jpg';
 
 }

@@ -19,6 +19,9 @@ export class AboutComponent {
   public intro01: string = './assets/images/about-intro1.jpg';
   public intro02: string = './assets/images/about-intro2.jpg';
   public intro03: string = './assets/images/about-intro3.jpg';
+  public intro04: string = './assets/images/contact-1.jpg';
+  public intro05: string = './assets/images/contact-2.jpg';
+  public intro06: string = './assets/images/contact-3.jpg';
   public service01: string = './assets/images/service-1.jpg';
   public service02: string = './assets/images/service-2.jpg';
   public service03: string = './assets/images/service-3.jpg';
@@ -29,7 +32,7 @@ export class AboutComponent {
   public weekend02: string = './assets/images/weekend-2.jpg';
 
   public faRight: IconDefinition = faArrowRight;
-  public faCicle: IconDefinition = faCircle;
+  public faCircle: IconDefinition = faCircle;
 
   public selectTab(event: string): void {
     this.selectedTab = event;
