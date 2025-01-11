@@ -27,10 +27,13 @@ public class Room extends MasterEntity{
     @Column(name = "capacity", nullable = false)
     private int capacity;
 
+    @Column(name = "type", nullable = false)
+    private RoomType type;
+
     @OneToMany(mappedBy = "room")
     private Set<Seat> seats;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "cinema_id")
     private Cinema cinema;
 }

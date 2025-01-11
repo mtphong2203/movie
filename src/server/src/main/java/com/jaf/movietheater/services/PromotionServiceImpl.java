@@ -24,6 +24,8 @@ public class PromotionServiceImpl implements PromotionService {
 
     @Autowired
     private PromotionRepository promotionRepository;
+    
+    @Autowired
     private PromotionMapper promotionMapper;
     
     @Override

@@ -13,6 +13,6 @@ public interface CinemaMapper {
     Cinema toEntity(CinemaCreateUpdateDTO DTO);
 
     Cinema toEntity(CinemaCreateUpdateDTO DTO, @MappingTarget Cinema cinema);
-
+    
     CinemaMasterDTO toMasterDTO(Cinema cinema);
 }

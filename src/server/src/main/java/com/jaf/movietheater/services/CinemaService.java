@@ -16,6 +16,8 @@ public interface CinemaService {
 
     CinemaMasterDTO getById(UUID id);
 
+    List<CinemaMasterDTO> searchByName(String name);
+
     CinemaMasterDTO create(CinemaCreateUpdateDTO cinemaCreateUpdateDTO);
 
     CinemaMasterDTO update(UUID id, CinemaCreateUpdateDTO cinemaCreateUpdateDTO);
