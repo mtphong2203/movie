@@ -8,6 +8,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CommonModule } from '@angular/common';
 import { MOVIE_SERVICE } from '../../../constants/injection.constant';
 import { IMovie } from '../../../services/movie/movie.interface';
+import { MovieMasterDTO } from '../../../models/movie/movie-master-dto.model';
+import { PageInfo, ResponseData } from '../../../models/response.model';
 
 @Component({
   selector: 'app-movie-list',
@@ -22,14 +24,14 @@ export class MovieListComponent implements OnInit{
   public isShowDetails: boolean = false;
 
   // property for edit movie
-  public selectedItem!: any;
+  public selectedItem!: MovieMasterDTO | null | undefined;
 
   // pagination properties
   public currentPageNumber: number = 0;
   public currentPageSize: number = 10;
   public pageSizeList: number[] = [10, 20, 50, 100];
   public pageLimit: number = 2;
-  public pageInfo: any;
+  public pageInfo!: PageInfo;
 
   // fa-icon properties
   public faPlus: IconDefinition = faPlus;
@@ -41,7 +43,7 @@ export class MovieListComponent implements OnInit{
   public searchForm!: FormGroup;
 
   // Data get form API
-  public data: any[] = [];
+  public data!: MovieMasterDTO[];
 
   // ConfigColums for table component
   public configsColumn: any[] = [
@@ -68,7 +70,7 @@ export class MovieListComponent implements OnInit{
       page: this.currentPageNumber,
       size: this.currentPageSize,
     };
-    this.movieSevice.search(params).subscribe((result: any) => {
+    this.movieSevice.search(params).subscribe((result: ResponseData<MovieMasterDTO>) => {
       // Chi gan data._embedded.movieMasterDTOList cho data
       this.data = result.data
       // Update pagination properties
@@ -93,7 +95,7 @@ export class MovieListComponent implements OnInit{
 
   // delete method for movie item
   public onDelete(id: string): void {
-    this.movieSevice.delete(id).subscribe((result: any) => {
+    this.movieSevice.delete(id).subscribe((result: boolean) => {
       if (result) {
         // If return result, call search method to load
         this.search();
@@ -125,13 +127,13 @@ export class MovieListComponent implements OnInit{
 
   // Pagination methods
   // change page size method
-  public onChangePageSize(pageSize: any) {
+  public onChangePageSize(pageSize: number) {
     this.currentPageSize = pageSize;
     this.search();
   }
 
   // change page number method
-  public onChangePageNumber(pageNumber: any) {
+  public onChangePageNumber(pageNumber: number) {
     this.currentPageNumber = pageNumber;
     this.search();
   }

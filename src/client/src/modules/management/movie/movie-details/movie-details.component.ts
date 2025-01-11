@@ -6,7 +6,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCancel, faRotateLeft, faSave, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { MOVIE_SERVICE } from '../../../../constants/injection.constant';
 import { IMovie } from '../../../../services/movie/movie.interface';
+import { MovieMasterDTO } from '../../../../models/movie/movie-master-dto.model';
 
+type MovieMasterDTOOrNull = MovieMasterDTO | null | undefined;
 @Component({
   selector: 'app-movie-details',
   standalone: true,
@@ -28,8 +30,8 @@ export class MovieDetailsComponent implements OnInit{
   public faSave: IconDefinition = faSave;
 
   // input
-  private selectItem!: any;
-  @Input('selected-item') set selectedItem(value: any) {
+  private selectItem!: MovieMasterDTOOrNull;
+  @Input('selected-item') set selectedItem(value: MovieMasterDTOOrNull) {
     if (value != null) {
       this.selectItem = value;
       this.isEdit = true;
@@ -42,7 +44,7 @@ export class MovieDetailsComponent implements OnInit{
     }
   }
 
-  get selectedItem(): any {
+  get selectedItem(): MovieMasterDTOOrNull {
     return this.selectItem;
   }
 
@@ -64,6 +66,15 @@ export class MovieDetailsComponent implements OnInit{
     }
   }
 
+  // updatedForm() {
+  //   if (this.formEditCreate && this.selectedItem) {
+  //     const patchedItem = { ...this.selectedItem };
+  //     patchedItem.fromDate = this.formatDateForInput(this.selectedItem.fromDate);
+  //     patchedItem.toDate = this.formatDateForInput(this.selectedItem.toDate);
+  //     this.formEditCreate.patchValue(patchedItem);
+  //   }
+  // }
+
   private createForm(): void {
     this.formEditCreate = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.min(2), Validators.max(50)]),
@@ -79,6 +90,19 @@ export class MovieDetailsComponent implements OnInit{
       active: new FormControl(true)
     });
   }
+
+  // Convert dd/MM/yyyy to yyyy-MM-dd for backend
+  // private formatDateForBackend(dateString: string): string {
+  //   const [day, month, year] = dateString.split('/').map(Number);
+  //   return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+  // }
+
+  // Convert yyyy-MM-dd to dd/MM/yyyy for input fields
+  // private formatDateForInput(dateString: string): string {
+  //   if (!dateString) return '';
+  //   const [year, month, day] = dateString.split('-');
+  //   return `${day}/${month}/${year}`;
+  // }
   
   public onSubmit(): void {
     if (this.formEditCreate.invalid) {
@@ -87,8 +111,8 @@ export class MovieDetailsComponent implements OnInit{
 
     const data = this.formEditCreate.value;
 
-    if (this.isEdit) {
-      this.movieService.update(this.selectItem.id, data).subscribe((result: any) => {
+    if (this.isEdit && this.selectItem != null) {
+      this.movieService.update(this.selectItem?.id, data).subscribe((result: MovieMasterDTO) => {
         if (result) {
           console.log('Update Success');
           this.cancel.emit();
@@ -97,7 +121,7 @@ export class MovieDetailsComponent implements OnInit{
         }
       });
     }
-    this.movieService.create(data).subscribe((result: any) => {
+    this.movieService.create(data).subscribe((result: MovieMasterDTO) => {
       console.log(result);
       if (result != null) {
         this.cancel.emit();
