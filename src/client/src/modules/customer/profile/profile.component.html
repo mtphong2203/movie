@@ -1,4 +1,8 @@
-<div class="contain flex">
+<div class="contain relative flex">
+  <ng-container *ngIf="changePassword">
+    <!-- overlay screen when open modal -->
+    <div class="overlay"></div>
+  </ng-container>
   <div class="sidebar h-screen w-[20%] border-r-2">
     <div
       class="user-info flex flex-col justify-center items-center gap-2 p-4 border-b"
@@ -78,7 +82,7 @@
               </label>
               <input
                 type="text"
-                class="w-full border border-slate-400 rounded-md p-[6px] shadow-lg text-black"
+                class="w-full cursor-not-allowed opacity-55 border border-slate-400 rounded-md p-[6px] shadow-lg text-black"
                 formControlName="username"
                 id="username"
                 placeholder="Enter username"
@@ -92,7 +96,7 @@
               </label>
               <input
                 type="text"
-                class="w-full border border-slate-400 rounded-md p-[6px] shadow-lg text-black"
+                class="w-full border cursor-not-allowed opacity-55 border-slate-400 rounded-md p-[6px] shadow-lg text-black"
                 formControlName="phoneNumber"
                 id="phoneNumber"
                 placeholder="Enter phone number"
@@ -158,7 +162,7 @@
               </label>
               <input
                 type="email"
-                class="w-full border border-slate-400 rounded-md p-[6px] shadow-lg text-black"
+                class="w-full cursor-not-allowed opacity-55 border border-slate-400 rounded-md p-[6px] shadow-lg text-black"
                 formControlName="email"
                 id="email"
                 placeholder="Enter email"
@@ -179,11 +183,25 @@
               />
             </div>
           </div>
-          <div class="row py-6 border-b flex justify-between gap-4">
-            <div class="form-group w-[50%]">
-              <div class="content flex justify-between items-center gap-5">
+          <!-- modal change password -->
+          <ng-container *ngIf="changePassword">
+            <div
+              class="row p-8 pt-10 rounded-lg w-[350px] h-[400px] bg-slate-50 absolute top-[20%] z-10 left-[25%] py-6 border-b flex flex-col gap-4"
+            >
+              <div class="form-group">
+                <label for="currentPassword" class="whitespace-nowrap"
+                  >Current Password: <span class="text-red-400">*</span>
+                </label>
+                <input
+                  type="password"
+                  class="w-full border border-slate-400 rounded-md p-[6px] shadow-lg text-black"
+                  id="currentPassword"
+                  placeholder="Enter current password"
+                />
+              </div>
+              <div class="form-group">
                 <label for="password" class="whitespace-nowrap"
-                  >Password: <span class="text-red-400">*</span>
+                  >New Password: <span class="text-red-400">*</span>
                 </label>
                 <input
                   type="password"
@@ -192,18 +210,14 @@
                   id="password"
                   placeholder="Enter password"
                 />
+                <span *ngIf="!isCorrect" class="text-red-500"
+                  >{{ response }}
+                </span>
               </div>
-              <span
-                *ngIf="this.form.get('confirmPassword')?.invalid"
-                class="text-red-500 block ml-24 p-1 mt-2"
-                >{{ response }}
-              </span>
-            </div>
 
-            <div class="form-group w-[50%]">
-              <div class="content flex justify-between items-center gap-8">
+              <div class="form-group">
                 <label for="confirmPassword" class="whitespace-nowrap"
-                  >Confirm: <span class="text-red-400">*</span>
+                  >Confirm New Password: <span class="text-red-400">*</span>
                 </label>
                 <input
                   type="password"
@@ -212,36 +226,55 @@
                   id="confirmPassword"
                   placeholder="Enter confirm password"
                 />
+                <span *ngIf="!isCorrect" class="text-red-500"
+                  >{{ response }}
+                </span>
               </div>
+              <button
+                type="button"
+                class="p-2 bg-blue-500 mt-4 text-white rounded-md hover:bg-blue-700"
+                (click)="confirmChangePassword()"
+                (click)="closeModalChangePassword()"
+              >
+                Confirm
+              </button>
               <span
-                *ngIf="this.form.get('confirmPassword')?.invalid"
-                class="text-red-500 block ml-24 p-1 mt-2"
-                >{{ response }}
-              </span>
+                class="absolute top-1 right-2 cursor-pointer"
+                (click)="onCloseModal()"
+                ><fa-icon
+                  [icon]="faClose"
+                  class="text-3xl text-gray-400"
+                ></fa-icon
+              ></span>
             </div>
-          </div>
-          <div class="row mt-4">
+          </ng-container>
+          <div class="row mt-4 flex gap-4">
             <button
               type="submit"
-              class="py-1 px-3 text-lg rounded-md bg-orange-400 text-white hover:bg-orange-600"
+              class="py-[6px] px-4 text-lg rounded-md bg-orange-400 text-white hover:bg-orange-600"
             >
               Save
             </button>
+            <button
+              type="button"
+              class="py-[6px] px-3 text-lg rounded-md bg-blue-500 text-white hover:bg-blue-700"
+              (click)="onChangePassword()"
+            >
+              Change Password
+            </button>
           </div>
         </form>
-
-        <ng-container *ngIf="showModal">
+        <!-- modal thong bao -->
+        <ng-container *ngIf="showModal || changePassword">
           <div
             class="dialog-modal w-[320px] h-[180px] absolute top-[30%] left-[30%] border z-auto bg-slate-50 border-slate-500 text-center rounded-md shadow-md"
           >
             <h2 class="text-3xl my-2">Thông báo</h2>
-            <p class="text-green-400 text-lg my-4">
-              Thông tin đã được cập nhật
-            </p>
+            <p class="text-blue-500 text-lg my-4">Thông tin đã được cập nhật</p>
             <button
               type="button"
-              (click)="close()"
-              class="p-2 mt-2 rounded-md bg-orange-500 text-white"
+              (click)="closeModal()"
+              class="p-2 mt-2 rounded-md border-2 border-slate-500 hover:bg-slate-100"
             >
               Đóng
             </button>

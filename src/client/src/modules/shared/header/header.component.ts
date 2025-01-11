@@ -4,7 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { AUTH_SERVICE } from '../../../constants/injection.constant';
 import { IAuthService } from '../../../services/auth/auth-service.interface';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faPowerOff, faUser, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faClose, faPowerOff, faUser, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-header',
@@ -16,11 +16,15 @@ import { faPowerOff, faUser, IconDefinition } from '@fortawesome/free-solid-svg-
 export class HeaderComponent {
 
   public isAuthenticated: boolean = false;
+  public isShow: boolean = false;
+  public brandLogo: string = './assets/images/brand-logo.jpg';
 
   public userInformation: any;
 
   public faUser: IconDefinition = faUser;
   public faLogout: IconDefinition = faPowerOff;
+  public faHamburger: IconDefinition = faBars;
+  public faClose: IconDefinition = faClose;
 
   constructor(@Inject(AUTH_SERVICE) private authService: IAuthService, private router: Router) {
     this.authService.isAuthenticated().subscribe((res) => {
@@ -34,6 +38,14 @@ export class HeaderComponent {
   public logout(): void {
     this.authService.logout();
     this.router.navigate(['/']);
+  }
+
+  public toggleShow(): void {
+    this.isShow = !this.isShow;
+  }
+
+  public closeHamburger(): void {
+    this.isShow = false;
   }
 
 }
