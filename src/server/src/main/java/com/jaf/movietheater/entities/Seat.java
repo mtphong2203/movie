@@ -16,19 +16,18 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "seats")
-
 public class Seat extends MasterEntity{
     @Column(name = "seat_column", nullable = false, length = 10)
     private String seat_column;
 
     @Column(name = "seat_row", nullable = false)
-    private int seat_row;
+    private String seat_row;
 
     @Column(name = "type", nullable = false)
     private SeatType type;
 
     @Column(name = "status", nullable = false)
-    private boolean status;
+    private SeatStatus status;
 
     @ManyToOne
     @JoinColumn(name = "room_id")

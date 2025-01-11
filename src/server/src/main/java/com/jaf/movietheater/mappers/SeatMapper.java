@@ -1,6 +1,7 @@
 package com.jaf.movietheater.mappers;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 import com.jaf.movietheater.dtos.seats.*;
@@ -12,5 +13,6 @@ public interface SeatMapper {
 
     Seat toEntity(SeatCreateUpdateDTO DTO,@MappingTarget Seat seat);
 
-    SeatDTO toDTO(Seat seat);
+    @Mapping(target = "roomId", source = "room.id")
+    SeatMasterDTO toDTO(Seat seat);
 }

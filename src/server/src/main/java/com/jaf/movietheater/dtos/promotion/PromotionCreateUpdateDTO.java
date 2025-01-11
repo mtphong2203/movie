@@ -5,7 +5,11 @@ import java.time.LocalDateTime;
 import com.jaf.movietheater.dtos.MasterCreateUpdateDTO;
 
 import jakarta.persistence.Column;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class PromotionCreateUpdateDTO extends MasterCreateUpdateDTO {
     @Column(name = "title", nullable = false, length = 100)
     private String title;
