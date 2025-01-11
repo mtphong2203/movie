@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.MediaType;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
@@ -43,9 +45,10 @@ public class SeatController {
     @GetMapping("/room/{roomId}")
     @Operation(summary = "Get seats by room id")
     @ApiResponse(responseCode = "200", description = "Return seats by room id")
-    public List<SeatMasterDTO> getSeatByRoomId(@PathVariable UUID roomId) {
+    public List<SeatMasterDTO> getByRoomId(@PathVariable UUID roomId) {
         return seatService.getSeatByRoomId(roomId);
     }
+
 
     @PostMapping
     @Operation(summary = "Create new seat")
@@ -61,6 +64,22 @@ public class SeatController {
         }
 
         return ResponseEntity.status(201).body(result);
+    }
+
+    @Operation(
+        summary = "Import seats from Excel file",
+        description = "Upload an Excel file to create multiple seats"
+    )
+    @PostMapping(value = "/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> importSeats(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("roomId") UUID roomId) {
+        try {
+            seatService.importSeatsFromExcel(file, roomId);
+            return ResponseEntity.ok("Seats imported successfully");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
