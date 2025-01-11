@@ -5,6 +5,8 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { IUserService } from '../../../services/user/user-service.interface';
 import { faClose, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { finalize, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -26,7 +28,11 @@ export class ProfileComponent implements OnInit {
   public isCorrect: boolean = true;
   public faClose: IconDefinition = faClose;
 
-  constructor(@Inject(USER_SERVICE) private readonly userService: IUserService) {
+  selectedFile: File | null = null;
+  uploadPercent: Observable<number | undefined> | null = null;
+  downloadURL: Observable<string> | null = null;
+
+  constructor(@Inject(USER_SERVICE) private readonly userService: IUserService, private storageFile: AngularFireStorage) {
   }
   ngOnInit(): void {
     this.createForm();
@@ -91,7 +97,6 @@ export class ProfileComponent implements OnInit {
   // open modal change password
   public onChangePassword(): void {
     this.changePassword = true;
-
   }
 
   // validate value in modal change password
@@ -140,4 +145,28 @@ export class ProfileComponent implements OnInit {
     this.changePassword = false;
   }
 
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+    }
+  }
+
+  uploadFile(): void {
+    if (!this.selectedFile) {
+      return;
+    }
+
+    const filePath = `uploads/${Date.now()}_${this.selectedFile.name}`;
+    const storageRef = this.storageFile.ref(filePath);
+    const uploadTask = storageRef.put(this.selectedFile);
+
+    this.uploadPercent = uploadTask.percentageChanges();
+
+    uploadTask.snapshotChanges().pipe(finalize(() => {
+      this.downloadURL = storageRef.getDownloadURL();
+      console.log(this.downloadURL);
+
+    })).subscribe();
+  }
 }
