@@ -24,7 +24,7 @@ public class PromotionServiceImpl implements PromotionService {
 
     @Autowired
     private PromotionRepository promotionRepository;
-    
+
     @Autowired
     private PromotionMapper promotionMapper;
     
@@ -47,10 +47,9 @@ public class PromotionServiceImpl implements PromotionService {
                 return null;
             }
 
-            Predicate namePredicate = criteriaBuilder.like(root.get("name"), "%" + keyword + "%");
-            Predicate locationPredicate = criteriaBuilder.like(root.get("location"), "%" + keyword + "%");
+            Predicate namePredicate = criteriaBuilder.like(root.get("title"), "%" + keyword + "%");
 
-            return criteriaBuilder.or(namePredicate, locationPredicate);
+            return criteriaBuilder.or(namePredicate);
         };
 
         var promotions = promotionRepository.findAll(specification, pageable);
