@@ -139,6 +139,16 @@ stages:
                         -e DB_USER='$(DB_USER)' \
                         -e DB_PASSWORD='$(DB_PASSWORD)' \
                         -e ACCESS_TOKEN_SECRET_KEY='$(ACCESS_TOKEN_SECRET_KEY)' \
+                        -e MAIL_HOST='$(MAIL_HOST)' \
+                        -e MAIL_PORT='$(MAIL_PORT)' \
+                        -e MAIL_USERNAME='$(MAIL_USERNAME)' \
+                        -e MAIL_DISPLAYNAME='$(MAIL_DISPLAYNAME)' \
+                        -e MAIL_PASSWORD='$(MAIL_PASSWORD)' \
+                        -e MAIL_SMTP_AUTH='$(MAIL_SMTP_AUTH)' \
+                        -e MAIL_SMTP_STARTTLS_ENABLE='$(MAIL_SMTP_STARTTLS_ENABLE)' \
+                        -e MAIL_SMTP_CONNECTIONTIMEOUT='$(MAIL_SMTP_CONNECTIONTIMEOUT)' \
+                        -e MAIL_SMTP_TIMEOUT='$(MAIL_SMTP_TIMEOUT)' \
+                        -e MAIL_SMTP_WRITETIMEOUT='$(MAIL_SMTP_WRITETIMEOUT)' \
                         -e ANG_APP_API_URL='$(ANG_APP_API_URL)' \
                         -e ANG_APP_URL='$(ANG_APP_URL)' \
                         -p 8080:8080 $DOCKER_USERNAME/$DOCKER_BE_IMAGE_NAME:$IMAGE_TAG

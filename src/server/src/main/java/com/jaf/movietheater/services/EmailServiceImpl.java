@@ -21,10 +21,10 @@ public class EmailServiceImpl implements EmailService {
     private SpringTemplateEngine templateEngine;
 
     // Lấy địa chỉ email và tên người gửi từ application.properties
-    @Value("${email.from}")
+    @Value("${spring.mail.username}")
     private String fromEmail;
 
-    @Value("${email.from.name}")
+    @Value("${spring.mail.displayname}")
     private String fromName;
     
     @Override
