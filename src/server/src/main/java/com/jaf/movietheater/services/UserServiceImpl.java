@@ -34,13 +34,15 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
 
     public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository,
-            UserMapper userMapper, PasswordEncoder passwordEncoder) {
+            UserMapper userMapper, PasswordEncoder passwordEncoder, EmailService emailService) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
+        this.emailService = emailService;
     }
 
     @Override
@@ -115,7 +117,7 @@ public class UserServiceImpl implements UserService {
 
         return userMasters;
     }
-
+    
     @Override
     public UserMasterDTO create(UserCreateUpdateDTO userDTO) {
         if (userDTO == null) {
@@ -275,5 +277,7 @@ public class UserServiceImpl implements UserService {
 
         return userMaster;
     }
+
+        
 
 }

@@ -1,44 +1,54 @@
 package com.jaf.movietheater.controller;
 
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import com.jaf.movietheater.dtos.promotion.PromotionCreateUpdateDTO;
-import com.jaf.movietheater.dtos.promotion.PromotionMasterDTO;
-import com.jaf.movietheater.dtos.promotion.PromotionSearchDTO;
+import com.jaf.movietheater.dtos.promotion.*;
+import com.jaf.movietheater.mappers.CustomPagedResponse;
 import com.jaf.movietheater.services.PromotionService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/promotions")
+@Tag(name = "Promotion APIs", description = "Promotion Management")
 public class PromotionController {
     @Autowired
     private PromotionService promotionService;
+
+    @Autowired
     private PagedResourcesAssembler<PromotionMasterDTO> pagedResourcesAssembler;
 
     @GetMapping
     @Operation(summary = "Get all promotions")
     @ApiResponse(responseCode = "200", description = "Return all promotions")
-    public ResponseEntity<?> index(
-            @RequestParam(required = false) String keyword,
-            @RequestParam(required = false, defaultValue = "name") String sortBy, // Xac dinh truong sap xep
-            @RequestParam(required = false, defaultValue = "asc") String order, // Xac dinh chieu sap xep
-            @RequestParam(required = false, defaultValue = "0") Integer page,
-            @RequestParam(required = false, defaultValue = "10") Integer size) {
+    public ResponseEntity<List<PromotionMasterDTO>> getAll() {
+        var promotionDTOs = promotionService.getAll();
+        return ResponseEntity.ok(promotionDTOs);
+    }
+
+    @GetMapping("/search")
+    @Operation(summary = "Search promotions with pagination")
+    @ApiResponse(responseCode = "200", description = "Return promotions that match the keyword with pagination")
+    public ResponseEntity<?> getPagination(@RequestParam(required = false) String keyword,
+            @RequestParam(required = false, defaultValue = "title") String sortBy,
+            @RequestParam(required = false, defaultValue = "asc") String order,
+            @RequestParam(required = false, defaultValue = "0") int page,
+            @RequestParam(required = false, defaultValue = "10") int size) {
         Pageable pageable = null;
 
         if (order.equals("asc")) {
@@ -47,34 +57,16 @@ public class PromotionController {
             pageable = PageRequest.of(page, size, Sort.by(sortBy).descending());
         }
 
-        var result = promotionService.getAll(keyword, pageable);
-        var pagedModel = pagedResourcesAssembler.toModel(result);
+        var promotionDTOs = promotionService.getAll(keyword, pageable);
 
-        return ResponseEntity.ok(pagedModel);
-    }
+        var pageModel = pagedResourcesAssembler.toModel(promotionDTOs);
 
-    @GetMapping("/search")
-    @Operation(summary = "Search promotions by name or location")
-    @ApiResponse(responseCode = "200", description = "Return promotions by name or location")
-    public ResponseEntity<?> search(@RequestBody PromotionSearchDTO promotionSearchDTO) {
-        Pageable pageable = PageRequest.of(promotionSearchDTO.getPage(), promotionSearchDTO.getSize(),
-                Sort.by(Sort.Direction.fromString(promotionSearchDTO.getDirection().toString()),
-                        promotionSearchDTO.getSort()));
+        Collection<EntityModel<PromotionMasterDTO>> data = pageModel.getContent();
 
-        var result = promotionService.getAll(promotionSearchDTO.getKeyword(), pageable);
+        var links = pageModel.getLinks();
 
-        // Convert to PagedModel
-        var pagedModel = pagedResourcesAssembler.toModel(result);
+        var response = new CustomPagedResponse<EntityModel<PromotionMasterDTO>>(data, pageModel.getMetadata(), links);
 
-        // Extract content without links
-        List<PromotionMasterDTO> contentWithoutLinks = pagedModel.getContent().stream()
-                .map(entityModel -> entityModel.getContent())
-                .collect(Collectors.toList());
-
-        var response = new HashMap<String, Object>();
-        response.put("items", contentWithoutLinks);
-        response.put("page", pagedModel.getMetadata());
-        response.put("links", pagedModel.getLinks());
         return ResponseEntity.ok(response);
     }
 
@@ -87,11 +79,10 @@ public class PromotionController {
         return ResponseEntity.ok(promotionDTO);
     }
 
-    @PostMapping()
+    @PostMapping
     @Operation(summary = "Create new promotion")
-    @ApiResponse(responseCode = "200", description = "Return new promotion")
-    @ApiResponse(responseCode = "400", description = "Return error message")
-    public ResponseEntity<?> create(@Valid @RequestBody PromotionCreateUpdateDTO promotionCreateDTO,
+    @ApiResponse(responseCode = "201", description = "Return new promotion")
+    public ResponseEntity<?> create(@RequestBody @Valid PromotionCreateUpdateDTO promotionCreateDTO,
             BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
@@ -103,16 +94,14 @@ public class PromotionController {
             return ResponseEntity.badRequest().body("Failed to create promotion");
         }
 
-        return ResponseEntity.ok(result);
+        return ResponseEntity.status(201).body(result);
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Edit promotion by id")
-    @ApiResponse(responseCode = "200", description = "Return edited promotion")
-    @ApiResponse(responseCode = "400", description = "Return error message")
+    @Operation(summary = "Update promotion")
+    @ApiResponse(responseCode = "200", description = "Return updated promotion")
     public ResponseEntity<?> update(@PathVariable UUID id,
-            @RequestBody @Valid PromotionCreateUpdateDTO promotionCreateUpdateDTO,
-            BindingResult bindingResult) {
+            @RequestBody @Valid PromotionCreateUpdateDTO promotionCreateUpdateDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
         }
@@ -120,14 +109,14 @@ public class PromotionController {
         var result = promotionService.update(id, promotionCreateUpdateDTO);
 
         if (result == null) {
-            return ResponseEntity.badRequest().body("Failed to create promotion");
+            return ResponseEntity.badRequest().body("Failed to update promotion");
         }
 
         return ResponseEntity.ok(result);
     }
 
-    @DeleteMapping("{id}")
-    @Operation(summary = "Delete promotion by id")
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Delete promotion")
     @ApiResponse(responseCode = "200", description = "Return true if delete success")
     public ResponseEntity<Boolean> delete(@PathVariable UUID id) {
         var result = promotionService.deleteById(id);

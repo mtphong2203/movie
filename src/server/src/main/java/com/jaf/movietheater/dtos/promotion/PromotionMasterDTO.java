@@ -4,8 +4,11 @@ import java.time.LocalDateTime;
 
 import com.jaf.movietheater.dtos.MasterDTO;
 
-import jakarta.persistence.Column;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class PromotionMasterDTO extends MasterDTO {
     private String title;
 

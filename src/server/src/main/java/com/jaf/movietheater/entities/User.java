@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
+import com.jaf.movietheater.enums.Gender;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -12,7 +14,15 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "users")
 public class User extends MasterEntity {
@@ -31,13 +41,13 @@ public class User extends MasterEntity {
 
     private LocalDate dateOfBirth;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Gender gender;
 
     @Column(nullable = false, unique = true, columnDefinition = "NVARCHAR(50)")
     private String email;
 
-    @Column(nullable = false, unique = true, columnDefinition = "NVARCHAR(25)")
+    @Column(nullable = true, unique = true, columnDefinition = "NVARCHAR(25)")
     private String phoneNumber;
 
     @Column(columnDefinition = "NVARCHAR(50)")
@@ -52,114 +62,11 @@ public class User extends MasterEntity {
     @Column(nullable = false)
     private String password;
 
-    // relationship
-
+    // Many to many
     @ManyToMany()
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-    // getter and setter
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
-    public String getDisplayName() {
-        return this.firstName + " " + this.lastName;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public Gender getGender() {
-        return gender;
-    }
-
-    public void setGender(Gender gender) {
-        this.gender = gender;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getIdentityCard() {
-        return identityCard;
-    }
-
-    public void setIdentityCard(String identityCard) {
-        this.identityCard = identityCard;
-    }
-
-    public String getThumbnailUrl() {
-        return thumbnailUrl;
-    }
-
-    public void setThumbnailUrl(String thumbnailUrl) {
-        this.thumbnailUrl = thumbnailUrl;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    @OneToMany(mappedBy = "user")
+    private List<Invoice> invoices;
 }

@@ -11,4 +11,6 @@ public interface AuthService {
     UserMasterDTO register(RegisterRequestDTO registerDTO);
 
     UserDTO getUserInformation(String username);
+
+    String registerByEmail(String email);
 }

@@ -1,19 +1,24 @@
 package com.jaf.movietheater.dtos.seats;
 
-import com.jaf.movietheater.entities.SeatType;
-import lombok.Data;
+import java.util.UUID;
 
+import com.jaf.movietheater.dtos.MasterCreateUpdateDTO;
+import com.jaf.movietheater.entities.SeatStatus;
+import com.jaf.movietheater.enums.SeatType;
+
+import lombok.*;
 import jakarta.validation.constraints.NotNull;
-@Data
-public class SeatCreateUpdateDTO {
+@Getter
+@Setter
+public class SeatCreateUpdateDTO extends MasterCreateUpdateDTO {
     @NotNull
-    private String seatColumn;
+    private String seat_column;
     @NotNull
-    private int seatRow;
+    private String seat_row;
     @NotNull
     private SeatType type;
     @NotNull
-    private boolean status;
+    private SeatStatus status;
     @NotNull
-    private Long roomId;
+    private UUID roomId;
 }

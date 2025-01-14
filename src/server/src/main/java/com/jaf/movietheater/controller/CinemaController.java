@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -26,17 +27,23 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/api/v1/cinemas")
 public class CinemaController {
+
+    private final CinemaService cinemaService;
+    private final PagedResourcesAssembler<CinemaMasterDTO> pagedResourcesAssembler;
+
     @Autowired
-    private CinemaService cinemaService;
-    private PagedResourcesAssembler<CinemaMasterDTO> pagedResourcesAssembler;
+    public CinemaController(CinemaService cinemaService, PagedResourcesAssembler<CinemaMasterDTO> pagedResourcesAssembler) {
+        this.cinemaService = cinemaService;
+        this.pagedResourcesAssembler = pagedResourcesAssembler;
+    }
 
     @GetMapping
     @Operation(summary = "Get all cinemas")
     @ApiResponse(responseCode = "200", description = "Return all cinemas")
     public ResponseEntity<?> index(
             @RequestParam(required = false) String keyword,
-            @RequestParam(required = false, defaultValue = "name") String sortBy, // Xac dinh truong sap xep
-            @RequestParam(required = false, defaultValue = "asc") String order, // Xac dinh chieu sap xep
+            @RequestParam(required = false, defaultValue = "name") String sortBy,
+            @RequestParam(required = false, defaultValue = "asc") String order,
             @RequestParam(required = false, defaultValue = "0") Integer page,
             @RequestParam(required = false, defaultValue = "10") Integer size) {
         Pageable pageable = null;
@@ -53,29 +60,12 @@ public class CinemaController {
         return ResponseEntity.ok(pagedModel);
     }
 
-    @GetMapping("/search")
-    @Operation(summary = "Search cinemas by name or location")
-    @ApiResponse(responseCode = "200", description = "Return cinemas by name or location")
-    public ResponseEntity<?> search(@RequestBody CinemaSearchDTO cinemaSearchDTO) {
-        Pageable pageable = PageRequest.of(cinemaSearchDTO.getPage(), cinemaSearchDTO.getSize(),
-                Sort.by(Sort.Direction.fromString(cinemaSearchDTO.getDirection().toString()),
-                        cinemaSearchDTO.getSort()));
-
-        var result = cinemaService.getAll(cinemaSearchDTO.getKeyword(), pageable);
-
-        // Convert to PagedModel
-        var pagedModel = pagedResourcesAssembler.toModel(result);
-
-        // Extract content without links
-        List<CinemaMasterDTO> contentWithoutLinks = pagedModel.getContent().stream()
-                .map(entityModel -> entityModel.getContent())
-                .collect(Collectors.toList());
-
-        var response = new HashMap<String, Object>();
-        response.put("items", contentWithoutLinks);
-        response.put("page", pagedModel.getMetadata());
-        response.put("links", pagedModel.getLinks());
-        return ResponseEntity.ok(response);
+    @GetMapping("/searchByName")
+    @Operation(summary = "Search by name")
+    @ApiResponse(responseCode = "200")
+    public ResponseEntity<List<CinemaMasterDTO>> searchByName(@RequestParam(required = false) String keyword) {
+        var cinemaMasters = cinemaService.searchByName(keyword);
+        return ResponseEntity.ok(cinemaMasters);
     }
 
     @GetMapping("/{id}")

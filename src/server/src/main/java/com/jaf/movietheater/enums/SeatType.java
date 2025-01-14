@@ -1,4 +1,4 @@
-package com.jaf.movietheater.entities;
+package com.jaf.movietheater.enums;
 
 public enum SeatType {
     NORMAL, VIP, DELUXE, COUPLE, DISABLED

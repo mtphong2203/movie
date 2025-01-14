@@ -13,7 +13,7 @@ import com.jaf.movietheater.entities.Movie;
 
 @Mapper(componentModel= MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy=ReportingPolicy.IGNORE)
 public interface MovieMapper {
-        MovieDTO toDTO(Movie entity);
+    MovieDTO toDTO(Movie entity);
 
     MovieMasterDTO toMasterDTO(Movie entity);
 

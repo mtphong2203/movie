@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thông Tin Tài Khoản - JAF Cinema</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #f8f8f8;
+        margin: 0;
+        padding: 0;
+        color: #333;
+      }
+      .email-container {
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      .email-header {
+        background-color: #ff5733;
+        color: #ffffff;
+        text-align: center;
+        padding: 30px 20px;
+        font-size: 24px;
+        font-weight: bold;
+      }
+      .email-body {
+        padding: 30px;
+        font-size: 16px;
+        color: #555555;
+      }
+      .email-footer {
+        background-color: #f4f4f4;
+        text-align: center;
+        padding: 20px;
+        font-size: 12px;
+        color: #777777;
+      }
+      .highlight {
+        font-weight: bold;
+        color: #333333;
+      }
+      .cta-btn {
+        display: inline-block;
+        background-color:rgb(51, 51, 255);
+        color: white;
+        padding: 10px 20px;
+        font-size: 16px;
+        text-decoration: none;
+        border-radius: 5px;
+        margin-top: 20px;
+      }
+      .cta-btn:hover {
+        background-color:rgb(248, 189, 95); 
+      }
+      .logo {
+        width: 150px;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="email-container">
+      <div class="email-header">
+        <h2>Chào mừng đến với JAF Cinema!</h2>
+      </div>
+      <div class="email-body">
+        <p>Xin chào <span th:text="${username}">Tên người dùng</span>,</p>
+        <p>
+          Cảm ơn bạn đã đăng ký tài khoản tại <strong>JAF Cinema</strong>. Dưới
+          đây là thông tin tài khoản của bạn:
+        </p>
+        <p>
+          <span class="highlight">Tên tài khoản:</span>
+          <span th:text="${username}"></span>
+        </p>
+        <p>
+          <span class="highlight">Mật khẩu:</span>
+          <span th:text="${password}"></span>
+        </p>
+        <p>
+          Vui lòng thay đổi mật khẩu của bạn ngay sau lần đăng nhập đầu tiên để
+          bảo mật tài khoản của bạn.
+        </p>
+        <p>
+          Chúc bạn có những trải nghiệm tuyệt vời tại
+          <strong>JAF Cinema</strong>! Hãy đặt vé và thưởng thức những bộ phim
+          hay nhất ngay hôm nay.
+        </p>
+        <a href="" class="cta-btn">Đặt vé ngay!</a>
+      </div>
+      <div class="email-footer">
+        <p>Đây là email tự động. Vui lòng không trả lời email này.</p>
+        <p>
+          <img
+            src=""
+            alt="JAF Cinema Logo"
+            class="logo"
+          />
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

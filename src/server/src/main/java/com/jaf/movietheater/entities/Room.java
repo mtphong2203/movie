@@ -27,9 +27,19 @@ public class Room extends MasterEntity{
     @Column(name = "capacity", nullable = false)
     private int capacity;
 
+    @Column(name = "type", nullable = false)
+    private RoomType type;
+
+    // OneToMany
+    // room - seats
     @OneToMany(mappedBy = "room")
     private Set<Seat> seats;
 
+    @OneToMany(mappedBy = "room")
+    private Set<MovieScheduleShowDateRoom> movieScheduleShowDateRooms;
+
+    // ManyToOne
+    // Cinema
     @ManyToOne
     @JoinColumn(name = "cinema_id")
     private Cinema cinema;

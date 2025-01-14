@@ -24,6 +24,8 @@ public class CinemaServiceImpl implements CinemaService {
 
     @Autowired
     private CinemaRepository cinemaRepository;
+
+    @Autowired
     private CinemaMapper cinemaMapper;
 
     @Override
@@ -121,6 +123,26 @@ public class CinemaServiceImpl implements CinemaService {
         cinemaRepository.delete(cinema);
 
         return true;
+    }
+
+    @Override
+    public List<CinemaMasterDTO> searchByName(String keyword) {
+        Specification<Cinema> spec = (root, query, cb) -> {
+            if (keyword == null) {
+                return null;
+            }
+
+            return cb.like(cb.lower(root.get("name")), "%" + keyword.toLowerCase() + "%");
+        };
+
+        List<Cinema> cinemas = cinemaRepository.findAll(spec);
+
+        List<CinemaMasterDTO> cinemaMasters = cinemas.stream().map(cinema -> {
+            var cinemaMaster = cinemaMapper.toMasterDTO(cinema);
+            return cinemaMaster;
+        }).toList();
+
+        return cinemaMasters;
     }
 
 }

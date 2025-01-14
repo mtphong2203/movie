@@ -30,6 +30,7 @@ public class TokenServiceImpl implements TokenService {
     @Value("${app.security.access-token-expired-in-second}")
     private Integer expireTime;
 
+    @Override
     public String generateAccessToken(Authentication authentication) {
         String roles = authentication.getAuthorities().stream().map(Object::toString).collect(Collectors.joining(","));
 
@@ -80,6 +81,7 @@ public class TokenServiceImpl implements TokenService {
         }
     }
 
+    @Override
     public Authentication getAuthentication(String jwtToken) {
         return parseAccessToken(jwtToken);
     }
