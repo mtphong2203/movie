@@ -77,4 +77,13 @@ public class AuthController {
         return ResponseEntity.ok(result);
     }
 
+    @PostMapping("/registerByEmail")
+    @Operation(summary = "Register by email")
+    @ApiResponse(responseCode = "200")
+    public ResponseEntity<?> registerByEmail(@RequestParam String email) {
+        var result = authService.registerByEmail(email);
+
+        return ResponseEntity.ok(result);
+    }
+
 }

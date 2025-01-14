@@ -31,13 +31,13 @@ public class User extends MasterEntity {
 
     private LocalDate dateOfBirth;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Gender gender;
 
     @Column(nullable = false, unique = true, columnDefinition = "NVARCHAR(50)")
     private String email;
 
-    @Column(nullable = false, unique = true, columnDefinition = "NVARCHAR(25)")
+    @Column(nullable = true, unique = true, columnDefinition = "NVARCHAR(25)")
     private String phoneNumber;
 
     @Column(columnDefinition = "NVARCHAR(50)")
