@@ -4,7 +4,8 @@ import java.util.UUID;
 
 import com.jaf.movietheater.dtos.MasterCreateUpdateDTO;
 import com.jaf.movietheater.entities.SeatStatus;
-import com.jaf.movietheater.entities.SeatType;
+import com.jaf.movietheater.enums.SeatType;
+
 import lombok.*;
 import jakarta.validation.constraints.NotNull;
 @Getter

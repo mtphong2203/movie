@@ -3,7 +3,7 @@ package com.jaf.movietheater.services;
 import com.jaf.movietheater.dtos.seats.*;
 import com.jaf.movietheater.entities.Seat;
 import com.jaf.movietheater.entities.SeatStatus;
-import com.jaf.movietheater.entities.SeatType;
+import com.jaf.movietheater.enums.SeatType;
 import com.jaf.movietheater.repository.RoomRepository;
 import com.jaf.movietheater.repository.SeatRepository;
 

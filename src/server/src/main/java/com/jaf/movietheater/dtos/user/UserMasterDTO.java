@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.Set;
 
 import com.jaf.movietheater.dtos.MasterDTO;
-import com.jaf.movietheater.entities.Gender;
+import com.jaf.movietheater.enums.Gender;
 
 public class UserMasterDTO extends MasterDTO {
 

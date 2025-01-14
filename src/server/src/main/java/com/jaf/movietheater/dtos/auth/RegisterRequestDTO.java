@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 import org.hibernate.validator.constraints.Length;
 
-import com.jaf.movietheater.entities.Gender;
+import com.jaf.movietheater.enums.Gender;
 
 import jakarta.validation.constraints.NotNull;
 

@@ -6,23 +6,23 @@ import org.mapstruct.MappingConstants;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.ReportingPolicy;
 
-import com.jaf.movietheater.dtos.movie.MovieCreateUpdateDTO;
-import com.jaf.movietheater.dtos.movie.MovieDTO;
-import com.jaf.movietheater.dtos.movie.MovieMasterDTO;
-import com.jaf.movietheater.entities.Movie;
+import com.jaf.movietheater.dtos.schedule.ScheduleCreateUpdateDTO;
+import com.jaf.movietheater.dtos.schedule.ScheduleDTO;
+import com.jaf.movietheater.dtos.schedule.ScheduleMasterDTO;
+import com.jaf.movietheater.entities.Schedule;
 
 @Mapper(componentModel= MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy=ReportingPolicy.IGNORE)
-public interface MovieMapper {
-    MovieDTO toDTO(Movie entity);
+public interface ScheduleMapper {
+    ScheduleDTO toDTO(Schedule entity);
 
-    MovieMasterDTO toMasterDTO(Movie entity);
+    ScheduleMasterDTO toMasterDTO(Schedule entity);
 
-    Movie toEntity(MovieCreateUpdateDTO dto);
+    Schedule toEntity(ScheduleCreateUpdateDTO dto);
 
     // Keep the insertedAt, updatedAt, deletedAt, isActive fields as they are
     @Mapping(target="createdAt", ignore=true)
     @Mapping(target="updatedAt", ignore=true)
     @Mapping(target="deletedAt", ignore=true)
     @Mapping(target="active", ignore=true)
-    void updatedEntity(MovieCreateUpdateDTO dto, @MappingTarget Movie entity);
+    void updatedEntity(ScheduleCreateUpdateDTO dto, @MappingTarget Schedule entity);
 }

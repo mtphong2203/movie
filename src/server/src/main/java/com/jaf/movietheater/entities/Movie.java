@@ -1,11 +1,24 @@
 package com.jaf.movietheater.entities;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name="movies")
 public class Movie extends MasterEntity{
@@ -39,101 +52,12 @@ public class Movie extends MasterEntity{
     @Column(name="large_image")
     private String thumbnailUrl;
 
+    // One to many
+    @OneToMany(mappedBy = "movie")
+    private Set<MovieScheduleShowDateRoom> movieScheduleShowDateRooms;
 
-    public Movie(String name, String version, String actor, String director, String content, int duration,
-            LocalDate fromDate, LocalDate toDate, String movieCompany, String thumbnailUrl) {
-        this.name = name;
-        this.version = version;
-        this.actor = actor;
-        this.director = director;
-        this.content = content;
-        this.duration = duration;
-        this.fromDate = fromDate;
-        this.toDate = toDate;
-        this.movieCompany = movieCompany;
-        this.thumbnailUrl = thumbnailUrl;
-    }
-
-    public Movie() {
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    public String getActor() {
-        return actor;
-    }
-
-    public void setActor(String actor) {
-        this.actor = actor;
-    }
-
-    public String getDirector() {
-        return director;
-    }
-
-    public void setDirector(String director) {
-        this.director = director;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public int getDuration() {
-        return duration;
-    }
-
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
-
-    public LocalDate getFromDate() {
-        return fromDate;
-    }
-
-    public void setFromDate(LocalDate fromDate) {
-        this.fromDate = fromDate;
-    }
-
-    public LocalDate getToDate() {
-        return toDate;
-    }
-
-    public void setToDate(LocalDate toDate) {
-        this.toDate = toDate;
-    }
-
-    public String getMovieCompany() {
-        return movieCompany;
-    }
-
-    public void setMovieCompany(String movieCompany) {
-        this.movieCompany = movieCompany;
-    }
-
-    public String getThumbnailUrl() {
-        return thumbnailUrl;
-    }
-
-    public void setThumbnailUrl(String thumbnailUrl) {
-        this.thumbnailUrl = thumbnailUrl;
-    }
+    // Many to many
+    @ManyToMany
+    @JoinTable(name = "movie_movie_types", joinColumns = @JoinColumn(name="movie_id"), inverseJoinColumns = @JoinColumn(name="movie_type_id"))
+    private Set<MovieType> movieTypes;
 }

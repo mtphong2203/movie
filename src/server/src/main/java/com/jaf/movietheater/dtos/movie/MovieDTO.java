@@ -13,7 +13,7 @@ public class MovieDTO extends BaseDTO{
     private String movieCompany;
 
     private int duration;
-
+ 
     private String version;
 
     // Getter and Setter
