@@ -1,8 +1,6 @@
-<div class="card border-2 border-slate-200 rounded-md">
-  <div class="card-header border-b-2 p-2">
-    <h1 class="text-2xl font-medium">
-      {{ isEdit ? "Edit" : "Create" }} Service
-    </h1>
+<div class="card border border-slate-400 bg-gray-50 rounded-sm">
+  <div class="card-header border-b border-slate-400 p-2">
+    <h1 class="text-2xl font-medium">{{ isEdit ? "Edit" : "Create" }} User</h1>
   </div>
   <form [formGroup]="form" (ngSubmit)="onSubmit()" class="p-4">
     <div class="row flex justify-between gap-4">
@@ -10,7 +8,7 @@
         <label class="text-lg" for="firstName">FirstName</label>
         <input
           type="text"
-          class="w-full border border-slate-400 rounded-md p-1 text-black"
+          class="w-full border border-slate-400 rounded-sm p-1 text-black"
           formControlName="firstName"
           id="firsName"
           placeholder="Enter first name"
@@ -20,7 +18,7 @@
         <label class="text-lg" for="lastName">LastName</label>
         <input
           type="text"
-          class="w-full border border-slate-400 rounded-md p-1 text-black"
+          class="w-full border border-slate-400 rounded-sm p-1 text-black"
           formControlName="lastName"
           id="lastName"
           placeholder="Enter last name"
@@ -32,7 +30,7 @@
         <label class="text-lg" for="username">Username</label>
         <input
           type="text"
-          class="w-full border border-slate-400 rounded-md p-1 text-black"
+          class="w-full border border-slate-400 rounded-sm p-1 text-black"
           formControlName="username"
           id="username"
           placeholder="Enter user name"
@@ -45,7 +43,7 @@
         <label class="text-lg" for="phoneNumber">PhoneNumber</label>
         <input
           type="text"
-          class="w-full border border-slate-400 rounded-md p-1 text-black"
+          class="w-full border border-slate-400 rounded-sm p-1 text-black"
           formControlName="phoneNumber"
           id="phoneNumber"
           placeholder="Enter phone number"
@@ -62,7 +60,7 @@
         <label class="text-lg" for="dateOfBirth">Date Of Birth</label>
         <input
           type="date"
-          class="w-full border border-slate-400 rounded-md p-[3px] text-black"
+          class="w-full border border-slate-400 rounded-sm p-[3px] text-black"
           formControlName="dateOfBirth"
           id="dateOfBirth"
         />
@@ -105,7 +103,7 @@
         <label class="text-lg" for="email">Email</label>
         <input
           type="email"
-          class="w-full border border-slate-400 rounded-md p-1 text-black"
+          class="w-full border border-slate-400 rounded-sm p-1 text-black"
           formControlName="email"
           id="email"
           placeholder="Enter email"
@@ -118,7 +116,7 @@
         <label class="text-lg" for="address">Address</label>
         <input
           type="text"
-          class="w-full border border-slate-400 rounded-md p-1 text-black"
+          class="w-full border border-slate-400 rounded-sm p-1 text-black"
           formControlName="address"
           id="address"
           placeholder="Enter address"
@@ -131,7 +129,7 @@
           <label class="text-lg" for="password">Password</label>
           <input
             type="password"
-            class="w-full border border-slate-400 rounded-md p-1 text-black"
+            class="w-full border border-slate-400 rounded-sm p-1 text-black"
             formControlName="password"
             id="password"
             placeholder="Enter password"
@@ -146,7 +144,7 @@
           <label class="text-lg" for="confirmPassword">Confirm Password</label>
           <input
             type="password"
-            class="w-full border border-slate-400 rounded-md p-1 text-black"
+            class="w-full border border-slate-400 rounded-sm p-1 text-black"
             formControlName="confirmPassword"
             id="confirmPassword"
             placeholder="Confirm password"
@@ -160,7 +158,7 @@
       </div>
     </ng-container>
 
-    <div class="row flex justify-between gap-4 border-b-2 pb-4">
+    <div class="row flex justify-between gap-4 border-b border-slate-400 pb-4">
       <div class="form-group w-[50%] flex items-center gap-2">
         <label for="active" class="text-lg mb-1">Active</label>
         <input
@@ -175,7 +173,7 @@
         <select
           formControlName="roleName"
           id="role"
-          class="w-full border p-1 border-slate-400 rounded-md"
+          class="w-full border p-1 border-slate-400 rounded-sm"
         >
           <option value="" disabled>Select role</option>
           <option *ngFor="let item of roles" [value]="item.name">
