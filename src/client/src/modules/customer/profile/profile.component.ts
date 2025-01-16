@@ -3,7 +3,7 @@ import { USER_SERVICE } from '../../../constants/injection.constant';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IUserService } from '../../../services/user/user-service.interface';
-import { faClose, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDoubleLeft, faAngleDoubleRight, faAngleLeft, faAngleRight, faCheck, faClose, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize, Observable } from 'rxjs';
@@ -19,6 +19,14 @@ export class ProfileComponent implements OnInit {
 
   public userInformation: any;
   public selectedTab: string = 'userInfo';
+  public defaultLogo: string = './assets/images/default-profile.jpg';
+
+  public pageSizes: number[] = [5, 10, 20, 50];
+  public faRight: IconDefinition = faAngleRight;
+  public faDoubleRight: IconDefinition = faAngleDoubleRight;
+  public faLeft: IconDefinition = faAngleLeft;
+  public faDoubleLeft: IconDefinition = faAngleDoubleLeft;
+  public faCheck: IconDefinition = faCheck;
 
   public form!: FormGroup;
 

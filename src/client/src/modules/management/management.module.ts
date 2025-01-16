@@ -23,9 +23,9 @@ const routes: Routes = [
     component: AccountListComponent
   },
   {
-  path: '**',
-  redirectTo: 'roles',
-  pathMatch: 'full'
+    path: '**',
+    redirectTo: 'movies',
+    pathMatch: 'full'
   },
 ]
 
