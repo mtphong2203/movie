@@ -1,5 +1,5 @@
 <div class="hotel-service p-4">
-  <div class="card border-2 border-slate-200 rounded-md">
+  <div class="card border bg-gray-50 border-slate-400 rounded-md">
     <div class="card-header">
       <h1 class="text-2xl text-center font-medium border-b-2 p-2">
         Account Service Management
@@ -8,13 +8,13 @@
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="card-body border-b-2 p-2">
         <div class="form-group">
-          <label for="keyword" class="block mb-1">Search by username</label>
+          <label for="keyword" class="block mb-1">Search user</label>
           <input
             type="text"
             formControlName="keyword"
             id="keyword"
             placeholder="Enter keyword"
-            class="w-full rounded-md p-1 border border-slate-400"
+            class="w-full rounded-sm p-1 border border-slate-400"
           />
         </div>
       </div>

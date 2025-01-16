@@ -19,6 +19,8 @@ export class HeaderComponent {
   public isShow: boolean = false;
   public brandLogo: string = './assets/images/brand-logo.jpg';
 
+  public currentRoute: string = '';
+
   public userInformation: any;
 
   public faUser: IconDefinition = faUser;
@@ -32,6 +34,9 @@ export class HeaderComponent {
     });
     this.authService.getUserInformation().subscribe((res: any) => {
       this.userInformation = res;
+    });
+    this.router.events.subscribe(() => {
+      this.currentRoute = router.url;
     })
   }
 
@@ -46,6 +51,13 @@ export class HeaderComponent {
 
   public closeHamburger(): void {
     this.isShow = false;
+  }
+
+  isRoute(route: string): boolean {
+    if (route === '/') {
+      return this.currentRoute === '/';
+    }
+    return this.currentRoute.includes(route);
   }
 
 }
