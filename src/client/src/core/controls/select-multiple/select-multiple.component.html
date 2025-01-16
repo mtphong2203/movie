@@ -1,0 +1,17 @@
+<div class="select-control">
+    <div class="select-control flex items-center border border-slate-300 p-1 rounded-md" (click)="onToggle()">
+        <div class="selected-options flex-grow-0 flex items-center flex-wrap w-fit space-x-1">
+            <div class="option border border-slate-300 flex justify-between rounded-md" *ngFor="let option of selectedOptions">
+                <span class="p-2 block">{{ option.name }}</span>
+                <fa-icon class="p-2 text-red-500 cursor-pointer" [icon]="faTimes" (click)="onRemove(option)"></fa-icon>
+            </div>
+        </div>
+        <input type="text" class="p-2 flex-grow outline-0" [(ngModel)]="keyword" (keyup)="onSearch($event)" placeholder="Search...">
+        <fa-icon class="p-2 text-xl text-slate-300 cursor-pointer" [icon]="faAngleDown"></fa-icon>
+    </div>
+    <div class="options border border-slate-300" *ngIf="isShowOptions" #optionsContainer>
+        <div class="option" *ngFor="let option of filteredOptions" (click)="onSelect(option)">
+            <span class="p-2 block" [ngClass]="{'bg-blue-500 text-white': isSelected(option)}">{{ option.name }}</span>
+        </div>
+    </div>
+</div>

@@ -6,6 +6,11 @@ import { canActivateTeam } from '../guards/auth.guard';
 
 export const routes: Routes = [
     {
+        path: 'demo',
+        component: CustomerLayoutComponent,
+        loadChildren: () => import('./demo/demo.module').then(m => m.DemoModule)
+    },
+    {
         path: 'auth',
         component: AuthLayoutComponent,
         loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
