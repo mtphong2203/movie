@@ -18,6 +18,7 @@ export class HeaderComponent {
   public isAuthenticated: boolean = false;
   public isShow: boolean = false;
   public brandLogo: string = './assets/images/brand-logo.jpg';
+  public isShowProfileMenu: boolean = false;
 
   public currentRoute: string = '';
 
@@ -27,8 +28,20 @@ export class HeaderComponent {
   public faLogout: IconDefinition = faPowerOff;
   public faHamburger: IconDefinition = faBars;
   public faClose: IconDefinition = faClose;
+  public menuItems: any[] = [
+    { title: 'Home', route: '/', isRoute: '/' },
+    { title: 'Management', route: '/manager', isRoute: 'manager' },
+    { title: 'Services', route: '/services', isRoute: 'services' },
+    { title: 'Schedule', route: '/schedule', isRoute: 'schedule' },
+    { title: 'Ticket', route: '/ticket', isRoute: 'ticket' },
+    { title: 'Promotion', route: '/promotion', isRoute: 'promotion' },
+    { title: 'About', route: '/about', isRoute: 'about' },
+    { title: 'Contact', route: '/contact', isRoute: 'contact' }
+  ]
 
-  constructor(@Inject(AUTH_SERVICE) private authService: IAuthService, private router: Router) {
+  constructor(
+    @Inject(AUTH_SERVICE) private readonly authService: IAuthService,
+    private readonly router: Router) {
     this.authService.isAuthenticated().subscribe((res) => {
       this.isAuthenticated = res;
     });
@@ -39,6 +52,8 @@ export class HeaderComponent {
       this.currentRoute = router.url;
     })
   }
+
+  //#region Public Methods
 
   public logout(): void {
     this.authService.logout();
@@ -53,11 +68,28 @@ export class HeaderComponent {
     this.isShow = false;
   }
 
-  isRoute(route: string): boolean {
+  public isRoute(route: string): boolean {
     if (route === '/') {
       return this.currentRoute === '/';
     }
     return this.currentRoute.includes(route);
   }
 
+  public onMouseOver(): void {
+    this.isShowProfileMenu = true;
+  }
+
+  public onMouseLeave(): void {
+    this.isShowProfileMenu = false;
+  }
+
+  public onFocus(): void {
+    this.isShowProfileMenu = true;
+  }
+
+  //#endregion
+
+  //#region Private Methods
+
+  //#endregion
 }

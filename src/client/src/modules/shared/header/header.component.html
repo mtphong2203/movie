@@ -19,60 +19,12 @@
       [class.active]="isShow"
     >
       <ul class="nav-list lg:flex lg:justify-between lg:items-center">
-        <li class="nav-item">
+        <li class="nav-item" *ngFor="let item of menuItems">
           <a
-            [routerLink]="['/']"
-            [ngClass]="{ 'text-red-400': isRoute('/') }"
+            [routerLink]="[item.route]"
+            [ngClass]="{ 'text-red-400': isRoute(item.isRoute) }"
             class="nav-link block p-4 hover:text-red-400"
-            >Home</a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            [routerLink]="['/manager']"
-            [ngClass]="{ 'text-red-400': isRoute('manager') }"
-            class="nav-link block p-4 hover:text-red-400"
-            >Management</a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            [routerLink]="['/schedule']"
-            [ngClass]="{ 'text-red-400': isRoute('schedule') }"
-            class="nav-link block p-4 hover:text-red-400"
-            >Schedule</a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            [routerLink]="['/ticket']"
-            [ngClass]="{ 'text-red-400': isRoute('ticket') }"
-            class="nav-link block p-4 hover:text-red-400"
-            >Ticket</a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            [routerLink]="['/promotion']"
-            [ngClass]="{ 'text-red-400': isRoute('promotion') }"
-            class="nav-link block p-4 hover:text-red-400"
-            >Promotion</a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            [routerLink]="['/about']"
-            [ngClass]="{ 'text-red-400': isRoute('about') }"
-            class="nav-link block p-4 hover:text-red-400"
-            >About</a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            [routerLink]="['/contact']"
-            [ngClass]="{ 'text-red-400': isRoute('contact') }"
-            class="nav-link block p-4 hover:text-red-400"
-            >Contact</a
+            >{{item.title}}</a
           >
         </li>
       </ul>
@@ -84,7 +36,7 @@
       </button>
     </nav>
     <!-- Profile Menu -->
-    <div class="profile-menu">
+    <div class="profile-menu h-full">
       <ng-container *ngIf="!isAuthenticated; else authenticated">
         <ng-container *ngTemplateOutlet="notAuthenticated"></ng-container>
       </ng-container>
@@ -111,23 +63,29 @@
   </ul>
 </ng-template>
 <ng-template #authenticated>
-  <ul class="flex justify-between items-center gap-2">
-    <li class="profile-item">
-      <a
-        [routerLink]="['/profile']"
-        class="profile-link flex items-center gap-2 p-4 hover:text-gray-500"
-        ><fa-icon [icon]="faUser" class="cursor-pointer"></fa-icon> Welcome,
-        {{ userInformation.username }}
+  <div class="flex justify-between items-center gap-2">
+    <div class="profile-item relative" (mouseover)="onMouseOver()" (mouseleave)="onMouseLeave()" onfocus="onFocus()" aria-hidden="true">
+      <a [routerLink]="['/profile']"
+        class="profile-link flex items-center gap-2 p-4 hover:text-gray-500">
+        <fa-icon [icon]="faUser" class="cursor-pointer"></fa-icon> 
+        Welcome, {{ userInformation.username }}
       </a>
-    </li>
-    <li class="profile-item">
-      <a
-        (click)="logout()"
-        class="profile-link cursor-pointer block p-4 hover:text-gray-500"
-      >
-        <fa-icon [icon]="faLogout"></fa-icon>
-        Logout
-      </a>
-    </li>
-  </ul>
+      <ul class="dropdown-list bg-white w-48 absolute top-[58px] right-4 hidden z-10 border border-slate-300 rounded-md shadow-md" [ngClass]="{'!block': isShowProfileMenu}">
+        <li class="profile-item">
+          <a [routerLink]="['/profile']"
+            class="profile-link cursor-pointer block p-4 hover:text-gray-500">
+            <fa-icon [icon]="faUser" class="mr-2"></fa-icon>
+            Profile
+          </a>
+        </li>
+        <li class="profile-item">
+          <a (click)="logout()"
+            class="profile-link cursor-pointer block p-4 hover:text-gray-500">
+            <fa-icon [icon]="faLogout" class="mr-2"></fa-icon>
+            Logout
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
 </ng-template>
