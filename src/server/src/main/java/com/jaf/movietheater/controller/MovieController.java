@@ -66,7 +66,7 @@ public class MovieController {
     @GetMapping("/search-paginated")
     @Operation(summary = "Search movies with pagination")
     @ApiResponse(responseCode = "200", description = "Return movies that match the keyword with pagination")
-    public ResponseEntity<?> getPagination(@RequestParam(required=false) String keyword, @RequestParam(required=false, defaultValue="name") String sortBy, @RequestParam(required=false, defaultValue="asc") String order, @RequestParam(required=false, defaultValue="0") int page, @RequestParam(required=false, defaultValue="10") int size) {
+    public ResponseEntity<?> getPagination(@RequestParam(required=false) String keyword, @RequestParam(required=false, defaultValue="name") String sortBy, @RequestParam(required=false, defaultValue="asc") String order, @RequestParam(required=false, defaultValue="0") int page, @RequestParam(required=false, defaultValue="15") int size) {
         Pageable pageable = null;
 
         if (order.equals("asc")) {

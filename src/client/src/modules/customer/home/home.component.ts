@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCircle, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { HomeMovieDetailsComponent } from "./home-movie-details/home-movie-details.component";
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [FontAwesomeModule, ReactiveFormsModule],
+  imports: [FontAwesomeModule, ReactiveFormsModule, HomeMovieDetailsComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
