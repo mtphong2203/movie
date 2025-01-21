@@ -31,7 +31,6 @@ export class HeaderComponent {
   public menuItems: any[] = [
     { title: 'Home', route: '/', isRoute: '/' },
     { title: 'Management', route: '/manager', isRoute: 'manager' },
-    { title: 'Services', route: '/services', isRoute: 'services' },
     { title: 'Schedule', route: '/schedule', isRoute: 'schedule' },
     { title: 'Ticket', route: '/ticket', isRoute: 'ticket' },
     { title: 'Promotion', route: '/promotion', isRoute: 'promotion' },
