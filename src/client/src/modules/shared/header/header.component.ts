@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject } from '@angular/core';
+import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AUTH_SERVICE } from '../../../constants/injection.constant';
 import { IAuthService } from '../../../services/auth/auth-service.interface';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faBars, faClose, faPowerOff, faUser, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faChevronDown, faClose, faPowerOff, faUser, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-header',
@@ -13,12 +13,13 @@ import { faBars, faClose, faPowerOff, faUser, IconDefinition } from '@fortawesom
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
 
   public isAuthenticated: boolean = false;
   public isShow: boolean = false;
   public brandLogo: string = './assets/images/brand-logo.jpg';
   public isShowProfileMenu: boolean = false;
+  public isDropdownVisible: boolean = false;
 
   public currentRoute: string = '';
 
@@ -28,14 +29,14 @@ export class HeaderComponent {
   public faLogout: IconDefinition = faPowerOff;
   public faHamburger: IconDefinition = faBars;
   public faClose: IconDefinition = faClose;
+  public faDown: IconDefinition = faChevronDown;
+
   public menuItems: any[] = [
     { title: 'Home', route: '/', isRoute: '/' },
     { title: 'Management', route: '/manager', isRoute: 'manager' },
     { title: 'Schedule', route: '/schedule', isRoute: 'schedule' },
     { title: 'Ticket', route: '/ticket', isRoute: 'ticket' },
     { title: 'Promotion', route: '/promotion', isRoute: 'promotion' },
-    { title: 'About', route: '/about', isRoute: 'about' },
-    { title: 'Contact', route: '/contact', isRoute: 'contact' }
   ]
 
   constructor(
@@ -51,6 +52,23 @@ export class HeaderComponent {
       this.currentRoute = router.url;
     })
   }
+  ngOnInit(): void {
+    this.handleResize(window.innerWidth);
+  }
+
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any): void {
+    this.handleResize(event.target.innerWidth);
+  }
+
+  private handleResize(screenWidth: number): void {
+    if (screenWidth > 768) {
+      this.isShow = true;
+    } else {
+      this.isShow = false;
+    }
+  }
 
   //#region Public Methods
 
@@ -59,12 +77,8 @@ export class HeaderComponent {
     this.router.navigate(['/']);
   }
 
-  public toggleShow(): void {
-    this.isShow = !this.isShow;
-  }
-
-  public closeHamburger(): void {
-    this.isShow = false;
+  public toggleShow(state: boolean): void {
+    this.isShow = state;
   }
 
   public isRoute(route: string): boolean {
@@ -84,6 +98,10 @@ export class HeaderComponent {
 
   public onFocus(): void {
     this.isShowProfileMenu = true;
+  }
+
+  public toggleDropdown(state: boolean) {
+    this.isDropdownVisible = state;
   }
 
   //#endregion
