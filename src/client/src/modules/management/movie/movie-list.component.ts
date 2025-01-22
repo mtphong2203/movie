@@ -18,7 +18,7 @@ import { PageInfo, ResponseData } from '../../../models/response.model';
   templateUrl: './movie-list.component.html',
   styleUrl: './movie-list.component.css'
 })
-export class MovieListComponent implements OnInit{
+export class MovieListComponent implements OnInit {
   // PROPERTIES
   // property for show detail
   public isShowDetails: boolean = false;
@@ -47,15 +47,15 @@ export class MovieListComponent implements OnInit{
 
   // ConfigColums for table component
   public configsColumn: any[] = [
-    {name: 'name', title: 'MovieName'},
-    {name: 'formDate', title: 'FromDate'},
-    {name: 'movieCompany', title: 'MovieCompany'},
-    {name: 'duration', title: 'Duration'},
-    {name: 'version', title: 'Version'},
+    { name: 'name', title: 'MovieName' },
+    { name: 'formDate', title: 'FromDate' },
+    { name: 'movieCompany', title: 'MovieCompany' },
+    { name: 'duration', title: 'Duration' },
+    { name: 'version', title: 'Version' },
   ]
 
   // CONSTRUCTOR
-  constructor(@Inject(MOVIE_SERVICE) private movieSevice: IMovie) {}
+  constructor(@Inject(MOVIE_SERVICE) private readonly movieService: IMovie) { }
 
   // METHODS
   ngOnInit(): void {
@@ -70,7 +70,7 @@ export class MovieListComponent implements OnInit{
       page: this.currentPageNumber,
       size: this.currentPageSize,
     };
-    this.movieSevice.search(params).subscribe((result: ResponseData<MovieMasterDTO>) => {
+    this.movieService.search(params).subscribe((result: ResponseData<MovieMasterDTO>) => {
       // Chi gan data._embedded.movieMasterDTOList cho data
       this.data = result.data
       // Update pagination properties
@@ -95,7 +95,7 @@ export class MovieListComponent implements OnInit{
 
   // delete method for movie item
   public onDelete(id: string): void {
-    this.movieSevice.delete(id).subscribe((result: boolean) => {
+    this.movieService.delete(id).subscribe((result: boolean) => {
       if (result) {
         // If return result, call search method to load
         this.search();
@@ -122,13 +122,13 @@ export class MovieListComponent implements OnInit{
   // Cancel for movie-details
   public cancelDetail(): void {
     this.isShowDetails = false;
-    this.search;
+    this.search();
   }
 
   // Pagination methods
   // change page size method
-  public onChangePageSize(pageSize: number) {
-    this.currentPageSize = pageSize;
+  public onChangePageSize(pageSize: any) {
+    this.currentPageSize = pageSize.target.value;
     this.search();
   }
 

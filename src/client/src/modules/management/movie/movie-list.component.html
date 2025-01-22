@@ -1,40 +1,39 @@
-<section class="px-3">
-  <!-- Box search -->
-  <div class="border boder-slate-300 rounded-md">
-    <div class="p-3">
-      <h1 class="font-bold text-2xl">Movie Service Management</h1>
+<section class="movie-service p-3">
+  <div class="card border bg-gray-50 border-slate-400 rounded-md">
+    <div class="card-header">
+      <h1 class="text-2xl text-center font-medium border-b-2 p-2">
+        Movie Management
+      </h1>
     </div>
     <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
-      <div class="p-3 border-y border-slate-300">
+      <div class="card-body border-b-2 p-2">
         <div class="form-group">
-          <label for="keyword" class="block mb-2">Movie Name</label>
+          <label for="keyword" class="block mb-1">Search movie</label>
           <input
             type="text"
             formControlName="keyword"
             id="keyword"
-            class="border border-slate-300 rounded-md w-full p-2"
+            placeholder="Enter keyword"
+            class="w-full rounded-sm p-1 border border-slate-400"
           />
         </div>
       </div>
-      <div class="flex justify-between items-center p-4">
+      <div class="card-footer flex justify-between p-2">
         <button
           type="button"
-          class="bg-green-500 rounded-md p-2 px-4 text-white"
           (click)="onCreate()"
+          class="p-2 bg-green-500 text-white rounded-full"
         >
-          <fa-icon [icon]="faPlus"></fa-icon> Add
+          <fa-icon [icon]="faPlus" class="mr-1"></fa-icon>Create
         </button>
-        <button
-          type="submit"
-          class="bg-blue-500 rounded-md p-2 px-4 text-white"
-        >
-          <fa-icon [icon]="faSearch"></fa-icon> Search
+        <button type="submit" class="p-2 bg-blue-500 text-white rounded-full">
+          <fa-icon [icon]="faSearch" class="mr-1"></fa-icon>Search
         </button>
       </div>
     </form>
   </div>
   <!-- List -->
-  <div class="">
+  <div class="mt-4">
     <app-table
       [data]="data"
       [columns]="configsColumn"
@@ -50,9 +49,11 @@
   </div>
 
   <!-- Details -->
-  <app-movie-details
-    *ngIf="isShowDetails"
-    [selected-item]="selectedItem"
-    (cancel)="cancelDetail()"
-  ></app-movie-details>
+  <div class="details mt-4">
+    <app-movie-details
+      *ngIf="isShowDetails"
+      [selected-item]="selectedItem"
+      (cancel)="cancelDetail()"
+    ></app-movie-details>
+  </div>
 </section>
