@@ -32,14 +32,10 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public List<RoleMasterDTO> getAll() {
+
         var roles = roleRepository.findAll();
 
-        var roleMasters = roles.stream().map(role -> {
-            RoleMasterDTO roleMaster = roleMapper.toMasterDTO(role);
-            return roleMaster;
-        }).toList();
-
-        return roleMasters;
+        return roles.stream().map(roleMapper::toMasterDTO).toList();
     }
 
     @Override
@@ -49,8 +45,7 @@ public class RoleServiceImpl implements RoleService {
         if (role == null) {
             throw new ResourceNotFoundException("Role is not found");
         }
-        RoleMasterDTO roleMaster = roleMapper.toMasterDTO(role);
-        return roleMaster;
+        return roleMapper.toMasterDTO(role);
     }
 
     @Override
@@ -65,12 +60,7 @@ public class RoleServiceImpl implements RoleService {
 
         List<Role> roles = roleRepository.findAll(spec);
 
-        List<RoleMasterDTO> roleMasters = roles.stream().map(role -> {
-            var roleMaster = roleMapper.toMasterDTO(role);
-            return roleMaster;
-        }).toList();
-
-        return roleMasters;
+        return roles.stream().map(roleMapper::toMasterDTO).toList();
     }
 
     @Override
@@ -85,12 +75,7 @@ public class RoleServiceImpl implements RoleService {
 
         Page<Role> roles = roleRepository.findAll(spec, pageable);
 
-        Page<RoleMasterDTO> roleMasters = roles.map(role -> {
-            var roleMaster = roleMapper.toMasterDTO(role);
-            return roleMaster;
-        });
-
-        return roleMasters;
+        return roles.map(roleMapper::toMasterDTO);
     }
 
     @Override
@@ -109,9 +94,7 @@ public class RoleServiceImpl implements RoleService {
 
         newRole = roleRepository.save(newRole);
 
-        RoleMasterDTO roleMaster = roleMapper.toMasterDTO(newRole);
-
-        return roleMaster;
+        return roleMapper.toMasterDTO(newRole);
     }
 
     @Override
@@ -131,9 +114,7 @@ public class RoleServiceImpl implements RoleService {
 
         role = roleRepository.save(role);
 
-        RoleMasterDTO roleMaster = roleMapper.toMasterDTO(role);
-
-        return roleMaster;
+        return roleMapper.toMasterDTO(role);
     }
 
     @Override

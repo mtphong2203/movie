@@ -2,9 +2,7 @@ package com.jaf.movietheater.services;
 
 import java.time.ZonedDateTime;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -34,15 +32,13 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
-    private final EmailService emailService;
 
     public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository,
-            UserMapper userMapper, PasswordEncoder passwordEncoder, EmailService emailService) {
+            UserMapper userMapper, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
-        this.emailService = emailService;
     }
 
     @Override
@@ -117,7 +113,7 @@ public class UserServiceImpl implements UserService {
 
         return userMasters;
     }
-    
+
     @Override
     public UserMasterDTO create(UserCreateUpdateDTO userDTO) {
         if (userDTO == null) {
@@ -277,7 +273,5 @@ public class UserServiceImpl implements UserService {
 
         return userMaster;
     }
-
-        
 
 }
