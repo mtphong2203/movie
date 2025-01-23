@@ -2,6 +2,7 @@ package com.jaf.movietheater.services;
 
 import java.time.ZonedDateTime;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -160,11 +161,12 @@ public class UserServiceImpl implements UserService {
         }
 
         if (userDTO.getRoleName() != null) {
-            Role roleByName = roleRepository.findByName(userDTO.getRoleName());
 
-            if (roleByName != null) {
+            List<Role> roles = roleRepository.findByNameIn(userDTO.getRoleName());
+
+            if (roles != null) {
                 // Set to user
-                newUser.setRoles(Collections.singleton(roleByName));
+                newUser.setRoles(new HashSet<>(roles));
             }
         }
 
@@ -216,12 +218,12 @@ public class UserServiceImpl implements UserService {
         }
 
         if (userDTO.getRoleName() != null) {
-            user.getRoles().clear();
 
-            Role roleByName = roleRepository.findByName(userDTO.getRoleName());
+            List<Role> roles = roleRepository.findByNameIn(userDTO.getRoleName());
 
-            if (roleByName != null) {
-                user.getRoles().add(roleByName);
+            if (roles != null) {
+                // Set to user
+                user.setRoles(new HashSet<>(roles));
             }
         }
 
@@ -275,15 +277,14 @@ public class UserServiceImpl implements UserService {
         }
 
         if (userDTO.getRoleName() != null) {
-            user.getRoles().clear();
 
-            Role roleByName = roleRepository.findByName(userDTO.getRoleName());
+            List<Role> roles = roleRepository.findByNameIn(userDTO.getRoleName());
 
-            if (roleByName != null) {
-                user.getRoles().add(roleByName);
+            if (roles != null) {
+                // Set to user
+                user.setRoles(new HashSet<>(roles));
             }
         }
-
         user = userRepository.save(user);
 
         UserMasterDTO userMaster = userMapper.toMasterDTO(user);

@@ -1,6 +1,7 @@
 package com.jaf.movietheater.dtos.user;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.validator.constraints.Length;
@@ -48,6 +49,6 @@ public class UserCreateUpdateDTO extends MasterCreateUpdateDTO {
 
     private UUID roleId;
 
-    private String roleName;
+    private List<String> roleName;
 
 }
