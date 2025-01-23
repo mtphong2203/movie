@@ -17,11 +17,13 @@ import com.jaf.movietheater.dtos.user.UserMasterDTO;
 import com.jaf.movietheater.dtos.user.UserUpdateDTO;
 import com.jaf.movietheater.entities.Role;
 import com.jaf.movietheater.entities.User;
+import com.jaf.movietheater.enums.Gender;
 import com.jaf.movietheater.exceptions.ResourceNotFoundException;
 import com.jaf.movietheater.mappers.UserMapper;
 import com.jaf.movietheater.repository.RoleRepository;
 import com.jaf.movietheater.repository.UserRepository;
 
+import jakarta.persistence.criteria.Predicate;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -92,14 +94,33 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<UserMasterDTO> searchPaginated(String keyword, Pageable pageable) {
+    public Page<UserMasterDTO> searchPaginated(String keyword, String phoneNumber, List<Gender> gender,
+            Pageable pageable) {
         Specification<User> spec = (root, query, cb) -> {
-            if (keyword == null) {
-                return null;
+            Predicate proPredicate = cb.conjunction();
+
+            if (keyword != null && !keyword.isEmpty()) {
+                Predicate namePredicate = cb.or(
+                        cb.like(cb.lower(root.get("username")), "%" + keyword.toLowerCase() + "%"),
+                        cb.like(cb.lower(root.get("email")), "%" + keyword.toLowerCase() + "%"));
+
+                proPredicate = cb.and(proPredicate, namePredicate);
             }
 
-            return cb.or(cb.like(cb.lower(root.get("username")), "%" + keyword.toLowerCase() + "%"),
-                    cb.like(cb.lower(root.get("email")), "%" + keyword.toLowerCase() + "%"));
+            if (phoneNumber != null && !phoneNumber.isEmpty()) {
+                Predicate phonePredicate = cb.like(root.get("phoneNumber"), "%" + phoneNumber + "%");
+
+                proPredicate = cb.and(proPredicate, phonePredicate);
+            }
+
+            if (gender != null) {
+                Predicate genderPredicate = root.get("gender").in(gender);
+
+                proPredicate = cb.and(proPredicate, genderPredicate);
+            }
+
+            return proPredicate;
+
         };
 
         Page<User> users = userRepository.findAll(spec, pageable);

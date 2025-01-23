@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import com.jaf.movietheater.dtos.user.UserCreateUpdateDTO;
 import com.jaf.movietheater.dtos.user.UserMasterDTO;
 import com.jaf.movietheater.dtos.user.UserUpdateDTO;
+import com.jaf.movietheater.enums.Gender;
 import com.jaf.movietheater.response.CustomResponseData;
 import com.jaf.movietheater.services.UserService;
 
@@ -64,6 +65,8 @@ public class UserController {
     @ApiResponse(responseCode = "200")
     public ResponseEntity<?> searchPaginated(
             @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) String phoneNumber,
+            @RequestParam(required = false) List<Gender> gender,
             @RequestParam(required = false, defaultValue = "username") String sortBy,
             @RequestParam(required = false, defaultValue = "asc") String orderBy,
             @RequestParam(required = false, defaultValue = "0") Integer page,
@@ -76,7 +79,7 @@ public class UserController {
             pageable = PageRequest.of(page, size, Sort.by(sortBy).descending());
         }
 
-        var userMasters = userService.searchPaginated(keyword, pageable);
+        var userMasters = userService.searchPaginated(keyword, phoneNumber, gender, pageable);
 
         var pageModel = pagedResource.toModel(userMasters);
 
@@ -127,7 +130,7 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete user")
-    public ResponseEntity<?> delete(@PathVariable UUID id) {
+    public ResponseEntity<Boolean> delete(@PathVariable UUID id) {
         var isDeleted = userService.delete(id);
         return ResponseEntity.ok(isDeleted);
     }
