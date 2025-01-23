@@ -2,11 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, forwardRef, HostListener, Input } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-
-type Option = {
-  id: number;
-  name: string;
-}
 @Component({
   selector: 'app-select-multiple',
   standalone: true,

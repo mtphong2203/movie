@@ -29,6 +29,7 @@ export class AccountListComponent extends MasterListComponent<UserMasterDto> {
     { name: 'phoneNumber', title: 'Phone' },
     { name: 'address', title: 'Address' },
     { name: 'dateOfBirth', title: 'Birth' },
+    { name: 'role', title: 'Role' },
     { name: 'active', title: 'Active' },
   ]
 
@@ -62,7 +63,6 @@ export class AccountListComponent extends MasterListComponent<UserMasterDto> {
       page: this.currentPage,
       size: this.currentPageSize
     }
-    console.log(this.form.value.genderType);
     this.userService.search(param).subscribe((result: ResponseData<UserMasterDto>) => {
       if (result) {
         this.data = result.data;

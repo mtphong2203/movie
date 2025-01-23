@@ -8,11 +8,12 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { IRoleService } from '../../../../services/role/role-service.interface';
 import { RoleMasterDto } from '../../../../models/role/role-master-dto.model';
 import { CommonModule } from '@angular/common';
+import { SelectMultipleComponent } from "../../../../core/controls/select-multiple/select-multiple.component";
 
 @Component({
   selector: 'app-account-details',
   standalone: true,
-  imports: [ReactiveFormsModule, FontAwesomeModule, CommonModule],
+  imports: [ReactiveFormsModule, FontAwesomeModule, CommonModule, SelectMultipleComponent],
   templateUrl: './account-details.component.html',
   styleUrl: './account-details.component.css'
 })
@@ -21,10 +22,11 @@ export class AccountDetailsComponent extends MasterDetailsComponent<UserMasterDt
   public roles: RoleMasterDto[] = [];
   public response: string = '';
 
-  constructor(@Inject(USER_SERVICE) private userService: IUserService, @Inject(ROLE_SERVICE) private roleService: IRoleService) {
+  constructor(@Inject(USER_SERVICE) private readonly userService: IUserService, @Inject(ROLE_SERVICE) private readonly roleService: IRoleService) {
     super();
     this.roleService.getAll().subscribe((result) => {
-      this.roles = result;
+      this.roles = result.map((role: any) => ({ name: role.name }));
+      console.log(this.roles);
     })
   }
 
@@ -45,7 +47,7 @@ export class AccountDetailsComponent extends MasterDetailsComponent<UserMasterDt
       dateOfBirth: new FormControl(null),
       password: new FormControl('', [Validators.maxLength(50), Validators.required]),
       confirmPassword: new FormControl('', [Validators.maxLength(50), Validators.required]),
-      roleName: new FormControl(''),
+      roleName: new FormControl([], Validators.maxLength(20)),
       active: new FormControl(false),
     });
   }
