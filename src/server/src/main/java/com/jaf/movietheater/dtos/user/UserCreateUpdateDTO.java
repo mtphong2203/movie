@@ -41,6 +41,9 @@ public class UserCreateUpdateDTO extends MasterCreateUpdateDTO {
     @Length(max = 70, message = "Maximum is 70 characters")
     private String address;
 
+    @Length(max = 100, message = "Maximum is 100 characters")
+    private String thumbnailUrl;
+
     @NotNull(message = "Password is required")
     private String password;
 

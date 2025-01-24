@@ -37,6 +37,9 @@ public class UserUpdateDTO extends MasterCreateUpdateDTO {
     @NotNull(message = "Phone number is required")
     @Length(max = 25, message = "Maximum is 25 characters")
     private String phoneNumber;
+    
+    @Length(max = 100, message = "Maximum is 100 characters")
+    private String thumbnailUrl;
 
     @Length(max = 70, message = "Maximum is 70 characters")
     private String address;

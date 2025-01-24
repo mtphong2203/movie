@@ -1,5 +1,8 @@
 package com.jaf.movietheater.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,6 +43,9 @@ public class FileController {
                     file.getOriginalFilename(),
                     file.getContentType(),
                     file.getSize());
+
+            Map<String, String> response = new HashMap<>();
+            response.put("url", fileUrl);
 
             return ResponseEntity.ok(fileUrl);
         } catch (Exception e) {
