@@ -5,7 +5,7 @@ import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
 import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
-import { MOVIE_SERVICE, USER_SERVICE } from '../../constants/injection.constant';
+import { FILE_SERVICE, MOVIE_SERVICE, USER_SERVICE } from '../../constants/injection.constant';
 import { UserService } from '../../services/user/user-service.service';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
@@ -15,6 +15,7 @@ import { TicketComponent } from './ticket/ticket.component';
 import { PromotionComponent } from './promotion/promotion.component';
 import { MovieService } from '../../services/movie/movie.service';
 import { MovieHomeService } from '../../services/movie/movie-home.service';
+import { FileUploadService } from '../../services/file/file-upload.service';
 
 const routes: Routes = [
   {
@@ -62,6 +63,10 @@ const routes: Routes = [
     {
       provide: MOVIE_SERVICE,
       useClass: MovieService
+    },
+    {
+      provide: FILE_SERVICE,
+      useClass: FileUploadService
     },
   ],
   imports: [
