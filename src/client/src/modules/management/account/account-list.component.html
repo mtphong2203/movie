@@ -6,41 +6,37 @@
       </h1>
     </div>
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <div class="card-body border-b-2 p-2">
-        <div class="row mb-4 flex justify-between gap-16">
-          <div class="form-group w-full">
-            <label for="keyword" class="block mb-1 whitespace-nowrap">
-              Search username
-            </label>
-            <input
-              type="text"
-              formControlName="keyword"
-              id="keyword"
-              placeholder="Keyword..."
-              class="w-full rounded-sm p-1 border border-slate-400"
-            />
-          </div>
-          <div class="form-group w-full">
-            <label for="phoneNumber" class="block mb-1 whitespace-nowrap">
-              Search phone
-            </label>
-            <input
-              type="text"
-              formControlName="phoneNumber"
-              id="phoneNumber"
-              placeholder="Phone..."
-              class="w-full rounded-sm p-1 border border-slate-400"
-            />
-          </div>
+      <div class="card-body flex flex-wrap justify-between border-b-2">
+        <div class="form-group w-full md:w-1/2 p-2">
+          <label for="keyword" class="block mb-1 whitespace-nowrap">
+            Username
+          </label>
+          <input
+            type="text"
+            formControlName="keyword"
+            id="keyword"
+            placeholder="Keyword..."
+            class="w-full rounded-sm p-1 border border-slate-400"
+          />
         </div>
-        <div class="row mb-2">
-          <div class="form-group w-full">
-            <label for="genderType" class="block mb-1">Search gender</label>
-            <app-select-multiple
-              formControlName="genderType"
-              [options]="genderTypes"
-            ></app-select-multiple>
-          </div>
+        <div class="form-group w-full md:w-1/2 p-2">
+          <label for="phoneNumber" class="block mb-1 whitespace-nowrap">
+            Phone
+          </label>
+          <input
+            type="text"
+            formControlName="phoneNumber"
+            id="phoneNumber"
+            placeholder="Phone..."
+            class="w-full rounded-sm p-1 border border-slate-400"
+          />
+        </div>
+        <div class="form-group w-full md:w-1/2 p-2">
+          <label for="genderType" class="block mb-1">Gender</label>
+          <app-select-multiple
+            formControlName="genderType"
+            [options]="genderTypes"
+          ></app-select-multiple>
         </div>
       </div>
       <div class="card-footer flex justify-between p-2">

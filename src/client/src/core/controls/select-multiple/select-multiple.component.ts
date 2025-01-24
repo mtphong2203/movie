@@ -17,7 +17,15 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   ]
 })
 export class SelectMultipleComponent implements ControlValueAccessor {
-  @Input() options: any[] = [];
+  private _option: any[] = [];
+  @Input() set options(value: any[]) {
+    this._option = value;
+    this.filteredOptions = value;
+  }
+
+  get options(): any[] {
+    return this._option;
+  }
 
   isShowOptions: boolean = false;
   keyword: string = '';

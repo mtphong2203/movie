@@ -25,8 +25,7 @@ export class AccountDetailsComponent extends MasterDetailsComponent<UserMasterDt
   constructor(@Inject(USER_SERVICE) private readonly userService: IUserService, @Inject(ROLE_SERVICE) private readonly roleService: IRoleService) {
     super();
     this.roleService.getAll().subscribe((result) => {
-      this.roles = result.map((role: any) => ({ name: role.name }));
-      console.log(this.roles);
+      this.roles = result;
     })
   }
 
