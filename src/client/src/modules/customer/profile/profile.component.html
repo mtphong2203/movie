@@ -7,11 +7,6 @@
     <div
       class="user-info flex flex-col justify-center items-center gap-2 p-4 border-b"
     >
-      <img
-        [src]="defaultLogo"
-        alt=""
-        class="w-32 h-32 rounded-full bg-gray-400"
-      />
       <p class="text-lg font-semibold">{{ userInformation?.username }}</p>
     </div>
     <ul class="account-list">
@@ -53,6 +48,30 @@
       <div class="content-item" *ngSwitchCase="'userInfo'">
         <h1 class="text-center text-xl py-3 border-b-2">Account Information</h1>
         <form [formGroup]="form" (ngSubmit)="onSubmit()" class="px-6">
+          <div class="row flex flex-col justify-center items-center py-2">
+            <img
+              [src]="userInformation.thumbnailUrl"
+              alt="Static Test Img"
+              class="rounded-full w-40 h-40"
+            />
+            <!-- Input file bị ẩn -->
+            <input
+              type="file"
+              id="file"
+              title="file"
+              (change)="onFileSelected($event)"
+              class="hidden"
+            />
+
+            <!-- Nút hoặc div để thay thế input file -->
+            <label
+              for="file"
+              class="border border-slate-500 bg-slate-100 rounded-sm p-1 mt-2 cursor-pointer"
+            >
+              <fa-icon [icon]="faUpload" class="mr-1"></fa-icon>
+              <span>Upload image</span>
+            </label>
+          </div>
           <div class="row py-6 border-b flex justify-between gap-4">
             <div
               class="form-group flex justify-between items-center gap-4 w-[50%]"

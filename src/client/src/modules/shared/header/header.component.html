@@ -112,7 +112,11 @@
         [routerLink]="['/profile']"
         class="profile-link flex items-center gap-2 py-4 hover:text-gray-500"
       >
-        <fa-icon [icon]="faUser" class="cursor-pointer"></fa-icon>
+        <img
+          [src]="userInformation.thumbnailUrl"
+          alt="avatar"
+          class="w-6 h-6 rounded-full"
+        />
         <p class="text-profile whitespace-nowrap">
           <span class="text-sub">Welcome,</span> {{ userInformation.username }}
         </p>
