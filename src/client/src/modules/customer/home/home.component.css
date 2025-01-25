@@ -1,0 +1,6 @@
+@media screen and (max-width: 768px) {
+  .content_head {
+    flex-direction: column;
+    row-gap: 1rem;
+  }
+}

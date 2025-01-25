@@ -1,0 +1,6 @@
+@media screen and (max-width: 768px) {
+  .pagination {
+    flex-direction: column;
+    row-gap: 1rem;
+  }
+}

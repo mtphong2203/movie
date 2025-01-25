@@ -4,7 +4,6 @@ import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -19,11 +18,13 @@ import com.jaf.movietheater.dtos.user.UserMasterDTO;
 import com.jaf.movietheater.dtos.user.UserUpdateDTO;
 import com.jaf.movietheater.entities.Role;
 import com.jaf.movietheater.entities.User;
+import com.jaf.movietheater.enums.Gender;
 import com.jaf.movietheater.exceptions.ResourceNotFoundException;
 import com.jaf.movietheater.mappers.UserMapper;
 import com.jaf.movietheater.repository.RoleRepository;
 import com.jaf.movietheater.repository.UserRepository;
 
+import jakarta.persistence.criteria.Predicate;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -34,15 +35,13 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
-    private final EmailService emailService;
 
     public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository,
-            UserMapper userMapper, PasswordEncoder passwordEncoder, EmailService emailService) {
+            UserMapper userMapper, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
-        this.emailService = emailService;
     }
 
     @Override
@@ -96,14 +95,33 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<UserMasterDTO> searchPaginated(String keyword, Pageable pageable) {
+    public Page<UserMasterDTO> searchPaginated(String keyword, String phoneNumber, List<Gender> gender,
+            Pageable pageable) {
         Specification<User> spec = (root, query, cb) -> {
-            if (keyword == null) {
-                return null;
+            Predicate proPredicate = cb.conjunction();
+
+            if (keyword != null && !keyword.isEmpty()) {
+                Predicate namePredicate = cb.or(
+                        cb.like(cb.lower(root.get("username")), "%" + keyword.toLowerCase() + "%"),
+                        cb.like(cb.lower(root.get("email")), "%" + keyword.toLowerCase() + "%"));
+
+                proPredicate = cb.and(proPredicate, namePredicate);
             }
 
-            return cb.or(cb.like(cb.lower(root.get("username")), "%" + keyword.toLowerCase() + "%"),
-                    cb.like(cb.lower(root.get("email")), "%" + keyword.toLowerCase() + "%"));
+            if (phoneNumber != null && !phoneNumber.isEmpty()) {
+                Predicate phonePredicate = cb.like(root.get("phoneNumber"), "%" + phoneNumber + "%");
+
+                proPredicate = cb.and(proPredicate, phonePredicate);
+            }
+
+            if (gender != null) {
+                Predicate genderPredicate = root.get("gender").in(gender);
+
+                proPredicate = cb.and(proPredicate, genderPredicate);
+            }
+
+            return proPredicate;
+
         };
 
         Page<User> users = userRepository.findAll(spec, pageable);
@@ -117,7 +135,7 @@ public class UserServiceImpl implements UserService {
 
         return userMasters;
     }
-    
+
     @Override
     public UserMasterDTO create(UserCreateUpdateDTO userDTO) {
         if (userDTO == null) {
@@ -143,11 +161,12 @@ public class UserServiceImpl implements UserService {
         }
 
         if (userDTO.getRoleName() != null) {
-            Role roleByName = roleRepository.findByName(userDTO.getRoleName());
 
-            if (roleByName != null) {
+            List<Role> roles = roleRepository.findByNameIn(userDTO.getRoleName());
+
+            if (roles != null) {
                 // Set to user
-                newUser.setRoles(Collections.singleton(roleByName));
+                newUser.setRoles(new HashSet<>(roles));
             }
         }
 
@@ -199,12 +218,12 @@ public class UserServiceImpl implements UserService {
         }
 
         if (userDTO.getRoleName() != null) {
-            user.getRoles().clear();
 
-            Role roleByName = roleRepository.findByName(userDTO.getRoleName());
+            List<Role> roles = roleRepository.findByNameIn(userDTO.getRoleName());
 
-            if (roleByName != null) {
-                user.getRoles().add(roleByName);
+            if (roles != null) {
+                // Set to user
+                user.setRoles(new HashSet<>(roles));
             }
         }
 
@@ -258,15 +277,14 @@ public class UserServiceImpl implements UserService {
         }
 
         if (userDTO.getRoleName() != null) {
-            user.getRoles().clear();
 
-            Role roleByName = roleRepository.findByName(userDTO.getRoleName());
+            List<Role> roles = roleRepository.findByNameIn(userDTO.getRoleName());
 
-            if (roleByName != null) {
-                user.getRoles().add(roleByName);
+            if (roles != null) {
+                // Set to user
+                user.setRoles(new HashSet<>(roles));
             }
         }
-
         user = userRepository.save(user);
 
         UserMasterDTO userMaster = userMapper.toMasterDTO(user);
@@ -277,7 +295,5 @@ public class UserServiceImpl implements UserService {
 
         return userMaster;
     }
-
-        
 
 }

@@ -1,34 +1,71 @@
 <header class="bg-slate-100 shadow-lg relative">
   <div class="contain w-[85%] m-auto flex justify-between items-center">
-    <button
-      type="button"
-      title="Hamburger"
-      class="lg:hidden text-2xl"
-      (click)="toggleShow()"
-    >
-      <fa-icon [icon]="faHamburger"></fa-icon>
-    </button>
     <!-- Brand Logo -->
-    <a [routerLink]="['/']" class="flex items-center gap-2 whitespace-nowrap">
-      <img [src]="brandLogo" class="w-14 h-14" alt="Brand Cinema" />
-      <p class="font-serif">Cinema Center</p>
-    </a>
+    <div class="flex items-center gap-8">
+      <button
+        type="button"
+        title="Hamburger"
+        class="hamburger hidden text-2xl"
+        (click)="toggleShow(true)"
+      >
+        <fa-icon [icon]="faHamburger"></fa-icon>
+      </button>
+      <a [routerLink]="['/']" class="flex items-center gap-2 whitespace-nowrap">
+        <img [src]="brandLogo" class="w-14 h-14" alt="Brand Cinema" />
+        <p class="font-serif">Cinema <span class="block">Center</span></p>
+      </a>
+    </div>
     <!-- Menu - navigation bar-->
-    <nav
-      class="navbar hidden w-[50%] bg-gray-200 absolute top-full left-0 lg:static lg:block lg:bg-transparent"
-      [class.active]="isShow"
-    >
-      <ul class="nav-list lg:flex lg:justify-between lg:items-center">
+    <nav class="navbar" *ngIf="isShow">
+      <ul class="nav-list flex justify-between items-center">
         <li class="nav-item" *ngFor="let item of menuItems">
           <a
             [routerLink]="[item.route]"
             [ngClass]="{ 'text-red-400': isRoute(item.isRoute) }"
             class="nav-link block p-4 hover:text-red-400"
-            >{{item.title}}</a
+            >{{ item.title }}</a
           >
         </li>
+        <li
+          class="nav-item relative w-full"
+          (mouseover)="toggleDropdown(true)"
+          (mouseleave)="toggleDropdown(false)"
+        >
+          <a
+            [routerLink]="['/about']"
+            [ngClass]="{ 'text-red-400': isRoute('about') }"
+            class="nav-link center-link block p-4 hover:text-red-400"
+            ><span>Center</span>
+            <fa-icon [icon]="faDown" class="ml-2"></fa-icon>
+          </a>
+          <ul
+            class="dropdown absolute top-full left-0 w-[150px] bg-slate-100 z-10"
+            *ngIf="isDropdownVisible"
+          >
+            <li class="nav-item">
+              <a
+                [routerLink]="['/about']"
+                [ngClass]="{ 'text-red-400': isRoute('about') }"
+                class="nav-link block p-4 hover:text-red-400"
+                >About
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                [routerLink]="['/contact']"
+                [ngClass]="{ 'text-red-400': isRoute('contact') }"
+                class="nav-link block p-4 hover:text-red-400"
+                >Contact
+              </a>
+            </li>
+          </ul>
+        </li>
       </ul>
-      <button title="Close" class="lg:hidden" (click)="closeHamburger()">
+      <button
+        title="Close"
+        class="close-ham hidden"
+        (click)="toggleShow(false)"
+      >
         <fa-icon
           [icon]="faClose"
           class="text-2xl text-gray-400 absolute top-2 right-2"
@@ -36,7 +73,7 @@
       </button>
     </nav>
     <!-- Profile Menu -->
-    <div class="profile-menu h-full">
+    <div class="profile-menu">
       <ng-container *ngIf="!isAuthenticated; else authenticated">
         <ng-container *ngTemplateOutlet="notAuthenticated"></ng-container>
       </ng-container>
@@ -64,23 +101,44 @@
 </ng-template>
 <ng-template #authenticated>
   <div class="flex justify-between items-center gap-2">
-    <div class="profile-item relative" (mouseover)="onMouseOver()" (mouseleave)="onMouseLeave()" onfocus="onFocus()" aria-hidden="true">
-      <a [routerLink]="['/profile']"
-        class="profile-link flex items-center gap-2 p-4 hover:text-gray-500">
-        <fa-icon [icon]="faUser" class="cursor-pointer"></fa-icon> 
-        Welcome, {{ userInformation.username }}
+    <div
+      class="profile-item relative"
+      (mouseover)="onMouseOver()"
+      (mouseleave)="onMouseLeave()"
+      onfocus="onFocus()"
+      aria-hidden="true"
+    >
+      <a
+        [routerLink]="['/profile']"
+        class="profile-link flex items-center gap-2 py-4 hover:text-gray-500"
+      >
+        <img
+          [src]="userInformation.thumbnailUrl"
+          alt="avatar"
+          class="w-6 h-6 rounded-full"
+        />
+        <p class="text-profile whitespace-nowrap">
+          <span class="text-sub">Welcome,</span> {{ userInformation.username }}
+        </p>
       </a>
-      <ul class="dropdown-list bg-white w-48 absolute top-[58px] right-4 hidden z-10 border border-slate-300 rounded-md shadow-md" [ngClass]="{'!block': isShowProfileMenu}">
+      <ul
+        class="dropdown-list bg-white w-48 absolute top-[55px] right-1 hidden z-10 border border-slate-300 rounded-md shadow-md"
+        [ngClass]="{ '!block': isShowProfileMenu }"
+      >
         <li class="profile-item">
-          <a [routerLink]="['/profile']"
-            class="profile-link cursor-pointer block p-4 hover:text-gray-500">
+          <a
+            [routerLink]="['/profile']"
+            class="profile-link cursor-pointer block p-4 hover:text-gray-500"
+          >
             <fa-icon [icon]="faUser" class="mr-2"></fa-icon>
             Profile
           </a>
         </li>
         <li class="profile-item">
-          <a (click)="logout()"
-            class="profile-link cursor-pointer block p-4 hover:text-gray-500">
+          <a
+            (click)="logout()"
+            class="profile-link cursor-pointer block p-4 hover:text-gray-500"
+          >
             <fa-icon [icon]="faLogout" class="mr-2"></fa-icon>
             Logout
           </a>

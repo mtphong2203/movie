@@ -10,11 +10,12 @@ import { TableComponent } from "../../../core/components/table/table.component";
 import { AccountDetailsComponent } from "./account-details/account-details.component";
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CommonModule } from '@angular/common';
+import { SelectMultipleComponent } from "../../../core/controls/select-multiple/select-multiple.component";
 
 @Component({
   selector: 'app-account-list',
   standalone: true,
-  imports: [TableComponent, AccountDetailsComponent, ReactiveFormsModule, FontAwesomeModule, CommonModule],
+  imports: [TableComponent, AccountDetailsComponent, ReactiveFormsModule, FontAwesomeModule, CommonModule, SelectMultipleComponent],
   templateUrl: './account-list.component.html',
   styleUrl: './account-list.component.css'
 })
@@ -28,10 +29,17 @@ export class AccountListComponent extends MasterListComponent<UserMasterDto> {
     { name: 'phoneNumber', title: 'Phone' },
     { name: 'address', title: 'Address' },
     { name: 'dateOfBirth', title: 'Birth' },
+    { name: 'role', title: 'Role' },
     { name: 'active', title: 'Active' },
   ]
 
-  constructor(@Inject(USER_SERVICE) private userService: IUserService) { super() }
+  public genderTypes: any[] = [
+    { id: 1, name: 'MAN' },
+    { id: 2, name: 'WOMAN' },
+    { id: 3, name: 'OTHER' },
+  ]
+
+  constructor(@Inject(USER_SERVICE) private readonly userService: IUserService) { super() }
 
   ngOnInit(): void {
     this.createForm();
@@ -40,13 +48,18 @@ export class AccountListComponent extends MasterListComponent<UserMasterDto> {
 
   private createForm(): void {
     this.form = new FormGroup({
-      keyword: new FormControl('', Validators.maxLength(50))
+      keyword: new FormControl('', Validators.maxLength(50)),
+      phoneNumber: new FormControl('', Validators.maxLength(12)),
+      genderType: new FormControl([], Validators.maxLength(12))
     });
   }
 
   private search(): void {
+
     const param: any = {
       keyword: this.form.value.keyword,
+      phoneNumber: this.form.value.phoneNumber,
+      gender: this.form.value.genderType,
       page: this.currentPage,
       size: this.currentPageSize
     }

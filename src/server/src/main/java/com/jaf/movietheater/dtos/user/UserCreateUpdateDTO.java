@@ -1,6 +1,7 @@
 package com.jaf.movietheater.dtos.user;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.validator.constraints.Length;
@@ -40,6 +41,9 @@ public class UserCreateUpdateDTO extends MasterCreateUpdateDTO {
     @Length(max = 70, message = "Maximum is 70 characters")
     private String address;
 
+    @Length(max = 100, message = "Maximum is 100 characters")
+    private String thumbnailUrl;
+
     @NotNull(message = "Password is required")
     private String password;
 
@@ -48,6 +52,6 @@ public class UserCreateUpdateDTO extends MasterCreateUpdateDTO {
 
     private UUID roleId;
 
-    private String roleName;
+    private List<String> roleName;
 
 }

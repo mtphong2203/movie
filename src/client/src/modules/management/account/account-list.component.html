@@ -6,16 +6,37 @@
       </h1>
     </div>
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <div class="card-body border-b-2 p-2">
-        <div class="form-group">
-          <label for="keyword" class="block mb-1">Search user</label>
+      <div class="card-body flex flex-wrap justify-between border-b-2">
+        <div class="form-group w-full md:w-1/2 p-2">
+          <label for="keyword" class="block mb-1 whitespace-nowrap">
+            Username
+          </label>
           <input
             type="text"
             formControlName="keyword"
             id="keyword"
-            placeholder="Enter keyword"
+            placeholder="Keyword..."
             class="w-full rounded-sm p-1 border border-slate-400"
           />
+        </div>
+        <div class="form-group w-full md:w-1/2 p-2">
+          <label for="phoneNumber" class="block mb-1 whitespace-nowrap">
+            Phone
+          </label>
+          <input
+            type="text"
+            formControlName="phoneNumber"
+            id="phoneNumber"
+            placeholder="Phone..."
+            class="w-full rounded-sm p-1 border border-slate-400"
+          />
+        </div>
+        <div class="form-group w-full md:w-1/2 p-2">
+          <label for="genderType" class="block mb-1">Gender</label>
+          <app-select-multiple
+            formControlName="genderType"
+            [options]="genderTypes"
+          ></app-select-multiple>
         </div>
       </div>
       <div class="card-footer flex justify-between p-2">
@@ -33,7 +54,7 @@
     </form>
   </div>
   <!-- list -->
-  <div class="list mt-4">
+  <div class="mt-4">
     <app-table
       [data]="data"
       [currentPage]="currentPage"

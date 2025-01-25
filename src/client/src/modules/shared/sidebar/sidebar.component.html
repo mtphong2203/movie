@@ -1,9 +1,9 @@
 <aside
   class="w-[250px] bg-gray-50 border-r border-slate-400 shadow-md min-h-screen"
 >
-  <div class="menu-header border-b border-slate-300 text-2xl font-semibold p-2">
-    <i class="fa-solid fa-gauge-high"></i> MovieTheater
-  </div>
+  <h2 class="menu-header border-b border-slate-300 text-2xl font-semibold p-2">
+    MovieTheater
+  </h2>
   <ul class="menu-list">
     <li class="menu-item">
       <a
@@ -14,7 +14,7 @@
         class="menu-link flex items-center gap-5 hover:bg-blue-800 hover:text-white p-2"
       >
         <fa-icon [icon]="movieIcon" class="text-xl"></fa-icon>
-        Movie Manager
+        <p>Movie <span class="visible">Manager</span></p>
       </a>
     </li>
     <li class="menu-item">
@@ -26,7 +26,7 @@
         class="menu-link flex items-center gap-4 hover:bg-blue-800 hover:text-white p-2"
       >
         <fa-icon [icon]="cinemaIcon" class="text-xl"></fa-icon>
-        Cinema Manager</a
+        <p>Cinema <span class="visible">Manager</span></p></a
       >
     </li>
     <li class="menu-item">
@@ -38,7 +38,7 @@
         class="menu-link flex items-center gap-5 hover:bg-blue-800 hover:text-white p-2"
       >
         <fa-icon [icon]="roleIcon" class="text-xl"></fa-icon>
-        Role Manager
+        <p>Role <span class="visible">Manager</span></p>
       </a>
     </li>
     <li class="menu-item">
@@ -50,7 +50,7 @@
         class="menu-link flex items-center gap-5 hover:bg-blue-800 hover:text-white p-2"
       >
         <fa-icon [icon]="userIcon" class="text-xl"></fa-icon>
-        User Manager
+        <p>User <span class="visible">Manager</span></p>
       </a>
     </li>
   </ul>

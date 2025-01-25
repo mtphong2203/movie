@@ -5,3 +5,4 @@
 **/*.env
 !**/example.env
 src/server/load-env.ps1
+src/load-env.ps1

@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import com.jaf.movietheater.dtos.user.UserCreateUpdateDTO;
 import com.jaf.movietheater.dtos.user.UserMasterDTO;
 import com.jaf.movietheater.dtos.user.UserUpdateDTO;
+import com.jaf.movietheater.enums.Gender;
 
 public interface UserService {
 
@@ -18,7 +19,7 @@ public interface UserService {
 
     List<UserMasterDTO> searchByName(String keyword);
 
-    Page<UserMasterDTO> searchPaginated(String keyword, Pageable pageable);
+    Page<UserMasterDTO> searchPaginated(String keyword, String phoneNumber, List<Gender> gender, Pageable pageable);
 
     UserMasterDTO create(UserCreateUpdateDTO userDTO);
 

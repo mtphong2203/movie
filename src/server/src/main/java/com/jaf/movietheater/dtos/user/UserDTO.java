@@ -26,6 +26,8 @@ public class UserDTO extends BaseDTO {
 
     private String email;
 
+    private String thumbnailUrl;
+
     private String phoneNumber;
 
     private String address;

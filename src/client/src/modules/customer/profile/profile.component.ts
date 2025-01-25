@@ -1,13 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { USER_SERVICE } from '../../../constants/injection.constant';
+import { FILE_SERVICE, USER_SERVICE } from '../../../constants/injection.constant';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IUserService } from '../../../services/user/user-service.interface';
-import { faAngleDoubleLeft, faAngleDoubleRight, faAngleLeft, faAngleRight, faCheck, faClose, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDoubleLeft, faAngleDoubleRight, faAngleLeft, faAngleRight, faCheck, faClose, faFileUpload, faUpload, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { finalize, Observable } from 'rxjs';
-
+import { IFileUploadService } from '../../../services/file/file-upload.interface';
 @Component({
   selector: 'app-profile',
   standalone: true,
@@ -27,6 +25,7 @@ export class ProfileComponent implements OnInit {
   public faLeft: IconDefinition = faAngleLeft;
   public faDoubleLeft: IconDefinition = faAngleDoubleLeft;
   public faCheck: IconDefinition = faCheck;
+  public faUpload: IconDefinition = faUpload;
 
   public form!: FormGroup;
 
@@ -36,11 +35,11 @@ export class ProfileComponent implements OnInit {
   public isCorrect: boolean = true;
   public faClose: IconDefinition = faClose;
 
-  selectedFile: File | null = null;
-  uploadPercent: Observable<number | undefined> | null = null;
-  downloadURL: Observable<string> | null = null;
+  public selectedFile: File | null = null;
+  public uploadImageUrl: string = '';
+  public message: string = '';
 
-  constructor(@Inject(USER_SERVICE) private readonly userService: IUserService, private storageFile: AngularFireStorage) {
+  constructor(@Inject(USER_SERVICE) private readonly userService: IUserService, @Inject(FILE_SERVICE) private readonly fileUploadService: IFileUploadService) {
   }
   ngOnInit(): void {
     this.createForm();
@@ -57,6 +56,7 @@ export class ProfileComponent implements OnInit {
       address: new FormControl('', Validators.maxLength(500)),
       gender: new FormControl(null),
       dateOfBirth: new FormControl(null),
+      thumbnailUrl: new FormControl('', Validators.maxLength(100)),
       password: new FormControl('', Validators.minLength(5)),
       confirmPassword: new FormControl('', Validators.minLength(5)),
     })
@@ -73,7 +73,7 @@ export class ProfileComponent implements OnInit {
       return;
     }
     const data = this.form.value;
-    const updatedUserDTO = { ...this.userInformation, ...data };
+    let updatedUserDTO = { ...this.userInformation, ...data };
 
     // update information APIs
     this.userService.updateInformation(this.userInformation.id, data).subscribe((res) => {
@@ -83,8 +83,43 @@ export class ProfileComponent implements OnInit {
         this.patchValue();
         this.onShowModal();
       }
-    })
+    });
+
+    if (this.selectedFile) {
+      this.fileUploadService.upload(this.selectedFile).subscribe({
+        next: (response) => {
+          this.uploadImageUrl = response;
+          this.form.patchValue({ thumbnailUrl: this.uploadImageUrl });
+
+          // Cập nhật `thumbnailUrl` trong DTO
+          updatedUserDTO.thumbnailUrl = this.uploadImageUrl;
+
+          // Gọi API cập nhật thông tin user sau khi upload file
+          this.updateUserInformation(updatedUserDTO);
+        },
+        error: (error) => {
+          this.message = `Error upload file: ${error.message}`;
+        }
+      });
+    } else {
+      this.message = 'Please select a file first';
+    }
   }
+
+  private updateUserInformation(updatedUserDTO: any): void {
+    this.userService.updateInformation(this.userInformation.id, updatedUserDTO).subscribe((res) => {
+      if (res) {
+        // Cập nhật localStorage
+        localStorage.setItem('userDTO', JSON.stringify(updatedUserDTO));
+
+        // Reset form và patch lại giá trị
+        this.form.reset();
+        this.patchValue();
+
+      }
+    });
+  }
+
 
   public selectTab(tab: string) {
     this.selectedTab = tab;
@@ -153,28 +188,11 @@ export class ProfileComponent implements OnInit {
     this.changePassword = false;
   }
 
-  onFileSelected(event: any) {
+  // file
+  onFileSelected(event: any): void {
     const file: File = event.target.files[0];
     if (file) {
       this.selectedFile = file;
     }
-  }
-
-  uploadFile(): void {
-    if (!this.selectedFile) {
-      return;
-    }
-
-    const filePath = `uploads/${Date.now()}_${this.selectedFile.name}`;
-    const storageRef = this.storageFile.ref(filePath);
-    const uploadTask = storageRef.put(this.selectedFile);
-
-    this.uploadPercent = uploadTask.percentageChanges();
-
-    uploadTask.snapshotChanges().pipe(finalize(() => {
-      this.downloadURL = storageRef.getDownloadURL();
-      console.log(this.downloadURL);
-
-    })).subscribe();
   }
 }
