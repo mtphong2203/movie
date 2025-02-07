@@ -48,7 +48,8 @@ export class MovieListComponent implements OnInit {
   // ConfigColums for table component
   public configsColumn: any[] = [
     { name: 'name', title: 'MovieName' },
-    { name: 'formDate', title: 'FromDate' },
+    { name: 'fromDate', title: 'FromDate' },
+    { name: 'toDate', title: 'ToDate' },
     { name: 'movieCompany', title: 'MovieCompany' },
     { name: 'duration', title: 'Duration' },
     { name: 'version', title: 'Version' },
@@ -64,13 +65,14 @@ export class MovieListComponent implements OnInit {
   }
 
   // search method with pagination
-  private search(): void {
+  public search(): void {
     const params: any = {
       keyword: this.searchForm.value.keyword,
       page: this.currentPageNumber,
       size: this.currentPageSize,
     };
     this.movieService.search(params).subscribe((result: ResponseData<MovieMasterDTO>) => {
+
       // Chi gan data._embedded.movieMasterDTOList cho data
       this.data = result.data
       // Update pagination properties

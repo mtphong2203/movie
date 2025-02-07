@@ -21,8 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jaf.movietheater.dtos.room.RoomDTO;
+import com.jaf.movietheater.dtos.room.RoomMasterDTO;
 import com.jaf.movietheater.dtos.schedule.ScheduleCreateUpdateDTO;
 import com.jaf.movietheater.dtos.schedule.ScheduleMasterDTO;
+import com.jaf.movietheater.dtos.showdate.ShowDateDTO;
 import com.jaf.movietheater.mappers.CustomPagedResponse;
 import com.jaf.movietheater.services.ScheduleService;
 
@@ -58,6 +61,15 @@ public class ScheduleController {
     @ApiResponse(responseCode = "200", description = "Return schedules that match the schedule name")
     public ResponseEntity<List<ScheduleMasterDTO>> getByName(@RequestParam(required=false) String keyword) {
         var scheduleDTOs = scheduleService.findByName(keyword);
+        return ResponseEntity.ok(scheduleDTOs);
+    }
+
+    // Get all available schedules
+    @GetMapping("/available-schedules")
+    @Operation()
+    @ApiResponse()
+    public ResponseEntity<List<ScheduleMasterDTO>> getAllAvailableSchedules(@Valid @RequestBody ShowDateDTO showDateDTO, @RequestBody RoomDTO cinemaRoomDTO, @PathVariable UUID movieId) {
+        var scheduleDTOs = scheduleService.findAllScheduleAvailable(showDateDTO, cinemaRoomDTO, movieId);
         return ResponseEntity.ok(scheduleDTOs);
     }
 

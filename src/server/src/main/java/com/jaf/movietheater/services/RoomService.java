@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.jaf.movietheater.dtos.room.*;
+import com.jaf.movietheater.dtos.showdate.ShowDateDTO;
 
 public interface RoomService {
     List<RoomMasterDTO> getAll();
@@ -22,4 +23,6 @@ public interface RoomService {
     RoomMasterDTO update(UUID id, RoomCreateUpdateDTO roomDTO);
 
     boolean delete(UUID id);
+
+    List<RoomMasterDTO> getAllAvailableRooms(ShowDateDTO showDateDTO, UUID movieId);
 }

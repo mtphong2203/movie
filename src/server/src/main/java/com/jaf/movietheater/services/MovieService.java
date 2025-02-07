@@ -6,22 +6,22 @@ import java.util.UUID;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.jaf.movietheater.dtos.movie.MovieCreateUpdateDTO;
-import com.jaf.movietheater.dtos.movie.MovieDTO;
+import com.jaf.movietheater.dtos.movie.MovieCreateDTO;
 import com.jaf.movietheater.dtos.movie.MovieMasterDTO;
+import com.jaf.movietheater.dtos.movie.MovieUpdateDTO;
 
 public interface MovieService {
-    List<MovieDTO> findAll();
+    List<MovieMasterDTO> findAll();
 
-    List<MovieDTO> findByName(String keyword);
+    List<MovieMasterDTO> findByName(String keyword);
 
-    Page<MovieDTO> findPagination(String keyword, Pageable pageable);
+    Page<MovieMasterDTO> findPagination(String keyword, Pageable pageable);
 
     MovieMasterDTO findById(UUID id);
 
-    MovieDTO create(MovieCreateUpdateDTO movieCreateUpdateDTO);
+    MovieMasterDTO create(MovieCreateDTO movieCreateDTO);
 
-    MovieDTO update(UUID id, MovieCreateUpdateDTO movieCreateUpdateDTO);
+    MovieMasterDTO update(UUID id, MovieUpdateDTO movieUpdateDTO);
 
     boolean delete(UUID id);
 }

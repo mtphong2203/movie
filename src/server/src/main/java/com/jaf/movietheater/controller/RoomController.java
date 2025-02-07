@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import com.jaf.movietheater.dtos.room.RoomMasterDTO;
 import com.jaf.movietheater.dtos.room.RoomSearchDTO;
+import com.jaf.movietheater.dtos.showdate.ShowDateDTO;
+import com.jaf.movietheater.dtos.movie.MovieDTO;
 import com.jaf.movietheater.dtos.room.RoomCreateUpdateDTO;
 import com.jaf.movietheater.services.RoomService;
 
@@ -33,7 +35,25 @@ public class RoomController {
         this.pagedResourceAssembler = pagedResourceAssembler;
     }
 
+    // get all
     @GetMapping
+    @Operation(summary = "Get all rooms")
+    @ApiResponse(responseCode = "200", description = "Return all rooms")
+    public ResponseEntity<List<RoomMasterDTO>> getAll() {
+        var roomDTOs = roomService.getAll();
+        return ResponseEntity.ok(roomDTOs);
+    }
+
+    // Get all available rooms
+    @GetMapping("/available-rooms")
+    @Operation(summary = "Get all available rooms")
+    @ApiResponse(responseCode = "200", description = "Return all rooms")
+    public ResponseEntity<List<RoomMasterDTO>> getAllAvailableRooms (ShowDateDTO showDateDTO, UUID movieId) {
+        var roomDTOs = roomService.getAllAvailableRooms(showDateDTO, movieId);
+        return ResponseEntity.ok(roomDTOs);
+    }
+
+    @GetMapping("/search-paginated")
     @Operation(summary = "Get all rooms with pagination")
     @ApiResponse(responseCode = "200", description = "Return all rooms")
     public ResponseEntity<?> index(

@@ -21,9 +21,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jaf.movietheater.dtos.movie.MovieCreateUpdateDTO;
-import com.jaf.movietheater.dtos.movie.MovieDTO;
+import com.jaf.movietheater.dtos.movie.MovieCreateDTO;
 import com.jaf.movietheater.dtos.movie.MovieMasterDTO;
+import com.jaf.movietheater.dtos.movie.MovieMasterDTO;
+import com.jaf.movietheater.dtos.movie.MovieUpdateDTO;
 import com.jaf.movietheater.mappers.CustomPagedResponse;
 import com.jaf.movietheater.services.MovieService;
 
@@ -37,9 +38,9 @@ import jakarta.validation.Valid;
 @Tag(name = "Movies", description = "APIs for managing movies")
 public class MovieController {
     private final MovieService movieService;
-    private final PagedResourcesAssembler<MovieDTO> pagedResourcesAssembler;
+    private final PagedResourcesAssembler<MovieMasterDTO> pagedResourcesAssembler;
 
-    public MovieController(MovieService movieService, PagedResourcesAssembler<MovieDTO> pagedResourcesAssembler) {
+    public MovieController(MovieService movieService, PagedResourcesAssembler<MovieMasterDTO> pagedResourcesAssembler) {
         this.movieService = movieService;
         this.pagedResourcesAssembler = pagedResourcesAssembler;
     }
@@ -48,7 +49,7 @@ public class MovieController {
     @GetMapping
     @Operation(summary = "Get all movies")
     @ApiResponse(responseCode = "200", description = "Return all movies")
-    public ResponseEntity<List<MovieDTO>> getAll() {
+    public ResponseEntity<List<MovieMasterDTO>> getAll() {
         var movieDTOs = movieService.findAll();
         return ResponseEntity.ok(movieDTOs);
     }
@@ -57,7 +58,7 @@ public class MovieController {
     @GetMapping("/searchByName")
     @Operation(summary = "Search movie by movie name")
     @ApiResponse(responseCode = "200", description = "Return movies that match the movie name")
-    public ResponseEntity<List<MovieDTO>> getByName(@RequestParam(required=false) String keyword) {
+    public ResponseEntity<List<MovieMasterDTO>> getByName(@RequestParam(required=false) String keyword) {
         var movieDTOs = movieService.findByName(keyword);
         return ResponseEntity.ok(movieDTOs);
     }
@@ -79,11 +80,11 @@ public class MovieController {
 
         var pageModel = pagedResourcesAssembler.toModel(movieDTOs);
 
-        Collection<EntityModel<MovieDTO>> data = pageModel.getContent();
+        Collection<EntityModel<MovieMasterDTO>> data = pageModel.getContent();
 
         var links = pageModel.getLinks();
 
-        var response = new CustomPagedResponse<EntityModel<MovieDTO>>(data, pageModel.getMetadata(), links);
+        var response = new CustomPagedResponse<EntityModel<MovieMasterDTO>>(data, pageModel.getMetadata(), links);
 
         return ResponseEntity.ok(response);
     }
@@ -102,12 +103,12 @@ public class MovieController {
     @Operation(summary = "Create new moive")
     @ApiResponse(responseCode = "200", description = "Return new created movie")
     @ApiResponse(responseCode = "400", description = "Return error message if create failed")
-    public ResponseEntity<?> create(@Valid @RequestBody MovieCreateUpdateDTO movieCreateUpdateDTO, BindingResult bindingResult) {
+    public ResponseEntity<?> create(@Valid @RequestBody MovieCreateDTO movieCreateDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
         }
 
-        var newMovie = movieService.create(movieCreateUpdateDTO);
+        var newMovie = movieService.create(movieCreateDTO);
 
         if (newMovie == null) {
             return ResponseEntity.badRequest().body("Fail to create new movie");
@@ -121,12 +122,12 @@ public class MovieController {
     @Operation(summary = "Update movie by id")
     @ApiResponse(responseCode = "200", description = "Return updated movie")
     @ApiResponse(responseCode = "400", description = "Return error message if updated failed")
-    public ResponseEntity<?> update(@PathVariable UUID id, @Valid @RequestBody MovieCreateUpdateDTO movieCreateUpdateDTO, BindingResult bindingResult) {
+    public ResponseEntity<?> update(@PathVariable UUID id, @Valid @RequestBody MovieUpdateDTO movieUpdateDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
         }
 
-        var updatedMovie = movieService.update(id, movieCreateUpdateDTO);
+        var updatedMovie = movieService.update(id, movieUpdateDTO);
 
         if (updatedMovie == null) {
             return ResponseEntity.badRequest().body("Failed to update movie");

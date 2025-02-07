@@ -14,4 +14,6 @@ import lombok.Setter;
 public class ScheduleMasterDTO extends MasterDTO{
     
     private String scheduleTime;
+
+    private Integer scheduleTimeNumber;
 }

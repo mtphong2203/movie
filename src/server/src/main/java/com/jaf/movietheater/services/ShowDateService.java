@@ -23,4 +23,6 @@ public interface ShowDateService {
     ShowDateMasterDTO update(UUID id, ShowDateCreateUpdateDTO showDateCreateUpdateDTO);
 
     boolean delete(UUID id);
+
+    List<ShowDateMasterDTO> getAllAvailableDates(UUID movieId);
 }

@@ -13,6 +13,12 @@ public interface RoomMapper {
 
     Room toEntity(RoomCreateUpdateDTO DTO,@MappingTarget Room room);
 
+    Room toEntity(RoomMasterDTO dto);
+
+    Room toEntity(RoomDTO dto);
+
+    RoomDTO toDTO(Room entity);
+
     @Mapping(target = "cinemaId", source = "cinema.id")
-    RoomMasterDTO toDTO(Room room);
+    RoomMasterDTO toMasterDTO(Room room);
 }

@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.hibernate.validator.constraints.Length;
 
 import com.jaf.movietheater.dtos.MasterCreateUpdateDTO;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -18,7 +19,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MovieCreateUpdateDTO extends MasterCreateUpdateDTO{
+public class MovieUpdateDTO extends MasterCreateUpdateDTO{
 
     @NotBlank(message="Movie Name VN cannot be blank")
     @Length(min=2, max=255, message="Movie name must be between 2 and 255 characters")
@@ -56,11 +57,7 @@ public class MovieCreateUpdateDTO extends MasterCreateUpdateDTO{
     @Length(min=2, max=255, message="Small Image must be between 2 and 255 characters")
     private String thumbnailUrl;
 
-    private Set<UUID> roomIds;
-
-    private Set<UUID> scheduleIds;
-
-    private Set<UUID> showDateIds;
-
     private Set<UUID> movieTypeIds;
+
+    private Set<ShowDateRoomSchduleDTO> showDateRoomSchdules;
 }

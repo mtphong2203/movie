@@ -28,7 +28,7 @@ public class MovieScheduleShowDateRoom{
     private Movie movie;
 
     // ShowDate
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @MapsId("showDateId")
     @JoinColumn(name = "show_date_id", referencedColumnName = "id")
     private ShowDate showDate;

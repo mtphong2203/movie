@@ -22,6 +22,9 @@ public class Schedule extends MasterEntity{
     @Column(name = "schedule_time", nullable = false, unique = true)
     private String scheduleTime;
 
+    @Column(name = "schedule_time_number")
+    private Integer scheduleTimeNumber;
+
     //Onetomany
     // room
     @OneToMany(mappedBy = "schedule")

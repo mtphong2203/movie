@@ -1,7 +1,13 @@
 package com.jaf.movietheater.services;
 
+import java.time.LocalDate;
+import java.time.format.TextStyle;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,10 +15,14 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jaf.movietheater.dtos.room.RoomMasterDTO;
 import com.jaf.movietheater.dtos.showdate.ShowDateCreateUpdateDTO;
 import com.jaf.movietheater.dtos.showdate.ShowDateMasterDTO;
+import com.jaf.movietheater.entities.Room;
 import com.jaf.movietheater.entities.ShowDate;
 import com.jaf.movietheater.mappers.ShowDateMapper;
+import com.jaf.movietheater.repository.MovieRepository;
+import com.jaf.movietheater.repository.MovieScheduleShowDateRoomRepository;
 import com.jaf.movietheater.repository.ShowDateRepository;
 
 @Service
@@ -20,10 +30,16 @@ import com.jaf.movietheater.repository.ShowDateRepository;
 public class ShowDateServiceImpl implements ShowDateService{
     private final ShowDateRepository showDateRepository;
     private final ShowDateMapper showDateMapper;
+    private final MovieRepository movieRepository;
+    private final MovieScheduleShowDateRoomRepository movieScheduleShowDateRoomRepository;
+    private final RoomService roomService;
 
-    public ShowDateServiceImpl(ShowDateRepository showDateRepository, ShowDateMapper showDateMapper) {
+    public ShowDateServiceImpl(ShowDateRepository showDateRepository, ShowDateMapper showDateMapper, MovieRepository movieRepository, MovieScheduleShowDateRoomRepository movieScheduleShowDateRoomRepository, RoomService roomService) {
         this.showDateRepository = showDateRepository;
         this.showDateMapper = showDateMapper;
+        this.movieRepository = movieRepository;
+        this.movieScheduleShowDateRoomRepository = movieScheduleShowDateRoomRepository;
+        this.roomService = roomService;
     }
 
     @Override
@@ -158,6 +174,62 @@ public class ShowDateServiceImpl implements ShowDateService{
         showDateRepository.deleteById(id);
 
         return !showDateRepository.existsById(id);
+    }
+
+    @Override
+    public List<ShowDateMasterDTO> getAllAvailableDates(UUID movieId) {
+        var movie = movieRepository.findById(movieId).orElse(null);
+
+        if (movie == null) {
+            throw new IllegalArgumentException("Movie is not Exist");
+        }
+
+        var fromDate = movie.getFromDate();
+
+        var toDate = movie.getToDate();
+
+        var showDates = showDateRepository.findByShowDateBetween(fromDate, toDate);
+
+        Set<LocalDate> existingShowDateSet = showDates.stream().map(ShowDate::getShowDate).collect(Collectors.toSet());
+
+        // Create only missing ShowDates
+        List<ShowDate> newShowDates = new ArrayList<>();
+
+        LocalDate current = fromDate;
+
+        while (!current.isAfter(toDate)) {
+            if (!existingShowDateSet.contains(current)) { // Only add missing dates
+                ShowDateCreateUpdateDTO showDateCreateUpdateDTO = new ShowDateCreateUpdateDTO();
+                // Get the day of the week (Monday, Tuesday, etc.)
+                String dayName = current.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+                showDateCreateUpdateDTO.setDateName(dayName); // Set the generated dateName
+                showDateCreateUpdateDTO.setShowDate(current);
+                var newShowDate = showDateMapper.toEntity(showDateCreateUpdateDTO);
+                newShowDates.add(newShowDate);
+            }
+
+            current = current.plusDays(1);
+        }
+        
+        if (!newShowDates.isEmpty()) {
+            showDateRepository.saveAll(newShowDates); // Save only new ShowDates
+            showDates.addAll(newShowDates);
+        }
+        
+        // Query all ShowDates again (now complete)
+        var allShowDates = showDateRepository.findByShowDateBetween(fromDate, toDate);
+
+        var availableShowDates = allShowDates.stream().filter(showDate -> {
+
+            var showDateDTO = showDateMapper.toDTO(showDate);
+            
+            List<RoomMasterDTO> availableRooms = new ArrayList<RoomMasterDTO>();
+            availableRooms = roomService.getAllAvailableRooms(showDateDTO, movieId);
+
+            return availableRooms != null && !availableRooms.isEmpty();
+        }).toList();
+
+        return availableShowDates.stream().map(showDateMapper::toMasterDTO).collect(Collectors.toList());
     }
 
 }

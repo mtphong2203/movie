@@ -19,6 +19,8 @@ public interface ShowDateMapper {
 
     ShowDate toEntity(ShowDateCreateUpdateDTO dto);
 
+    ShowDate toEntity(ShowDateDTO dto);
+
     // Keep the insertedAt, updatedAt, deletedAt, isActive fields as they are
     @Mapping(target="createdAt", ignore=true)
     @Mapping(target="updatedAt", ignore=true)

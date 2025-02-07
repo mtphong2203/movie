@@ -52,6 +52,15 @@ public class ShowDateController {
         return ResponseEntity.ok(showDateDTOs);
     }
 
+    // get all available showDates
+    @GetMapping("/available-showDates")
+    @Operation(summary = "Ger all available showDates")
+    @ApiResponse(responseCode = "200", description = "Return all Available ShowDates")
+    public ResponseEntity<List<ShowDateMasterDTO>>  getAllAvailableShowDates(UUID movieId) {
+        var showDateDTOs = showDateService.getAllAvailableDates(movieId);
+        return ResponseEntity.ok(showDateDTOs);
+    }
+
     // get by name
     @GetMapping("/searchByName")
     @Operation(summary = "Search showDate by showDate name")
