@@ -1,0 +1,51 @@
+<div class="card border bg-gray-50 border-slate-400 rounded-md">
+  <div class="card-header border-b border-slate-400 p-2">
+    <h1 class="text-2xl font-medium">{{ isEdit ? "Edit" : "Create" }} Role</h1>
+  </div>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="row flex border-b border-slate-400 justify-between gap-4 p-2">
+      <div class="form-group w-[50%]">
+        <label for="name" class="block font-medium">Name</label>
+        <input
+          type="text"
+          formControlName="name"
+          id="name"
+          placeholder="Enter name"
+          class="border w-full border-slate-400 p-1 rounded-sm"
+        />
+      </div>
+      <div class="form-group w-[50%]">
+        <label for="description" class="block font-medium">Description</label>
+        <textarea
+          formControlName="description"
+          id="description"
+          placeholder="Enter description"
+          class="border w-full border-slate-400 p-1 rounded-sm"
+        ></textarea>
+      </div>
+    </div>
+    <div class="row border-b border-slate-400 p-2">
+      <div class="form-group w-[50%] flex gap-2">
+        <label for="active" class="block font-medium">Active</label>
+        <input
+          type="checkbox"
+          formControlName="active"
+          id="active"
+          class="scale-125"
+        />
+      </div>
+    </div>
+    <div class="card-footer flex justify-end gap-3 p-2">
+      <button
+        type="button"
+        (click)="onCancel()"
+        class="p-2 bg-slate-300 text-white rounded-full"
+      >
+        <fa-icon [icon]="faCancel" class="mr-1"></fa-icon>Cancel
+      </button>
+      <button type="submit" class="p-2 bg-blue-500 text-white rounded-full">
+        <fa-icon [icon]="faSave" class="mr-1"></fa-icon>Submit
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,46 @@
+@media screen and (max-width: 1024px) {
+  .nav-link {
+    padding: 1rem 0.3rem;
+  }
+
+  .text-sub {
+    display: none;
+  }
+}
+@media screen and (max-width: 768px) {
+  .navbar {
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 0%;
+    width: 50%;
+    background-color: rgb(242, 236, 227);
+    height: 100vh;
+    z-index: 10;
+  }
+
+  .center-link {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .dropdown {
+    width: 100%;
+    background-color: transparent;
+  }
+
+  .nav-list {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .text-sub {
+    display: inline;
+  }
+
+  .close-ham,
+  .hamburger {
+    display: block;
+  }
+}

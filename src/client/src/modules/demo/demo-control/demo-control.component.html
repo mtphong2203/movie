@@ -1,0 +1,21 @@
+<section class="w-4/5 m-auto">
+    <div class="card">
+        <div class="card-header">
+            <h1 class="text-2xl font-bold">Demo Controls</h1>
+        </div>
+        <div class="card-body">
+            <app-select-multiple></app-select-multiple>
+        </div>
+    </div>
+
+    <div class="checkbox-group">
+        <form [formGroup]="form">
+            <div class="grid grid-cols-4 gap-4">
+                <div class="checkbox" *ngFor="let item of checkboxOptions">
+                    <input type="checkbox" formControlName="roles" id="{{ item.name }}">
+                    <label for="{{ item.name }}" class="ml-4">{{ item.name }}</label>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>

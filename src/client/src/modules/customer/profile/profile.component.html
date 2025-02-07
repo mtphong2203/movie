@@ -1,0 +1,483 @@
+<div class="contain relative flex">
+  <ng-container *ngIf="changePassword">
+    <!-- overlay screen when open modal -->
+    <div class="overlay"></div>
+  </ng-container>
+  <div class="sidebar bg-gray-50 h-screen w-[20%] border-r-2">
+    <div
+      class="user-info flex flex-col justify-center items-center gap-2 p-4 border-b"
+    >
+      <p class="text-lg font-semibold">{{ userInformation?.username }}</p>
+    </div>
+    <ul class="account-list">
+      <li
+        class="account-item cursor-pointer p-2 px-4 border-b hover:bg-blue-800 hover:text-white"
+        (click)="selectTab('userInfo')"
+        [ngClass]="{ 'bg-gray-300 text-white': selectedTab == 'userInfo' }"
+      >
+        Account Information
+      </li>
+      <li
+        class="account-item cursor-pointer p-2 px-4 border-b hover:bg-blue-800 hover:text-white"
+        (click)="selectTab('historyScore')"
+        [ngClass]="{ 'bg-gray-300 text-white': selectedTab == 'historyScore' }"
+      >
+        History Score
+      </li>
+      <li
+        class="account-item cursor-pointer p-2 px-4 border-b hover:bg-blue-800 hover:text-white"
+        (click)="selectTab('bookedTicket')"
+        [ngClass]="{ 'bg-gray-300 text-white': selectedTab == 'bookedTicket' }"
+      >
+        Booked Ticket
+      </li>
+      <li
+        class="account-item cursor-pointer p-2 px-4 border-b hover:bg-blue-800 hover:text-white"
+        (click)="selectTab('cancelledTicket')"
+        [ngClass]="{
+          'bg-gray-300 text-white': selectedTab == 'cancelledTicket'
+        }"
+      >
+        Cancelled Ticket
+      </li>
+    </ul>
+  </div>
+
+  <div class="content relative w-[80%]">
+    <div [ngSwitch]="selectedTab">
+      <div class="content-item" *ngSwitchCase="'userInfo'">
+        <h1 class="text-center text-xl py-3 border-b-2">Account Information</h1>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="px-6">
+          <div class="row flex flex-col justify-center items-center py-2">
+            <img
+              [src]="userInformation.thumbnailUrl"
+              alt="Static Test Img"
+              class="rounded-full w-40 h-40"
+            />
+            <!-- Input file bị ẩn -->
+            <input
+              type="file"
+              id="file"
+              title="file"
+              (change)="onFileSelected($event)"
+              class="hidden"
+            />
+
+            <!-- Nút hoặc div để thay thế input file -->
+            <label
+              for="file"
+              class="border border-slate-500 bg-slate-100 rounded-sm p-1 mt-2 cursor-pointer"
+            >
+              <fa-icon [icon]="faUpload" class="mr-1"></fa-icon>
+              <span>Upload image</span>
+            </label>
+          </div>
+          <div class="row py-6 border-b flex justify-between gap-4">
+            <div
+              class="form-group flex justify-between items-center gap-4 w-[50%]"
+            >
+              <label for="firstName" class="whitespace-nowrap"
+                >FirstName: <span class="text-red-400">*</span>
+              </label>
+              <input
+                type="text"
+                class="w-full border border-slate-400 rounded-md p-[6px] shadow-lg text-black"
+                formControlName="firstName"
+                id="firsName"
+                placeholder="Enter first name"
+              />
+            </div>
+            <div
+              class="form-group flex justify-between items-center gap-4 w-[50%]"
+            >
+              <label for="lastName" class="whitespace-nowrap"
+                >LastName: <span class="text-red-400">*</span>
+              </label>
+              <input
+                type="text"
+                class="w-full border border-slate-400 rounded-md p-[6px] shadow-lg text-black"
+                formControlName="lastName"
+                id="lastName"
+                placeholder="Enter last name"
+              />
+            </div>
+          </div>
+          <div class="row py-6 border-b flex justify-between gap-4">
+            <div
+              class="form-group flex justify-between items-center gap-4 w-[50%]"
+            >
+              <label for="username" class="whitespace-nowrap"
+                >Username: <span class="text-red-400">*</span>
+              </label>
+              <input
+                type="text"
+                class="w-full cursor-not-allowed opacity-55 border border-slate-400 rounded-md p-[6px] shadow-lg text-black"
+                formControlName="username"
+                id="username"
+                placeholder="Enter username"
+              />
+            </div>
+            <div
+              class="form-group flex justify-between items-center gap-10 w-[50%]"
+            >
+              <label for="phoneNumber" class="whitespace-nowrap"
+                >Phone: <span class="text-red-400">*</span>
+              </label>
+              <input
+                type="text"
+                class="w-full border cursor-not-allowed opacity-55 border-slate-400 rounded-md p-[6px] shadow-lg text-black"
+                formControlName="phoneNumber"
+                id="phoneNumber"
+                placeholder="Enter phone number"
+              />
+            </div>
+          </div>
+          <div class="row py-6 border-b flex justify-between gap-4">
+            <div
+              class="form-group flex justify-between items-center gap-5 w-[50%]"
+            >
+              <label for="dateOfBirth" class="whitespace-nowrap"
+                >BirthDate: <span class="text-red-400">*</span>
+              </label>
+              <input
+                type="date"
+                class="w-full border border-slate-400 rounded-md p-[5px] shadow-lg text-black"
+                formControlName="dateOfBirth"
+                id="dateOfBirth"
+              />
+            </div>
+            <div class="form-group w-[50%] flex items-center gap-10">
+              <label for="gender" class="whitespace-nowrap"
+                >Gender: <span class="text-red-400">*</span>
+              </label>
+              <div class="form-item flex items-center gap-2">
+                <label class="text-lg block mb-1" for="man">Man</label>
+                <input
+                  type="radio"
+                  class="scale-150"
+                  formControlName="gender"
+                  id="man"
+                  value="MAN"
+                />
+              </div>
+              <div class="form-item flex items-center gap-2">
+                <label class="text-lg block mb-1" for="woman">Woman</label>
+                <input
+                  type="radio"
+                  class="scale-150"
+                  formControlName="gender"
+                  id="woman"
+                  value="WOMAN"
+                />
+              </div>
+              <div class="form-item flex items-center gap-2">
+                <label class="text-lg block mb-1" for="other">Other</label>
+                <input
+                  type="radio"
+                  class="scale-150"
+                  formControlName="gender"
+                  id="other"
+                  value="OTHER"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row py-6 border-b flex justify-between gap-4">
+            <div
+              class="form-group flex justify-between items-center gap-12 w-[50%]"
+            >
+              <label for="email" class="whitespace-nowrap"
+                >Email: <span class="text-red-400">*</span>
+              </label>
+              <input
+                type="email"
+                class="w-full cursor-not-allowed opacity-55 border border-slate-400 rounded-md p-[6px] shadow-lg text-black"
+                formControlName="email"
+                id="email"
+                placeholder="Enter email"
+              />
+            </div>
+            <div
+              class="form-group flex justify-between items-center gap-8 w-[50%]"
+            >
+              <label for="address" class="whitespace-nowrap"
+                >Address: <span class="text-red-400">*</span>
+              </label>
+              <input
+                type="text"
+                class="w-full border border-slate-400 rounded-md p-[6px] shadow-lg text-black"
+                formControlName="address"
+                id="address"
+                placeholder="Enter address"
+              />
+            </div>
+          </div>
+          <!-- modal change password -->
+          <ng-container *ngIf="changePassword">
+            <div
+              class="row p-8 pt-10 rounded-lg w-[350px] h-[320px] bg-slate-50 absolute top-[20%] z-10 left-[25%] py-6 border-b flex flex-col gap-4"
+            >
+              <div class="form-group">
+                <label for="password" class="whitespace-nowrap"
+                  >New Password: <span class="text-red-400">*</span>
+                </label>
+                <input
+                  type="password"
+                  class="w-full border border-slate-400 rounded-md p-[6px] shadow-lg text-black"
+                  formControlName="password"
+                  id="password"
+                  placeholder="Enter password"
+                />
+                <span *ngIf="!isCorrect" class="text-red-500"
+                  >{{ response }}
+                </span>
+              </div>
+
+              <div class="form-group">
+                <label for="confirmPassword" class="whitespace-nowrap"
+                  >Confirm New Password: <span class="text-red-400">*</span>
+                </label>
+                <input
+                  type="password"
+                  class="w-full border border-slate-400 rounded-md p-[6px] shadow-lg text-black"
+                  formControlName="confirmPassword"
+                  id="confirmPassword"
+                  placeholder="Enter confirm password"
+                />
+                <span *ngIf="!isCorrect" class="text-red-500"
+                  >{{ response }}
+                </span>
+              </div>
+              <button
+                type="button"
+                class="p-2 bg-blue-500 mt-4 text-white rounded-md hover:bg-blue-700"
+                (click)="confirmChangePassword()"
+                (click)="closeModalChangePassword()"
+              >
+                Confirm
+              </button>
+              <span
+                class="absolute top-1 right-2 cursor-pointer"
+                (click)="onCloseModal()"
+                ><fa-icon
+                  [icon]="faClose"
+                  class="text-3xl text-gray-400"
+                ></fa-icon
+              ></span>
+            </div>
+          </ng-container>
+          <div class="row mt-4 flex gap-4">
+            <button
+              type="submit"
+              class="py-[6px] px-4 text-lg rounded-md bg-orange-400 text-white hover:bg-orange-600"
+            >
+              Save
+            </button>
+            <button
+              type="button"
+              class="py-[6px] px-3 text-lg rounded-md bg-blue-500 text-white hover:bg-blue-700"
+              (click)="onChangePassword()"
+            >
+              Change Password
+            </button>
+          </div>
+        </form>
+        <!-- modal thong bao -->
+        <ng-container *ngIf="showModal || changePassword">
+          <div
+            class="dialog-modal w-[320px] h-[180px] absolute top-[30%] left-[30%] border z-auto bg-slate-50 border-slate-500 text-center rounded-md shadow-md"
+          >
+            <h2 class="text-3xl my-2">Thông báo</h2>
+            <p class="text-blue-500 text-lg my-4">Thông tin đã được cập nhật</p>
+            <button
+              type="button"
+              (click)="closeModal()"
+              class="p-2 mt-2 rounded-md border-2 border-slate-500 hover:bg-slate-100"
+            >
+              Đóng
+            </button>
+          </div>
+        </ng-container>
+      </div>
+      <div class="content-item" *ngSwitchCase="'historyScore'">
+        <div class="booked-ticket bg-white shadow-md rounded-md">
+          <h1 class="text-center text-lg p-2 border-b border-slate-400">
+            History Score
+          </h1>
+          <div class="hitory-core p-4">
+            <form action="">
+              <div
+                class="form-group w-[35%] flex items-center justify-between mb-2"
+              >
+                <label for="toDate"
+                  >From Date <span class="text-red-500">*</span>:</label
+                >
+                <input
+                  type="date"
+                  id="toDate"
+                  class="p-1 w-[250px] border border-slate-400 rounded-sm"
+                />
+              </div>
+              <div class="form-group w-[35%] flex items-center justify-between">
+                <label for="fromDate"
+                  >To Date <span class="text-red-500">*</span>:</label
+                >
+                <input
+                  type="date"
+                  id="fromDate"
+                  class="p-1 w-[250px] border border-slate-400 rounded-sm"
+                />
+              </div>
+              <div class="row mt-4 ml-40">
+                <div class="form-group flex gap-2">
+                  <input type="radio" id="addScore" class="scale-125" />
+                  <label for="addScore">History of score adding </label>
+                </div>
+                <div class="form-group flex gap-2">
+                  <input type="radio" id="addScore" class="scale-125" />
+                  <label for="addScore">History of score using </label>
+                </div>
+              </div>
+              <div class="row mt-4 ml-40">
+                <button
+                  type="submit"
+                  class="p-2 rounded-md bg-blue-500 text-white"
+                >
+                  <fa-icon [icon]="faCheck"></fa-icon>
+                  View Score
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div class="table p-4 w-full">
+            <table class="w-full">
+              <thead>
+                <tr class="*:p-2 shadow-md">
+                  <th>#</th>
+                  <th>Date Created</th>
+                  <th>Movie Name</th>
+                  <th>Added Score</th>
+                  <th>Used Score</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div
+        class="content-item min-h-screen p-4 bg-gray-100"
+        *ngSwitchCase="'bookedTicket'"
+      >
+        <div class="booked-ticket bg-white shadow-md rounded-md">
+          <h1 class="text-center text-lg p-2 border-b border-slate-400">
+            Booked Ticket
+          </h1>
+
+          <div class="table p-4 w-full">
+            <table class="w-full">
+              <thead>
+                <tr class="*:p-2 shadow-md *:text-left">
+                  <th>#</th>
+                  <th>Movie Name</th>
+                  <th>Booking Date</th>
+                  <th>Total Amount</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="*:p-2 *:text-left bg-gray-50">
+                  <td>1</td>
+                  <td>Avenger</td>
+                  <td>16/10/2024</td>
+                  <td>350.000đ</td>
+                  <td>Booking Successfully</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="paging flex justify-between p-4 mt-6">
+            <!-- Page Size  -->
+            <div class="page-size">
+              <label for="page-size">Page Size: </label>
+              <select
+                id="page-size"
+                class="border border-gray-400 cursor-pointer ml-1 p-1 rounded-md"
+              >
+                <option *ngFor="let size of pageSizes" [value]="size">
+                  {{ size }}
+                </option>
+              </select>
+            </div>
+            <!-- Page item -->
+            <div class="page-item">
+              <ul class="page-list flex gap-2">
+                <li class="page-item">
+                  <button
+                    title="Page Item"
+                    class="border border-slate-400 px-2 rounded-full hover:bg-blue-500 hover:text-white"
+                  >
+                    <fa-icon [icon]="faDoubleLeft"></fa-icon>
+                  </button>
+                </li>
+                <li class="page-item">
+                  <button
+                    title="Page Item"
+                    class="border border-slate-400 px-2 rounded-full hover:bg-blue-500 hover:text-white"
+                  >
+                    <fa-icon [icon]="faLeft"></fa-icon>
+                  </button>
+                </li>
+                <li class="page-item">
+                  <button
+                    title="Page Item"
+                    class="border border-slate-400 px-2 rounded-full hover:bg-blue-500 hover:text-white"
+                  >
+                    1
+                  </button>
+                </li>
+                <li class="page-item">
+                  <button
+                    title="Page Item"
+                    class="border border-slate-400 px-2 rounded-full hover:bg-blue-500 hover:text-white"
+                  >
+                    <fa-icon [icon]="faRight"></fa-icon>
+                  </button>
+                </li>
+                <li class="page-item">
+                  <button
+                    title="Page Item"
+                    class="border border-slate-400 px-2 rounded-full hover:bg-blue-500 hover:text-white"
+                  >
+                    <fa-icon [icon]="faDoubleRight"></fa-icon>
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="content-item" *ngSwitchCase="'cancelledTicket'">
+        <div class="booked-ticket bg-white shadow-md rounded-md">
+          <h1 class="text-center text-lg p-2 border-b border-slate-400">
+            Cancel Ticket
+          </h1>
+
+          <div class="table p-4 w-full">
+            <table class="w-full">
+              <thead>
+                <tr class="*:p-2 shadow-md">
+                  <th>#</th>
+                  <th>Movie Name</th>
+                  <th>Booking Date</th>
+                  <th>Total Amount</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,49 @@
+<div class="form w-[350px] bg-white h-[380px] p-6 rounded-lg">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="title mb-4 flex justify-center items-center gap-2">
+      <h1 class="text-3xl">Login</h1>
+    </div>
+    <div class="form-group mb-4">
+      <label for="username"> Username </label>
+      <div class="user flex items-center border-b border-gray-500 gap-2 p-1">
+        <fa-icon [icon]="faUser" class="ml-1 text-gray-400"></fa-icon>
+        <input
+          type="text"
+          formControlName="username"
+          id="username"
+          placeholder="Enter user name"
+          class="w-full p-2 rounded-full focus-within:outline-none"
+        />
+      </div>
+    </div>
+    <div class="form-group mb-4">
+      <label for="password"> Password </label>
+      <div class="user flex items-center border-b border-gray-500 gap-2">
+        <fa-icon [icon]="faPassword" class="ml-1 text-gray-400"></fa-icon>
+        <input
+          type="password"
+          formControlName="password"
+          id="password"
+          placeholder="Enter password"
+          class="w-full p-2 rounded-full focus:outline-none"
+        />
+      </div>
+    </div>
+    <div class="navigate mt-6">
+      <button
+        type="submit"
+        class="w-full flex items-center justify-center gap-1 p-[5px] rounded-full text-white bg-blue-500 hover:bg-blue-600"
+      >
+        Login
+        <fa-icon [icon]="faRight" class="block mt-1"></fa-icon>
+      </button>
+    </div>
+    <div class="create-account mt-6 text-center">
+      <a
+        [routerLink]="['/auth/register']"
+        class="block text-[18px] hover:opacity-50"
+        >Don't have account? Sign Up
+      </a>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,275 @@
+<div class="contain">
+  <div class="w-[85%] m-auto">
+    <div class="content my-8">
+      <div class="content_head mb-8">
+        <ul class="list flex justify-center items-center gap-8">
+          <li
+            class="item p-2 rounded-full cursor-pointer border shadow-md hover:bg-red-500 hover:text-white"
+            [ngClass]="{ 'bg-red-500 text-white': selectedTab == 'intro' }"
+            (click)="selectTab('intro')"
+          >
+            Giới thiệu
+          </li>
+          <li
+            class="item p-2 rounded-full cursor-pointer border shadow-md hover:bg-red-500 hover:text-white"
+            [ngClass]="{ 'bg-red-500 text-white': selectedTab == 'services' }"
+            (click)="selectTab('services')"
+          >
+            Dịch vụ
+          </li>
+          <li
+            class="item p-2 rounded-full cursor-pointer border shadow-md hover:bg-red-500 hover:text-white"
+            [ngClass]="{
+              'bg-red-500 text-white': selectedTab == 'weekend-date'
+            }"
+            (click)="selectTab('weekend-date')"
+          >
+            Điểm hẹn cuối tuần
+          </li>
+        </ul>
+      </div>
+
+      <div class="content_body" [ngSwitch]="selectedTab">
+        <div *ngSwitchCase="'intro'">
+          <p class="text-slate-600 text-center">
+            <strong>Cinema Center</strong>
+            <span class="text-red-500">*</span>: là trung tâm giải trí hiện đại,
+            cung cấp trải nghiệm xem phim đỉnh cao với hệ thống âm thanh và hình
+            ảnh chất lượng cao. Được thiết kế với không gian tiện nghi và đa
+            dạng dịch vụ, nơi đây là điểm đến lý tưởng cho mọi lứa tuổi. Cinema
+            Center cam kết mang đến những khoảnh khắc giải trí trọn vẹn và đáng
+            nhớ
+          </p>
+          <table class="w-full border-collapse mt-8">
+            <thead>
+              <tr class="*:p-2 *:border">
+                <th>Lịch sử hình thành và phát triển</th>
+                <th>Công nghệ</th>
+                <th>Các loại phim</th>
+                <th>Tiện ích</th>
+              </tr>
+            </thead>
+            <tbody class="text-center">
+              <tr class="*:p-2 *:border">
+                <td>Được thành lập từ năm 2020</td>
+                <td>Công nghệ màn hình hiện đại</td>
+                <td>Bom tấn</td>
+                <td>Đặt vé online</td>
+              </tr>
+              <tr class="*:p-2 *:border">
+                <td>
+                  Không ngừng đầu tư công nghệ và mở rộng hệ thống rạp hiện đại.
+                </td>
+                <td>Âm thanh tiên tiến</td>
+                <td>Phim nghệ thuật</td>
+                <td>Combo đồ ăn</td>
+              </tr>
+              <tr class="*:p-2 *:border">
+                <td>
+                  Trở thành điểm đến yêu thích của cộng đồng yêu điện ảnh.
+                </td>
+                <td>4DX, IMAX, Dolby Atmos</td>
+                <td>Phim gia đình.</td>
+                <td>Chương trình ưu đãi.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="body my-8">
+            <div class="body-group">
+              <p class="text-gray-800 text-center">
+                Với Sứ mệnh là mang đến trải nghiệm điện ảnh đẳng cấp và giá trị
+                Chất lượng dịch vụ, công nghệ hiện đại, không gian giải trí.
+              </p>
+
+              <div class="body_img mt-8">
+                <img
+                  [src]="intro01"
+                  class="w-96 rounded-md shadow-lg h-72"
+                  alt="Intro"
+                />
+                <img
+                  [src]="intro02"
+                  class="w-96 rounded-md shadow-lg h-72"
+                  alt="Intro"
+                />
+                <img
+                  [src]="intro03"
+                  class="w-96 rounded-md shadow-lg h-72"
+                  alt="Intro"
+                />
+              </div>
+            </div>
+            <div class="body-group mt-8">
+              <p class="text-gray-800 text-center">
+                Đội ngũ nhân viên chuyên nghiệp, tận tâm của chúng tôi luôn sẵn
+                sàng mang đến trải nghiệm phục vụ tốt nhất, đảm bảo sự hài lòng
+                cho mọi khách hàng.
+              </p>
+
+              <div class="body_img mt-8">
+                <img
+                  [src]="intro04"
+                  class="w-96 rounded-md shadow-lg h-72"
+                  alt="Intro"
+                />
+                <img
+                  [src]="intro05"
+                  class="w-96 rounded-md shadow-lg h-72"
+                  alt="Intro"
+                />
+                <img
+                  [src]="intro06"
+                  class="w-96 rounded-md shadow-lg h-72"
+                  alt="Intro"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngSwitchCase="'services'">
+          <p class="text-center mb-4">
+            Dịch vụ của <strong>Cinema Center</strong> mang đến trải nghiệm giải
+            trí trọn vẹn với
+            <em>phòng chiếu hiện đại, công nghệ tiên tiến</em> như
+            <strong>IMAX</strong> và <strong>Dolby Atmos</strong>. Khách hàng có
+            thể
+            <em
+              >dễ dàng đặt vé online, thưởng thức combo đồ ăn hấp dẫn và tận
+              hưởng không gian thoải mái </em
+            >. Chúng tôi còn cung cấp dịch vụ tổ chức sự kiện và chiếu phim
+            riêng theo yêu cầu.
+          </p>
+          <div class="service-group mb-8">
+            <h3 class="text-center text-xl text-gray-800">
+              Trải nghiệm điện ảnh hoàn hảo từ A đến Z.
+            </h3>
+            <div class="service_image flex justify-between mt-8">
+              <img
+                [src]="service01"
+                class="w-96 h-72 rounded-md shadow-lg"
+                alt="Serving"
+              />
+              <img
+                [src]="service02"
+                class="w-96 h-72 rounded-md shadow-lg"
+                alt="Serving"
+              />
+              <img
+                [src]="service03"
+                class="w-96 h-72 rounded-md shadow-lg"
+                alt="Serving"
+              />
+            </div>
+          </div>
+          <div class="service-group mb-8">
+            <h3 class="text-center text-xl text-gray-800">
+              Combo đồ ăn & thức uống
+            </h3>
+            <div class="service_image flex justify-between mt-8">
+              <img
+                [src]="food01"
+                class="w-96 h-72 rounded-md shadow-lg"
+                alt="Serving"
+              />
+              <img
+                [src]="food02"
+                class="w-96 h-72 rounded-md shadow-lg"
+                alt="Serving"
+              />
+              <img
+                [src]="food03"
+                class="w-96 h-72 rounded-md shadow-lg"
+                alt="Serving"
+              />
+            </div>
+          </div>
+          <div class="booked flex justify-center">
+            <button class="">
+              <a
+                [routerLink]="['/ticket']"
+                class="flex gap-2 p-2 rounded-md text-lg shadow-lg text-white bg-orange-500 hover:bg-orange-600"
+                ><span>Đặt vé ngay</span>
+                <fa-icon [icon]="faRight" class="mt-[2px]"></fa-icon>
+              </a>
+            </button>
+          </div>
+        </div>
+        <div *ngSwitchCase="'weekend-date'">
+          <p class="text-center mb-4">
+            <em>Nơi lưu giữ khoảnh khắc ý nghĩa bên người thân yêu.</em> Hãy để
+            <strong>Cinema Center</strong> trở thành
+            <em>điểm hẹn lý tưởng</em>
+            vào mỗi cuối tuần.
+            <em
+              >Tận hưởng những bộ phim hay, không gian sang trọng và những dịch
+              vụ giải trí đẳng cấp</em
+            >.
+          </p>
+          <div class="weekend-group mb-8">
+            <h3 class="text-gray-800 text-center text-lg">
+              Phòng chiếu phim, quầy đồ ăn, khu vực chờ với nhóm khách vui vẻ.
+            </h3>
+            <div class="weekend_image flex justify-between mt-8">
+              <img
+                [src]="weekend01"
+                class="w-96 h-72 rounded-md shadow-lg"
+                alt="Serving"
+              />
+              <img
+                [src]="weekend02"
+                class="w-96 h-72 rounded-md shadow-lg"
+                alt="Serving"
+              />
+              <img
+                [src]="intro03"
+                class="w-96 h-72 rounded-md shadow-lg"
+                alt="Serving"
+              />
+            </div>
+            <div class="sale mt-8">
+              <h3 class="text-xl font-bold">
+                <fa-icon
+                  [icon]="faCircle"
+                  class="text lg text-red-500"
+                ></fa-icon>
+                Chương trình đặc biệt vào dịp lễ - cuối tuần (Special Offers)
+              </h3>
+              <ul class="sale-list ml-10 mt-2">
+                <li class="sale-item list-disc mb-1">
+                  Mua <strong>2 vé tặng 1</strong> combo bắp nước cuối tuần!
+                </li>
+                <li class="sale-item list-disc mb-1">
+                  <em> Giảm 20%</em> cho nhóm <strong>trên 5 người</strong>!
+                </li>
+                <li class="sale-item list-disc mb-1">
+                  <em>Vé trẻ em giá chỉ 50% vào </em> <strong>Chủ Nhật!</strong>
+                </li>
+                <li class="sale-item list-disc mb-1">
+                  Xem phim trước <strong>12:00 PM</strong>, nhận ngay voucher
+                  <em>giảm giá 10K cho lần kế tiếp!</em>
+                </li>
+              </ul>
+              <div class="booked flex gap-4 ml-10 mt-3">
+                <button class="">
+                  <a
+                    [routerLink]="['/promotion']"
+                    class="flex gap-2 p-1 py-[6px] rounded-md text-lg shadow-lg text-white bg-blue-500 hover:bg-blue-700"
+                    ><span>More Offers</span>
+                  </a>
+                </button>
+                <button class="">
+                  <a
+                    [routerLink]="['/ticket']"
+                    class="flex gap-2 p-1 py-[6px] rounded-md text-lg shadow-lg text-white bg-orange-500 hover:bg-orange-600"
+                    ><span>Book Ticket</span>
+                  </a>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

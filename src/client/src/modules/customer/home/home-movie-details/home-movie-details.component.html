@@ -1,0 +1,22 @@
+<div class="movie-list gap-12 my-8">
+  <div class="movie-item" *ngFor="let item of combineMovies">
+    <div class="logo relative">
+      <img [src]="item.image" class="w-full h-60 rounded-md shadow-md" alt="" />
+      <button
+        type="button"
+        class="absolute top-[90%] left-0 w-full rounded-md text-lg text-center z-10 bg-gray-400 text-white hover:bg-gray-500"
+        (click)="getTicket()"
+      >
+        Get Ticket
+      </button>
+    </div>
+
+    <p class="flex justify-between mt-2 text-gray-400">
+      <span>Version: {{ item.version }}</span>
+      <span>Duration:{{ item.duration }}</span>
+    </p>
+    <h2 class="">
+      {{ item.name }}: {{ item.movieCompany }} (Start: {{ item.fromDate }})
+    </h2>
+  </div>
+</div>

@@ -1,0 +1,123 @@
+<div class="contact relative w-[85%] m-auto my-4">
+  <h2 class="text-3xl text-center font-medium">Contact</h2>
+  <div class="contact-direct flex justify-between">
+    <div class="feedback mt-2 w-[45%]">
+      <h3 class="text-2xl font-bold">Feedback</h3>
+      <p>
+        <em>Luôn sẵn sàng lắng nghe và phục vụ bạn!</em>
+      </p>
+      <form class="form-feedback" [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="form-group mb-3">
+          <label for="name">Name</label>
+          <input
+            type="text"
+            name="name"
+            id="name"
+            class="w-full p-[6px] border border-slate-500 rounded-md"
+            formControlName="name"
+            placeholder="Enter your name"
+          />
+          <span *ngIf="this.form.get('name')?.invalid" class="text-red-500">{{
+            response
+          }}</span>
+        </div>
+        <div class="form-group mb-3">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            class="w-full p-[6px] border border-slate-500 rounded-md"
+            formControlName="email"
+            placeholder="Enter your email"
+          />
+          <span *ngIf="this.form.get('email')?.invalid" class="text-red-500">{{
+            response
+          }}</span>
+        </div>
+        <div class="form-group mb-3">
+          <label for="message">Message</label>
+          <textarea
+            name="message"
+            id="message"
+            class="w-full p-[6px] border border-slate-500 rounded-md"
+            rows="4"
+            formControlName="message"
+            placeholder="Enter your message"
+          ></textarea>
+          <span *ngIf="this.form.get('message')?.invalid" class="text-red-500"
+            >{{ response }}
+          </span>
+        </div>
+
+        <button
+          type="submit"
+          class="text-lg py-1 px-3 text-white bg-blue-500 rounded-md"
+        >
+          Send
+        </button>
+      </form>
+    </div>
+    <div class="infomation mt-2 w-[44%]">
+      <h3 class="text-2xl font-bold">Infomation</h3>
+      <p class="mb-2">
+        Nếu bạn cần hỗ trợ hoặc có bất kỳ thắc mắc nào, vui lòng liên hệ với
+        chúng tôi qua các thông tin dưới đây
+      </p>
+      <ul class="infor">
+        <li class="mb-2">
+          <fa-icon [icon]="faMap" class="text-blue-400"></fa-icon>
+          Tầng 3, Trung tâm thương mại ABC, Đường XYZ, Thành phố HN.
+        </li>
+        <li class="mb-2">
+          <fa-icon [icon]="faPhone" class="text-red-400"></fa-icon>
+          1900 123 456" (Hỗ trợ từ 9:00 AM - 11:00 PM)
+        </li>
+        <li class="mb-2">
+          <fa-icon [icon]="faEmail" class="text-gray-400"></fa-icon>
+          support&#64;cinemacenter.com
+        </li>
+        <li class="flex gap-6">
+          <a href="https://facebook.com" title="FB"
+            ><fa-icon
+              [icon]="faceBookIcon"
+              class="text-3xl text-blue-500"
+            ></fa-icon>
+          </a>
+          <a href="https://youtube.com" title="YTB">
+            <fa-icon
+              [icon]="youtubeIcon"
+              class="text-3xl text-red-500"
+            ></fa-icon>
+          </a>
+          <a href="https://tiktok.com" title="Tik">
+            <fa-icon [icon]="tiktokIcon" class="text-3xl text-black"></fa-icon>
+          </a>
+          <a href="https://linkedin.com" title="Linkedin">
+            <fa-icon
+              [icon]="linkedinIcon"
+              class="text-3xl text-cyan-500"
+            ></fa-icon>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<ng-container *ngIf="isModal">
+  <div
+    class="modal p-6 text-center rounded-md w-[400px] h-[200px] absolute top-[30%] left-[50%] translate-x-[-50%] bg-slate-50"
+  >
+    <p class="mt-3 font-sans text-lg">
+      Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi trong vòng 24 giờ
+    </p>
+    <button
+      type="button"
+      (click)="closeModal()"
+      class="mt-6 p-2 bg-blue-500 text-white rounded-md"
+    >
+      Close
+    </button>
+  </div>
+</ng-container>

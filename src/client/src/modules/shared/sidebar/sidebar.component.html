@@ -1,0 +1,57 @@
+<aside
+  class="w-[250px] bg-gray-50 border-r border-slate-400 shadow-md min-h-screen"
+>
+  <h2 class="menu-header border-b border-slate-300 text-2xl font-semibold p-2">
+    MovieTheater
+  </h2>
+  <ul class="menu-list">
+    <li class="menu-item">
+      <a
+        [routerLink]="['/manager/movies']"
+        [ngClass]="{
+          'bg-gray-300': isActive('/manager/movies')
+        }"
+        class="menu-link flex items-center gap-5 hover:bg-blue-800 hover:text-white p-2"
+      >
+        <fa-icon [icon]="movieIcon" class="text-xl"></fa-icon>
+        <p>Movie <span class="visible">Manager</span></p>
+      </a>
+    </li>
+    <li class="menu-item">
+      <a
+        [routerLink]="['/manager/cinema']"
+        [ngClass]="{
+          'bg-gray-300': isActive('/manager/cinema')
+        }"
+        class="menu-link flex items-center gap-4 hover:bg-blue-800 hover:text-white p-2"
+      >
+        <fa-icon [icon]="cinemaIcon" class="text-xl"></fa-icon>
+        <p>Cinema <span class="visible">Manager</span></p></a
+      >
+    </li>
+    <li class="menu-item">
+      <a
+        [routerLink]="['/manager/roles']"
+        [ngClass]="{
+          'bg-gray-300': isActive('/manager/roles')
+        }"
+        class="menu-link flex items-center gap-5 hover:bg-blue-800 hover:text-white p-2"
+      >
+        <fa-icon [icon]="roleIcon" class="text-xl"></fa-icon>
+        <p>Role <span class="visible">Manager</span></p>
+      </a>
+    </li>
+    <li class="menu-item">
+      <a
+        [routerLink]="['/manager/accounts']"
+        [ngClass]="{
+          'bg-gray-300': isActive('/manager/accounts')
+        }"
+        class="menu-link flex items-center gap-5 hover:bg-blue-800 hover:text-white p-2"
+      >
+        <fa-icon [icon]="userIcon" class="text-xl"></fa-icon>
+        <p>User <span class="visible">Manager</span></p>
+      </a>
+    </li>
+  </ul>
+</aside>

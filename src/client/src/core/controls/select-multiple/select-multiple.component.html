@@ -1,0 +1,46 @@
+<div class="select-control relative">
+  <div
+    class="flex items-center border border-slate-400 rounded-sm cursor-pointer"
+    (click)="onToggle()"
+  >
+    <div
+      class="selected-options flex-grow flex items-center flex-wrap space-x-1"
+    >
+      <div
+        class="option bg-slate-200 flex justify-between items-center rounded-md m-1 px-2"
+        *ngFor="let option of selectedOptions"
+      >
+        <span class="text-sm">{{ option.name }}</span>
+        <button
+          type="button"
+          class="ml-1 text-red-500"
+          (click)="onRemove(option)"
+        >
+          &times;
+        </button>
+      </div>
+      <input
+        type="text"
+        class="p-1 flex-grow outline-0"
+        [disabled]="disabled"
+        (keyup)="onSearch($event)"
+        placeholder="Search..."
+      />
+    </div>
+    <span class="ml-2 text-slate-500"> &#9660; </span>
+  </div>
+  <div
+    class="options absolute z-10 w-full bg-white border border-slate-300 mt-1 rounded shadow-lg"
+    *ngIf="isShowOptions"
+  >
+    <div
+      class="option p-2 hover:bg-blue-500 hover:text-white cursor-pointer"
+      *ngFor="let option of filteredOptions"
+      (click)="onSelect(option)"
+    >
+      <span [ngClass]="{ 'font-semibold': isSelected(option) }">{{
+        option.name
+      }}</span>
+    </div>
+  </div>
+</div>

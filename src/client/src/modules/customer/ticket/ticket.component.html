@@ -1,0 +1,109 @@
+<div class="contain w-[85%] m-auto my-8">
+  <h2 class="text-center text-2xl font-medium">Ticket Price</h2>
+  <p class="text-center">Giá vé (Áp dụng từ ngày 01/01/2025)</p>
+
+  <div class="2D my-4">
+    <h3 class="mb-1">1. GIÁ VÉ XEM PHIM 2D</h3>
+    <div class="w-full overflow-auto">
+      <table class="w-full border-collapse bg-gray-50">
+        <thead>
+          <tr class="*:p-3 *:border *:border-slate-400">
+            <th colspan="4">Monday to Friday</th>
+            <th colspan="3">Weekend and Holiday</th>
+          </tr>
+          <tr class="*:p-3 *:border *:border-slate-400">
+            <th>Thời gian</th>
+            <th class="text-gray-400">Standard</th>
+            <th class="text-yellow-400">VIP</th>
+            <th class="text-red-500">Sweetbox</th>
+            <th class="text-gray-400">Standard</th>
+            <th class="text-yellow-400">VIP</th>
+            <th class="text-red-500">Sweetbox</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            class="*:p-3 *:border *:border-slate-400"
+            *ngFor="let item of content2D"
+          >
+            <td>{{ item.time }}</td>
+            <td class="text-gray-400">{{ item.standard }}</td>
+            <td class="text-yellow-400">{{ item.vip }}</td>
+            <td class="text-red-500">{{ item.couple }}</td>
+            <td class="text-gray-400">{{ item.standard1 }}</td>
+            <td class="text-yellow-400">{{ item.vip1 }}</td>
+            <td class="text-red-500">{{ item.couple1 }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="3D my-4">
+    <h3 class="mb-1">2. GIÁ VÉ XEM PHIM 3D</h3>
+    <div class="w-full overflow-auto">
+      <table class="w-full border-collapse bg-gray-50">
+        <thead>
+          <tr class="*:p-3 *:border *:border-slate-400">
+            <th colspan="4">Monday to Friday</th>
+            <th colspan="3">Weekend and Holiday</th>
+          </tr>
+          <tr class="*:p-3 *:border *:border-slate-400">
+            <th>Thời gian</th>
+            <th class="text-gray-400">Standard</th>
+            <th class="text-yellow-400">VIP</th>
+            <th class="text-red-500">Sweetbox</th>
+            <th class="text-gray-400">Standard</th>
+            <th class="text-yellow-400">VIP</th>
+            <th class="text-red-500">Sweetbox</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            class="*:p-3 *:border *:border-slate-400"
+            *ngFor="let item of content3D"
+          >
+            <td>{{ item.time }}</td>
+            <td class="text-gray-400">{{ item.standard }}</td>
+            <td class="text-yellow-400">{{ item.vip }}</td>
+            <td class="text-red-500">{{ item.couple }}</td>
+            <td class="text-gray-400">{{ item.standard1 }}</td>
+            <td class="text-yellow-400">{{ item.vip1 }}</td>
+            <td class="text-red-500">{{ item.couple1 }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="rules">
+    <p class="font-bold">
+      <span class="text-red-400">*</span> Ticket pricing policy for priority
+      audiences watching movies at the cinema:
+    </p>
+    <ul class="list-decimal my-1 ml-8">
+      <li class="mb-1 text-gray-600">
+        <strong>Discount 20%</strong> on ticket price for: <em>Children</em> and
+        <em>teenagers </em>
+        <span class="text-red-500">(under 16 years old) </span>people with
+        difficult living conditions.
+      </li>
+      <li class="mb-1 text-gray-600">
+        <strong>Discount 50%</strong> on ticket price as regulations for:
+        <span class="text-red-500">People with severe disabilities.</span>
+      </li>
+      <li class="mb-1 text-gray-600">
+        <strong>Discount 100%</strong> on ticket price for: People with
+        particularly severe disabilities; Children under 0.7m accompanied by
+        adults.
+      </li>
+    </ul>
+
+    <button type="button" class="mt-4 ml-4" title="button">
+      <a
+        [routerLink]="['/']"
+        class="p-2 bg-blue-500 text-white hover:bg-blue-700 rounded-md"
+        >Get ticket</a
+      >
+    </button>
+  </div>
+</div>
